@@ -54,6 +54,14 @@
       <Project>{50fb65e6-e115-4197-9d27-c04dcf95145c}</Project>
       <Name>Monolith</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plugins\ConsoleLogger\ConsoleLogger.csproj">
+      <Project>{f0024c91-e0c7-4169-bb84-7e7026fd7a78}</Project>
+      <Name>ConsoleLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\RandomNumber\RandomNumber.csproj">
+      <Project>{eb2a85fb-0f6d-400a-8654-361f57fccd36}</Project>
+      <Name>RandomNumber</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

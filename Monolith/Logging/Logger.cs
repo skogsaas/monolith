@@ -12,9 +12,9 @@ namespace Monolith.Logging
     {
         #region Instance
 
-        private static Logger instance = null;
+        internal static Logger instance = null;
 
-        public static Logger Instance
+        internal static Logger Instance
         {
             get
             {
@@ -74,14 +74,14 @@ namespace Monolith.Logging
             Instance.log(message, LogEvent.Severity.Fatal, memberName, filePath, lineNumber);
         }
 
-        private Framework.Channel channel;
+        internal Framework.Channel channel;
 
-        private Logger()
+        internal Logger()
         {
             this.channel = Framework.Manager.Instance.create("Logging");
         }
 
-        private void log(string message, LogEvent.Severity severity, string memberName, string filePath,int lineNumber)
+        internal void log(string message, LogEvent.Severity severity, string memberName, string filePath,int lineNumber)
         {
             LogEvent evt = new LogEvent();
             evt.Time = DateTime.Now;

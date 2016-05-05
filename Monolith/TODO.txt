@@ -9,4 +9,3 @@ Framework
  - Embedded
  - Yr
  - Power monitor
- - 
