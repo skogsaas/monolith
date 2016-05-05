@@ -14,3 +14,7 @@
 /Unittest/bin/Debug
 /Unittest/obj/Debug
 /.vs/Monolith/v14
+/Plugins/ConsoleLogger/obj/Debug
+/Plugins/ConsoleLogger/bin/Debug
+/Plugins/RandomNumber/bin/Debug
+/Plugins/RandomNumber/obj/Debug
