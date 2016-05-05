@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Monolith
 {
-    public class PluginManager
+    internal class PluginManager
     {
         private List<IPlugin> plugins = new List<IPlugin>();
 
@@ -24,20 +24,27 @@ namespace Monolith
 
             foreach(string dll in dlls)
             {
-                Assembly assembly = Assembly.LoadFile(dll);
-                Type[] types = assembly.GetExportedTypes();
-
-                foreach(Type type in types)
+                try
                 {
-                    if(type != typeof(IPlugin) && typeof(IPlugin).IsAssignableFrom(type))
-                    {
-                        IPlugin plugin = (IPlugin)Activator.CreateInstance(type);
+                    Assembly assembly = Assembly.LoadFile(dll);
+                    Type[] types = assembly.GetExportedTypes();
 
-                        if(plugin != null)
+                    foreach (Type type in types)
+                    {
+                        if (type != typeof(IPlugin) && typeof(IPlugin).IsAssignableFrom(type))
                         {
-                            initialize(plugin);
+                            IPlugin plugin = (IPlugin)Activator.CreateInstance(type);
+
+                            if (plugin != null)
+                            {
+                                initialize(plugin);
+                            }
                         }
                     }
+                }
+                catch(Exception ex)
+                {
+                    Logging.Logger.Error("Error while tying to load <" + Path.GetFileName(dll) + "> " + ex.ToString());
                 }
             }
         }
