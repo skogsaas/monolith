@@ -8,6 +8,6 @@ namespace Monolith
 {
     public interface IPlugin
     {
-        
+        public void initialize(); 
     }
 }
