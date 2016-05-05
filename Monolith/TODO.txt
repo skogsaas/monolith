@@ -1,0 +1,12 @@
+Framework
+ - Dataflow
+ 
+ Plugins
+ - REST
+ - WPF
+ - Persistance
+ - Nexa
+ - Embedded
+ - Yr
+ - Power monitor
+ - 

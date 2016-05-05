@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ConsoleLogger/obj/Debug
+/ConsoleLogger/bin/Debug
+/Monolith/bin/Debug
+/Monolith/obj/Debug
+/MonolithConsole/bin/Debug
+/MonolithConsole/obj/Debug
+/packages/Newtonsoft.Json.8.0.3
+/RandomNumber/bin/Debug
+/RandomNumber/obj/Debug
+/Unittest/bin/Debug
+/Unittest/obj/Debug
+/.vs/Monolith/v14
