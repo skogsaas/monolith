@@ -2,7 +2,9 @@ Framework
  - Dataflow
  
  Plugins
- - REST
+ - Core Items
+ - REST Bridge
+ - SSE Bridge
  - WPF
  - Persistance
  - Nexa
