@@ -53,6 +53,7 @@
     <Compile Include="Framework\Object.cs" />
     <Compile Include="IDevice.cs" />
     <Compile Include="IPlugin.cs" />
+    <Compile Include="ISignal.cs" />
     <Compile Include="Logging\LogEvent.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="PluginManager.cs" />

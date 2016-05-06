@@ -8,8 +8,8 @@ namespace Monolith
 {
     public class Server
     {
-        private PluginManager plugins = null;
-        private DeviceManager devices = null;
+        private PluginManager plugins;
+        private DeviceManager devices;
 
         public Server()
         {
