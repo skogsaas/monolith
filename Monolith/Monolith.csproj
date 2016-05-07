@@ -46,14 +46,12 @@
   <ItemGroup>
     <Compile Include="DeviceManager.cs" />
     <Compile Include="Framework\Channel.cs" />
-    <Compile Include="Framework\Event.cs" />
     <Compile Include="Framework\IEvent.cs" />
     <Compile Include="Framework\IObject.cs" />
     <Compile Include="Framework\Manager.cs" />
-    <Compile Include="Framework\Object.cs" />
-    <Compile Include="IDevice.cs" />
-    <Compile Include="IPlugin.cs" />
-    <Compile Include="ISignal.cs" />
+    <Compile Include="Devices\IDevice.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Signals\ISignal.cs" />
     <Compile Include="Logging\LogEvent.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="PluginManager.cs" />

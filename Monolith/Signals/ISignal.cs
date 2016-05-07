@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith
+namespace Monolith.Signals
 {
     public delegate void SignalEventHandler(ISignal signal);
 
