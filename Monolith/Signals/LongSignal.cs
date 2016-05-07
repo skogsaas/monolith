@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monolith.Signals
 {
-    class LongSignal : Signal<long>
+    class LongSignal : SignalBase<long>
     {
         public LongSignal(string identifier)
             : base(identifier)

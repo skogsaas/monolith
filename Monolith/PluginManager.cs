@@ -53,6 +53,7 @@ namespace Monolith
         private void initialize(IPlugin plugin)
         {
             this.plugins.Add(plugin);
+            plugin.initialize();
         }
     }
 }

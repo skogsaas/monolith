@@ -2,13 +2,11 @@
 
 namespace Unittest
 {
-    public class TestObject : IObject
+    public class TestObject : ObjectBase
     {
-        public string Identifier { get; set; }
-
         public TestObject(string identifier)
+            : base(identifier)
         {
-            this.Identifier = identifier;
         }
     }
 }

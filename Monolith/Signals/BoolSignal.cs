@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monolith.Signals
 {
-    class BoolSignal : Signal<bool>
+    class BoolSignal : SignalBase<bool>
     {
         public BoolSignal(string identifier)
             : base(identifier)

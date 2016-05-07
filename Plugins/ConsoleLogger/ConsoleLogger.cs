@@ -13,13 +13,13 @@ namespace Monolith.Plugins
 
         public ConsoleLogger()
         {
-            this.channel = Framework.Manager.Instance.create("Logging");
-            this.channel.subscribe(typeof(Logging.LogEvent), onEvent);
+            
         }
 
         public void initialize()
         {
-
+            this.channel = Framework.Manager.Instance.create("Logging");
+            this.channel.subscribe(typeof(Logging.LogEvent), onEvent);
         }
 
         private void onEvent(Framework.Channel cha, Framework.IEvent evt)

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Signals
+namespace Monolith.Framework
 {
-    public interface ISignal
+    public interface IContainer
     {
+        void add(IAttribute a);
     }
 }

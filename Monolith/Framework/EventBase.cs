@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Signals
+namespace Monolith.Framework
 {
-    public interface ISignal
+    class EventBase : IEvent
     {
     }
 }

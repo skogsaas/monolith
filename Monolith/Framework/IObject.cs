@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
+    public delegate void ObjectEventHandler(IObject obj);
+
     public interface IObject
     {
         string Identifier { get; }
+
+        event ObjectEventHandler ObjectChanged;
     }
 }
