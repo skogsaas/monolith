@@ -12,6 +12,11 @@ namespace Monolith.Plugins.RandomNumber
             this.task = Monolith.Utilities.PeriodicTask.StartPeriodicTask(trigger, 5000, new CancellationToken());
         }
 
+        public void initialize()
+        {
+
+        }
+
         private void trigger()
         {
             Monolith.Logging.Logger.Trace("Test");

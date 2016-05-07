@@ -59,6 +59,12 @@
     <Compile Include="PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Signals\BoolSignal.cs" />
+    <Compile Include="Signals\DoubleSignal.cs" />
+    <Compile Include="Signals\IntSignal.cs" />
+    <Compile Include="Signals\LongSignal.cs" />
+    <Compile Include="Signals\Signal.cs" />
+    <Compile Include="Signals\StringSignal.cs" />
     <Compile Include="Utilities\MultiDictionary.cs" />
     <Compile Include="Utilities\PeriodicTask.cs" />
   </ItemGroup>

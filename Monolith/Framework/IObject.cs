@@ -8,6 +8,6 @@ namespace Monolith.Framework
 {
     public interface IObject
     {
-        string Name { get; }
+        string Identifier { get; }
     }
 }

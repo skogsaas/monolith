@@ -39,7 +39,7 @@ namespace Monolith.Framework
 
         public void publish(IObject obj)
         {
-            this.objects[obj.Name] = obj;
+            this.objects[obj.Identifier] = obj;
             triggerObjectPublished(obj);
         }
 

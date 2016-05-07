@@ -4,11 +4,11 @@ namespace Unittest
 {
     public class TestObject : IObject
     {
-        public string Name { get; set; }
+        public string Identifier { get; set; }
 
-        public TestObject(string name)
+        public TestObject(string identifier)
         {
-            this.Name = name;
+            this.Identifier = identifier;
         }
     }
 }

@@ -17,6 +17,11 @@ namespace Monolith.Plugins
             this.channel.subscribe(typeof(Logging.LogEvent), onEvent);
         }
 
+        public void initialize()
+        {
+
+        }
+
         private void onEvent(Framework.Channel cha, Framework.IEvent evt)
         {
             Logging.LogEvent e = (Logging.LogEvent)evt;

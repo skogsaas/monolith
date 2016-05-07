@@ -27,11 +27,11 @@ namespace Monolith.Framework
             }
         }
 
-        public string Name { get; private set; }
+        public string Identifier { get; private set; }
 
-        public Object(string name)
+        public Object(string identifier)
         {
-            this.Name = name;
+            this.Identifier = identifier;
         }
     }
 }

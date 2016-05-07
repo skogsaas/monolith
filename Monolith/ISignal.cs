@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Monolith
 {
-    interface ISignal
+    public delegate void SignalEventHandler(ISignal signal);
+
+    public interface ISignal
     {
+        event SignalEventHandler SignalChanging;
+        event SignalEventHandler SignalChanged;
     }
 }
