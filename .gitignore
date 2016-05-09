@@ -18,3 +18,5 @@
 /Plugins/ConsoleLogger/bin/Debug
 /Plugins/RandomNumber/bin/Debug
 /Plugins/RandomNumber/obj/Debug
+/Plugins/RestBridge/obj/Debug
+/Plugins/RestBridge/bin/Debug
