@@ -3,6 +3,11 @@ Framework
  
  Plugins
  - REST Bridge
+ - - /rest
+ - - /rest/plugins
+ - - /rest/plugin/{identifier}
+ - - /rest/devices
+ - - /rest/device/{identifier}
  - SSE Bridge
  - WPF
  - Persistance
