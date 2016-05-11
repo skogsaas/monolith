@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace Monolith.Plugins
 {
-    public class ConsoleLogger : IPlugin
+    public class ConsoleLogger : PluginBase
     {
-        private Framework.Channel channel;
+        private Framework.Channel logChannel;
 
         public ConsoleLogger()
+            : base("ConsoleLogger")
         {
             
         }
 
-        public void initialize()
+        public override void initialize()
         {
-            this.channel = Framework.Manager.Instance.create("Logging");
-            this.channel.subscribe(typeof(Logging.LogEvent), onEvent);
+            base.initialize();
+
+            this.logChannel = Framework.Manager.Instance.create("Logging");
+            this.logChannel.subscribe(typeof(Logging.LogEvent), onEvent);
         }
 
         private void onEvent(Framework.Channel cha, Framework.IEvent evt)

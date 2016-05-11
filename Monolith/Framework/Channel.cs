@@ -54,7 +54,13 @@ namespace Monolith.Framework
             {
                 this.objectSubscriptions[type].Add(handler);
 
-                // TODO Check for existing subtypes
+                foreach(KeyValuePair<string, IObject> pair in this.objects)
+                {
+                    if(pair.Value.GetType().IsAssignableFrom(type))
+                    {
+                        handler.Invoke(this, pair.Value);
+                    }
+                }
             }
         }
 

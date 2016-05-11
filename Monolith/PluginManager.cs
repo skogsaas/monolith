@@ -32,7 +32,7 @@ namespace Monolith
 
                     foreach (Type type in types)
                     {
-                        if (type != typeof(IPlugin) && typeof(IPlugin).IsAssignableFrom(type))
+                        if (type != typeof(IPlugin) && type != typeof(PluginBase) && typeof(IPlugin).IsAssignableFrom(type))
                         {
                             IPlugin plugin = (IPlugin)Activator.CreateInstance(type);
 

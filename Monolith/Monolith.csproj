@@ -56,6 +56,8 @@
     <Compile Include="Devices\IDevice.cs" />
     <Compile Include="Framework\ObjectBase.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\PluginBase.cs" />
+    <Compile Include="Plugins\PluginState.cs" />
     <Compile Include="Signals\ISignal.cs" />
     <Compile Include="Logging\LogEvent.cs" />
     <Compile Include="Logging\Logger.cs" />
