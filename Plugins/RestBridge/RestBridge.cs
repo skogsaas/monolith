@@ -13,8 +13,10 @@ namespace Monolith.Plugins.REST
 {
     public class RestBridge : PluginBase
     {
-        private Channel channel;
+        private Channel pluginChannel;
+		private Channel deviceChannel;
         private List<PluginState> plugins;
+		private List<DeviceState> devices;
 
         private HttpListener listener;
 
@@ -22,14 +24,18 @@ namespace Monolith.Plugins.REST
             : base("RestBridge")
         {
             this.plugins = new List<PluginState>();
+			this.devices = new List<DeviceState>();
         }
 
         public override void initialize()
         {
             base.initialize();
 
-            this.channel = Manager.Instance.create("Plugins");
-            this.channel.subscribe(typeof(PluginState), onObject);
+			this.pluginChannel = Manager.Instance.create("Plugins");
+			this.pluginChannel.subscribe(typeof(PluginState), onObject);
+
+			this.deviceChannel = Manager.Instance.create("Devices");
+			this.deviceChannel.subscribe(typeof(DeviceState), onObject);
 
             this.listener = new HttpListener();
             this.listener.Prefixes.Add("http://+:8080/rest/");
@@ -53,6 +59,10 @@ namespace Monolith.Plugins.REST
             {
                 this.plugins.Add((PluginState)obj);
             }
+			else if(obj.GetType().IsAssignableFrom(typeof(DeviceState)))
+			{
+				this.devices.Add((DeviceState)obj);
+			}
         }
 
         private void process(HttpListenerContext context)
@@ -85,7 +95,12 @@ namespace Monolith.Plugins.REST
 
         private void handleDevices(HttpListenerContext context)
         {
-            context.Response.Close();
+			string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.devices, Formatting.Indented);
+			byte[] data = Encoding.UTF8.GetBytes(json);
+
+			context.Response.ContentLength64 = data.Length;
+			context.Response.OutputStream.Write(data, 0, data.Length);
+			context.Response.Close();
         }
     }
 }
