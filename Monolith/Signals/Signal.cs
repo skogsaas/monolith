@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Monolith.Signals
 {
-    internal class SignalBase<T> : Framework.ObjectBase, ISignal
+    internal class Signal<T> : Framework.ObjectBase, ISignal
     {
         private AttributeBase<T> state;
 
@@ -24,7 +24,15 @@ namespace Monolith.Signals
             }
         }
 
-        public SignalBase(string identifier)
+        public Type SignalType
+        {
+            get
+            {
+                return typeof(T);
+            }
+        }
+
+        public Signal(string identifier)
             : base(identifier)
         {
             this.state = new AttributeBase<T>(this);

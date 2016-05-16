@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Signals
+namespace MonolithUniversal.Models
 {
     public interface ISignal
     {
-        Type SignalType { get; }
     }
 }

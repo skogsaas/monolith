@@ -21,3 +21,6 @@
 /Plugins/RestBridge/obj/Debug
 /Plugins/RestBridge/bin/Debug
 /Plugins/RuleEngine/obj/Debug
+/MonolithUniversal/bin/x86/Debug
+/MonolithUniversal/obj/x86/Debug
+/Plugins/RuleEngine/bin/Debug

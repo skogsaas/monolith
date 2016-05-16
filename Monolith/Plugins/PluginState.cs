@@ -8,7 +8,7 @@ namespace Monolith.Plugins
 {
     public class PluginState : Framework.ObjectBase
     {
-        public enum States : int
+        public enum States
         {
             Uninitialized = 0,
             Initialized,
