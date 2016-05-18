@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Monolith.Plugins;
 using Monolith.Framework;
-using System.IO;
+using Monolith.Signals;
 using Newtonsoft.Json;
 using System.Net;
+
 
 namespace Monolith.Plugins.REST
 {
@@ -15,8 +16,11 @@ namespace Monolith.Plugins.REST
     {
         private Channel pluginChannel;
 		private Channel deviceChannel;
+        private Channel signalChannel;
+
         private List<PluginState> plugins;
 		private List<DeviceState> devices;
+        private List<ISignal> signals;
 
         private HttpListener listener;
 
@@ -25,6 +29,7 @@ namespace Monolith.Plugins.REST
         {
             this.plugins = new List<PluginState>();
 			this.devices = new List<DeviceState>();
+            this.signals = new List<ISignal>();
         }
 
         public override void initialize()
@@ -36,6 +41,9 @@ namespace Monolith.Plugins.REST
 
 			this.deviceChannel = Manager.Instance.create("Devices");
 			this.deviceChannel.subscribe(typeof(DeviceState), onObject);
+
+            this.signalChannel = Manager.Instance.create("Signals");
+            this.signalChannel.subscribe(typeof(ISignal), onObject);
 
             this.listener = new HttpListener();
             this.listener.Prefixes.Add("http://+:8080/rest/");
@@ -55,14 +63,18 @@ namespace Monolith.Plugins.REST
 
         private void onObject(Channel channel, IObject obj)
         {
-            if(obj.GetType().IsAssignableFrom(typeof(PluginState)))
+            if(typeof(PluginState).IsAssignableFrom(obj.GetType()))
             {
                 this.plugins.Add((PluginState)obj);
             }
-			else if(obj.GetType().IsAssignableFrom(typeof(DeviceState)))
+			else if(typeof(DeviceState).IsAssignableFrom(obj.GetType()))
 			{
 				this.devices.Add((DeviceState)obj);
 			}
+            else if(typeof(ISignal).IsAssignableFrom(obj.GetType()))
+            {
+                this.signals.Add((ISignal)obj);
+            }
         }
 
         private void process(HttpListenerContext context)
@@ -76,6 +88,14 @@ namespace Monolith.Plugins.REST
             else if (path.StartsWith("/rest/devices"))
             {
                 handleDevices(context);
+            }
+            else if (path.StartsWith("/rest/signals"))
+            {
+                handleSignals(context);
+            }
+            else if (path.StartsWith("/rest/signal/"))
+            {
+                handleSignal(context);
             }
             else
             {
@@ -101,6 +121,34 @@ namespace Monolith.Plugins.REST
 			context.Response.ContentLength64 = data.Length;
 			context.Response.OutputStream.Write(data, 0, data.Length);
 			context.Response.Close();
+        }
+
+        private void handleSignals(HttpListenerContext context)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.signals, Formatting.Indented);
+            byte[] data = Encoding.UTF8.GetBytes(json);
+
+            context.Response.ContentLength64 = data.Length;
+            context.Response.OutputStream.Write(data, 0, data.Length);
+            context.Response.Close();
+        }
+
+        private void handleSignal(HttpListenerContext context)
+        {
+            string identifier = context.Request.RawUrl.Substring(("/rest/signal/").Length);
+
+            ISignal signal = (ISignal)this.signalChannel.find(identifier);
+
+            if(signal != null)
+            {
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(signal, Formatting.Indented);
+                byte[] data = Encoding.UTF8.GetBytes(json);
+
+                context.Response.ContentLength64 = data.Length;
+                context.Response.OutputStream.Write(data, 0, data.Length);
+            }
+
+            context.Response.Close();
         }
     }
 }

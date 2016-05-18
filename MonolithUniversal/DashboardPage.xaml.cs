@@ -22,9 +22,18 @@ namespace MonolithUniversal
     /// </summary>
     public sealed partial class DashboardPage : Page
     {
+        private Models.Model model;
+
         public DashboardPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            this.model = (Models.Model)e.Parameter;
+
+            this.Container.Items.Add(new Toggle());
         }
     }
 }

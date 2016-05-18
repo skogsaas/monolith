@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Monolith.Signals
 {
-    internal class Signal<T> : Framework.ObjectBase, ISignal
+    public class Signal<T> : Framework.ObjectBase, ISignal
     {
         private AttributeBase<T> state;
 
@@ -24,11 +24,11 @@ namespace Monolith.Signals
             }
         }
 
-        public Type SignalType
+        public string SignalType
         {
             get
             {
-                return typeof(T);
+                return typeof(T).Name;
             }
         }
 

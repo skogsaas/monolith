@@ -50,28 +50,20 @@ namespace Monolith.Framework
 
         public void subscribe(Type type, ObjectPublishedHandler handler)
         {
-            if(typeof(IObject).IsAssignableFrom(type))
-            {
-                this.objectSubscriptions[type].Add(handler);
+            this.objectSubscriptions[type].Add(handler);
 
-                foreach(KeyValuePair<string, IObject> pair in this.objects)
+            foreach(KeyValuePair<string, IObject> pair in this.objects)
+            {
+                if(type.IsAssignableFrom(pair.Value.GetType()))
                 {
-                    if(pair.Value.GetType().IsAssignableFrom(type))
-                    {
-                        handler.Invoke(this, pair.Value);
-                    }
+                    handler.Invoke(this, pair.Value);
                 }
             }
         }
 
         public void subscribe(Type type, EventPublishedHandler handler)
         {
-            if (typeof(IEvent).IsAssignableFrom(type))
-            {
-                this.eventSubscriptions[type].Add(handler);
-
-                // TODO Check for existing subtypes
-            }
+            this.eventSubscriptions[type].Add(handler);
         }
 
         private void triggerObjectPublished(IObject obj)

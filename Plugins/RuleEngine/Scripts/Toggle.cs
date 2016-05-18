@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Signals
+namespace RuleEngine.Scripts
 {
-    public interface ISignal
+    public class Toggle
     {
-        string SignalType { get; }
     }
 }
