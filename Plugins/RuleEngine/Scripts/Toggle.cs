@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RuleEngine;
 
-namespace RuleEngine.Scripts
+public class Toggle : IRule
 {
-    public class Toggle
-    {
-    }
+	public bool initialize()
+	{
+		return true;
+	}
+
+	public bool uninitialize()
+	{
+		return true;
+	}
 }

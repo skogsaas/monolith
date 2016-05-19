@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Mono.CSharp;
-using Monolith;
+using Monolith.Plugins;
 
 namespace RuleEngine
 {
@@ -24,9 +24,9 @@ namespace RuleEngine
             this.Path = path;
 			this.Rule = null;
 
+			// TODO Make a custom ReportPrinter that logs using the Monolith.Logging.Logger.
             this.evaluator = new Evaluator(new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter()));
             this.evaluator.ReferenceAssembly(Assembly.GetCallingAssembly());
-			this.evaluator.ReferenceAssembly(typeof(IPlugin).Assembly);
 
             load();
 			initialize();
@@ -39,16 +39,27 @@ namespace RuleEngine
 
 		private void initialize()
 		{
-			if (this.Data.Count > 0) 
+			try
 			{
-				this.evaluator.Run (this.Data);
-
-				object obj = this.evaluator.Evaluate("new " + System.IO.Path.GetFileNameWithoutExtension (this.Path) + "();");
-
-				if (typeof(IRule).IsAssignableFrom (obj.GetType ()))
+				if (this.Data.Length > 0) 
 				{
-					this.Rule = (IRule)obj;
+					if(this.evaluator.Run (this.Data))
+					{
+						string expression = "new " + System.IO.Path.GetFileNameWithoutExtension (this.Path) + "();";
+
+						object obj = this.evaluator.Evaluate(expression);
+
+						if (typeof(IRule).IsAssignableFrom (obj.GetType ()))
+						{
+							this.Rule = (IRule)obj;
+							this.Rule.initialize();
+						}
+					}
 				}
+			}
+			catch(Exception ex) 
+			{
+				Monolith.Logging.Logger.Error("Couldn't initialize the Rule <" + System.IO.Path.GetFileNameWithoutExtension (this.Path) + "> due to: " + ex.Message);
 			}
 		}
     }
