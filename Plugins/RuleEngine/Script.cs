@@ -12,15 +12,17 @@ namespace RuleEngine
 {
     public class Script
     {
-        public string Path { get; private set; }
-		public string Script { get; private set; }
-        public bool Loaded { get; private set; }
+		public string Path { get; private set; }
+		public string Data { get; private set; }
+
+		public IRule Rule { get; private set; }
 
         private Evaluator evaluator;
 
         public Script(string path)
         {
             this.Path = path;
+			this.Rule = null;
 
             this.evaluator = new Evaluator(new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter()));
             this.evaluator.ReferenceAssembly(Assembly.GetCallingAssembly());
@@ -32,14 +34,22 @@ namespace RuleEngine
 
         private void load()
         {
-			this.Script = File.ReadAllText(this.Path);
-
-			this.Loaded = this.Script.Count > 0;
+			this.Data = File.ReadAllText(this.Path);
         }
 
 		private void initialize()
 		{
-			
+			if (this.Data.Count > 0) 
+			{
+				this.evaluator.Run (this.Data);
+
+				object obj = this.evaluator.Evaluate("new " + System.IO.Path.GetFileNameWithoutExtension (this.Path) + "();");
+
+				if (typeof(IRule).IsAssignableFrom (obj.GetType ()))
+				{
+					this.Rule = (IRule)obj;
+				}
+			}
 		}
     }
 }
