@@ -49,6 +49,7 @@
     <None Include="Scripts\Toggle.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="IRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -60,5 +61,11 @@
   -->
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Monolith\Monolith.csproj">
+      <Project>{50FB65E6-E115-4197-9D27-C04DCF95145C}</Project>
+      <Name>Monolith</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
