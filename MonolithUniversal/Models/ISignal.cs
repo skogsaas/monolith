@@ -8,5 +8,6 @@ namespace MonolithUniversal.Models
 {
     public interface ISignal
     {
+        string Identifier { get; }
     }
 }

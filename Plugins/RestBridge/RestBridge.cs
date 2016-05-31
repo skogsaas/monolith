@@ -85,9 +85,17 @@ namespace Monolith.Plugins.REST
             {
                 handlePlugins(context);
             }
+            if (path.StartsWith("/rest/plugin"))
+            {
+                handlePlugin(context);
+            }
             else if (path.StartsWith("/rest/devices"))
             {
                 handleDevices(context);
+            }
+            else if (path.StartsWith("/rest/device"))
+            {
+                handleDevice(context);
             }
             else if (path.StartsWith("/rest/signals"))
             {
@@ -103,6 +111,8 @@ namespace Monolith.Plugins.REST
             }
         }
 
+        #region Plugins
+
         private void handlePlugins(HttpListenerContext context)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.plugins, Formatting.Indented);
@@ -112,6 +122,28 @@ namespace Monolith.Plugins.REST
             context.Response.OutputStream.Write(data, 0, data.Length);
             context.Response.Close();
         }
+
+        private void handlePlugin(HttpListenerContext context)
+        {
+            string identifier = context.Request.RawUrl.Substring(("/rest/plugin/").Length);
+
+            PluginState plugin = (PluginState)this.pluginChannel.find(identifier);
+
+            if (plugin != null)
+            {
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(plugin, Formatting.Indented);
+                byte[] data = Encoding.UTF8.GetBytes(json);
+
+                context.Response.ContentLength64 = data.Length;
+                context.Response.OutputStream.Write(data, 0, data.Length);
+            }
+
+            context.Response.Close();
+        }
+
+        #endregion
+
+        #region Devices
 
         private void handleDevices(HttpListenerContext context)
         {
@@ -123,9 +155,51 @@ namespace Monolith.Plugins.REST
 			context.Response.Close();
         }
 
+        private void handleDevice(HttpListenerContext context)
+        {
+            string identifier = context.Request.RawUrl.Substring(("/rest/device/").Length);
+
+            DeviceState device = (DeviceState)this.deviceChannel.find(identifier);
+
+            if (device != null)
+            {
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(device, Formatting.Indented);
+                byte[] data = Encoding.UTF8.GetBytes(json);
+
+                context.Response.ContentLength64 = data.Length;
+                context.Response.OutputStream.Write(data, 0, data.Length);
+            }
+
+            context.Response.Close();
+        }
+
+        #endregion
+
+        #region Signals
+
+        private struct BasicSignal
+        {
+            private ISignal signal;
+
+            public string Identifier { get { return this.signal.Identifier; } }
+            public string SignalType { get { return this.signal.SignalType.UnderlyingSystemType.Name; } }
+
+            public BasicSignal(ISignal s)
+            {
+                signal = s;
+            }
+        }
+
         private void handleSignals(HttpListenerContext context)
         {
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.signals, Formatting.Indented);
+            List<BasicSignal> collection = new List<BasicSignal>();
+
+            foreach(ISignal signal in this.signals)
+            {
+                collection.Add(new BasicSignal(signal));
+            }
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(collection, Formatting.Indented);
             byte[] data = Encoding.UTF8.GetBytes(json);
 
             context.Response.ContentLength64 = data.Length;
@@ -150,5 +224,7 @@ namespace Monolith.Plugins.REST
 
             context.Response.Close();
         }
+
+        #endregion
     }
 }

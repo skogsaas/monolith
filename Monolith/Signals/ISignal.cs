@@ -8,6 +8,7 @@ namespace Monolith.Signals
 {
     public interface ISignal
     {
-        string SignalType { get; }
+        string Identifier { get; }
+        Type SignalType { get; }
     }
 }

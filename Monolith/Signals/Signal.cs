@@ -24,11 +24,15 @@ namespace Monolith.Signals
             }
         }
 
-        public string SignalType
+        public T Minimum { get; set; }
+        public T Maximum { get; set; }
+        public Dictionary<T, string> Values { get; private set; }
+
+        public Type SignalType
         {
             get
             {
-                return typeof(T).Name;
+                return typeof(T);
             }
         }
 
@@ -36,6 +40,7 @@ namespace Monolith.Signals
             : base(identifier)
         {
             this.state = new AttributeBase<T>(this);
+            this.Values = new Dictionary<T, string>();
         }
     }
 }

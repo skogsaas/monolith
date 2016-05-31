@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D7756AB-91CC-4F20-B33E-213001FFB635}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{668B17C5-D1A3-43A0-AEBE-760DB24F28B3}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonolithConsole</RootNamespace>
-    <AssemblyName>MonolithConsole</AssemblyName>
+    <RootNamespace>RFBridge</RootNamespace>
+    <AssemblyName>RFBridge</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,33 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="NexaSwitch.cs" />
+    <Compile Include="NexaDimmer.cs" />
+    <Compile Include="RadioFrequencyBridge.cs" />
+    <Compile Include="Gateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Monolith\Monolith.csproj">
+    <ProjectReference Include="..\..\Monolith\Monolith.csproj">
       <Project>{50fb65e6-e115-4197-9d27-c04dcf95145c}</Project>
       <Name>Monolith</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugins\ConsoleLogger\ConsoleLogger.csproj">
-      <Project>{f0024c91-e0c7-4169-bb84-7e7026fd7a78}</Project>
-      <Name>ConsoleLogger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\RandomNumber\RandomNumber.csproj">
-      <Project>{eb2a85fb-0f6d-400a-8654-361f57fccd36}</Project>
-      <Name>RandomNumber</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\RestBridge\RestBridge.csproj">
-      <Project>{e3da9c06-9368-4f6e-8cdc-779ac414d886}</Project>
-      <Name>RestBridge</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\RFBridge\RFBridge.csproj">
-      <Project>{668b17c5-d1a3-43a0-aebe-760db24f28b3}</Project>
-      <Name>RFBridge</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="RFBridge.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

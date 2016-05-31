@@ -32,8 +32,6 @@ namespace MonolithUniversal
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.model = (Models.Model)e.Parameter;
-
-            this.Container.Items.Add(new Toggle());
         }
     }
 }

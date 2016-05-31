@@ -1,0 +1,10 @@
+﻿{
+  "Nexa": [
+    {
+      "Name": "Bryter",
+      "Group": 100,
+      "Device": 1,
+      "Dimmable": true
+    }
+  ]
+}

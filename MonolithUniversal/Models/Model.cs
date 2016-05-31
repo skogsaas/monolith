@@ -22,6 +22,8 @@ namespace MonolithUniversal.Models
             this.Devices = new ObservableCollection<Device>();
             this.Signals = new ObservableCollection<ISignal>();
 
+            this.Signals.Add(new Signal<bool>("First floor"));
+
             getPlugins();
             getDevices();
             getSignals();
@@ -29,60 +31,81 @@ namespace MonolithUniversal.Models
 
         private async void getPlugins()
         {
-            WebRequest request = WebRequest.Create("http://localhost:8080/rest/plugins");
-            WebResponse response = await request.GetResponseAsync();
-
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            try
             {
-                string data = await reader.ReadToEndAsync();
+                WebRequest request = WebRequest.Create("http://localhost:8080/rest/plugins");
+                WebResponse response = await request.GetResponseAsync();
 
-                this.Plugins = JsonConvert.DeserializeObject<ObservableCollection<Plugin>>(data);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string data = await reader.ReadToEndAsync();
+
+                    this.Plugins = JsonConvert.DeserializeObject<ObservableCollection<Plugin>>(data);
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
         private async void getDevices()
         {
-            WebRequest request = WebRequest.Create("http://localhost:8080/rest/devices");
-            WebResponse response = await request.GetResponseAsync();
+            try
+            { 
+                WebRequest request = WebRequest.Create("http://localhost:8080/rest/devices");
+                WebResponse response = await request.GetResponseAsync();
 
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-            {
-                string data = await reader.ReadToEndAsync();
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string data = await reader.ReadToEndAsync();
 
-                this.Devices = JsonConvert.DeserializeObject<ObservableCollection<Device>>(data);
+                    this.Devices = JsonConvert.DeserializeObject<ObservableCollection<Device>>(data);
+                }
             }
-        }
+            catch(Exception ex)
+            {
+
+            }
+}
 
         #region Signals
 
         private async void getSignals()
         {
-            WebRequest request = WebRequest.Create("http://localhost:8080/rest/signals");
-            WebResponse response = await request.GetResponseAsync();
-
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            try
             {
-                string data = await reader.ReadToEndAsync();
+                WebRequest request = WebRequest.Create("http://localhost:8080/rest/signals");
+                WebResponse response = await request.GetResponseAsync();
 
-                List<BasicSignal> basics = JsonConvert.DeserializeObject<List<BasicSignal>>(data);
-
-                foreach(BasicSignal basic in basics)
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
-                    if (basic.SignalType == "Bool")
-                        this.Signals.Add(new Signal<bool>(basic.Identifier));
-                    else if (basic.SignalType == "Int16")
-                        this.Signals.Add(new Signal<Int16>(basic.Identifier));
-                    else if (basic.SignalType == "Int32")
-                        this.Signals.Add(new Signal<Int32>(basic.Identifier));
-                    else if (basic.SignalType == "UInt16")
-                        this.Signals.Add(new Signal<UInt16>(basic.Identifier));
-                    else if (basic.SignalType == "Int32")
-                        this.Signals.Add(new Signal<UInt32>(basic.Identifier));
-                    else if (basic.SignalType == "Double")
-                        this.Signals.Add(new Signal<double>(basic.Identifier));
-                    else if (basic.SignalType == "Float")
-                        this.Signals.Add(new Signal<float>(basic.Identifier));
+                    string data = await reader.ReadToEndAsync();
+
+                    List<BasicSignal> basics = JsonConvert.DeserializeObject<List<BasicSignal>>(data);
+
+                    foreach (BasicSignal basic in basics)
+                    {
+                        if (basic.SignalType == "Bool")
+                            this.Signals.Add(new Signal<bool>(basic.Identifier));
+                        else if (basic.SignalType == "Int16")
+                            this.Signals.Add(new Signal<Int16>(basic.Identifier));
+                        else if (basic.SignalType == "Int32")
+                            this.Signals.Add(new Signal<Int32>(basic.Identifier));
+                        else if (basic.SignalType == "UInt16")
+                            this.Signals.Add(new Signal<UInt16>(basic.Identifier));
+                        else if (basic.SignalType == "Int32")
+                            this.Signals.Add(new Signal<UInt32>(basic.Identifier));
+                        else if (basic.SignalType == "Double")
+                            this.Signals.Add(new Signal<double>(basic.Identifier));
+                        else if (basic.SignalType == "Float")
+                            this.Signals.Add(new Signal<float>(basic.Identifier));
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
