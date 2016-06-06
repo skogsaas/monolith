@@ -9,18 +9,24 @@ namespace Monolith.Signals
 {
     public class Signal<T> : Framework.ObjectBase, ISignal
     {
-        private AttributeBase<T> state;
+        public delegate bool AcceptHandler(T value);
+        private AcceptHandler stateHandler = null;
+
+        public AttributeBase<T> InnerState { get; private set; }
 
         public T State
         {
             get
             {
-                return state.Value;
+                return this.InnerState.Value;
             }
 
             set
             {
-                this.state.Value = value;
+                if(this.stateHandler(value))
+                {
+                    this.InnerState.Value = value;
+                }
             }
         }
 
@@ -36,11 +42,23 @@ namespace Monolith.Signals
             }
         }
 
-        public Signal(string identifier)
+        public Signal(string identifier, AcceptHandler handler)
             : base(identifier)
         {
-            this.state = new AttributeBase<T>(this);
+            this.InnerState = new AttributeBase<T>(this);
             this.Values = new Dictionary<T, string>();
+
+            this.stateHandler = handler;
+        }
+
+        public static bool AllwaysAccept(T value)
+        {
+            return true;
+        }
+
+        public static bool NeverAccept(T value)
+        {
+            return false;
         }
     }
 }

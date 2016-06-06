@@ -8,7 +8,7 @@ using Monolith.Framework;
 using Monolith.Signals;
 using Newtonsoft.Json;
 using System.Net;
-
+using Monolith.Devices;
 
 namespace Monolith.Plugins.REST
 {

@@ -5,20 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monolith.Devices;
 
 namespace RFBridge
 {
-    class NexaDimmer
+    class NexaDimmer : DeviceBase
     {
         public string Name { get; set; }
-        public ulong Group { get; set; }
-        public uint Device { get; set; }
+        public uint Group { get; set; }
+        public byte Device { get; set; }
 
-        public ISignal Signal { get; private set; }
+        public Signal<int> Signal { get; private set; }
 
         private RadioFrequencyBridge plugin;
 
         public NexaDimmer(RadioFrequencyBridge p, Configuration.NexaConfig config)
+            : base(typeof(RadioFrequencyBridge).Name + "." + config.Name)
         {
             this.Name = config.Name;
             this.Group = config.Group;
@@ -28,8 +30,15 @@ namespace RFBridge
 
             string name = typeof(RadioFrequencyBridge).Name + "." + this.Name;
 
-            this.Signal = new Signal<int>(name);
-            this.plugin.SignalChannel.publish((IObject)this.Signal);
+            this.Signal = new Signal<int>(name, Signal<int>.AllwaysAccept);
+            this.Signal.InnerState.AttributeChanged += this.signalChanged;
+
+            this.plugin.SignalChannel.publish(this.Signal);
+        }
+
+        private void signalChanged(IAttribute a)
+        {
+            this.plugin.Transmitter.nexaDeviceDim(this.Group, this.Device, (byte)this.Signal.State);
         }
     }
 }

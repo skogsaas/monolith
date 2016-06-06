@@ -11,8 +11,8 @@ namespace RFBridge
         public struct NexaConfig
         {
             public string Name { get; set; }
-            public ulong Group { get; set; }
-            public uint Device { get; set; }
+            public uint Group { get; set; }
+            public byte Device { get; set; }
             public bool Dimmable { get; set; }
         }
 

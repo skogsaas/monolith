@@ -20,32 +20,32 @@ namespace RFBridge
 
         #region NEXA
 
-        public async void nexaDeviceOnOff(int group, int device, bool on)
+        public async void nexaDeviceOnOff(uint group, byte device, bool on)
         {
             byte[] data = new byte[7];
             data[0] = 1;
 
             Array.Copy(toNetworkOrder(BitConverter.GetBytes(group)), 0, data, 1, 4);
 
-            data[5] = (byte)device;
+            data[5] = device;
             data[6] = (byte)(on ? 1 : 0);
 
             await this.udp.SendAsync(data, data.Length);
         }
-        public async void nexaDeviceDim(int group, int device, byte dim)
+        public async void nexaDeviceDim(uint group, byte device, byte dim)
         {
             byte[] data = new byte[7];
             data[0] = 2;
 
             Array.Copy(toNetworkOrder(BitConverter.GetBytes(group)), 0, data, 1, 4);
 
-            data[5] = (byte)device;
+            data[5] = device;
             data[6] = dim;
 
             await this.udp.SendAsync(data, data.Length);
         }
 
-        public async void nexaGroupOnOff(int group, bool on)
+        public async void nexaGroupOnOff(uint group, bool on)
         {
             byte[] data = new byte[6];
             data[0] = 3;

@@ -14,10 +14,11 @@ namespace RFBridge
 {
     public class RadioFrequencyBridge : PluginBase
     {
-        private Gateway gateway;
         private Configuration config;
 
         public Channel SignalChannel { get; private set; }
+
+        public Gateway Transmitter { get; private set; }
 
         public RadioFrequencyBridge()
             : base("RadioFrequenceyBridge")

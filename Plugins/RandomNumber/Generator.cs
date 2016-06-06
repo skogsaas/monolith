@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
 using System.Threading;
 using System;
+using Monolith.Signals;
 
 namespace Monolith.Plugins.RandomNumber
 {
     public class Generator : IPlugin
     {
         private Task task;
-        private Signals.Signal<int> signal;
+        private Signal<int> signal;
 
         private Framework.Channel channel;
 
@@ -18,7 +19,7 @@ namespace Monolith.Plugins.RandomNumber
             this.random = new Random();
             this.channel = Framework.Manager.Instance.create("Signals");
 
-            this.signal = new Signals.Signal<int>("Random");
+            this.signal = new Signal<int>("Random", Signal<int>.NeverAccept);
             this.signal.State = this.random.Next(0, 100);
             this.channel.publish(this.signal);
 

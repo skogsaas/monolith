@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Plugins
+namespace Monolith.Devices
 {
     public class DeviceState : Framework.ObjectBase
     {

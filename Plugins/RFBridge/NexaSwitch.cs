@@ -11,10 +11,10 @@ namespace RFBridge
     class NexaSwitch
     {
         public string Name { get; set; }
-        public ulong Group { get; set; }
-        public uint Device { get; set; }
+        public uint Group { get; set; }
+        public byte Device { get; set; }
 
-        public ISignal Signal { get; private set; }
+        public Signal<bool> Signal { get; private set; }
 
         private RadioFrequencyBridge plugin;
 
@@ -28,8 +28,15 @@ namespace RFBridge
 
             string name = typeof(RadioFrequencyBridge).Name + "." + this.Name;
 
-            this.Signal = new Signal<bool>(name);
-            this.plugin.SignalChannel.publish((IObject)this.Signal);
+            this.Signal = new Signal<bool>(name, Signal<bool>.AllwaysAccept);
+            this.Signal.InnerState.AttributeChanged += this.signalChanged;
+
+            this.plugin.SignalChannel.publish(this.Signal);
+        }
+
+        private void signalChanged(IAttribute a)
+        {
+            this.plugin.Transmitter.nexaDeviceOnOff(this.Group, this.Device, this.Signal.State);
         }
     }
 }
