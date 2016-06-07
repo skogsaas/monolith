@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="DeviceManager.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
+    <Compile Include="Signals\Binding.cs" />
     <Compile Include="Framework\AttributeBase.cs" />
     <Compile Include="Framework\Channel.cs" />
     <Compile Include="Framework\EventBase.cs" />
