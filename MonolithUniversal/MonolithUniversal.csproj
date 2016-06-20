@@ -92,14 +92,19 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Dashboard.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Signal.cs" />
-    <Compile Include="Controls\Signals.cs" />
+    <Compile Include="Providers\Control.cs" />
+    <Compile Include="Providers\ISignal.cs" />
+    <Compile Include="Providers\Messages\MessageBase.cs" />
+    <Compile Include="Providers\Messages\SignalEvent.cs" />
+    <Compile Include="Providers\Signal.cs" />
+    <Compile Include="Providers\Signals.cs" />
     <Compile Include="DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
@@ -118,6 +123,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ISignal.cs" />
+    <Compile Include="Tiles\Blank.xaml.cs">
+      <DependentUpon>Blank.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tiles\ITile.cs" />
+    <Compile Include="Tiles\Slider.xaml.cs">
+      <DependentUpon>Slider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tiles\Toggle.xaml.cs">
       <DependentUpon>Toggle.xaml</DependentUpon>
     </Compile>
@@ -129,6 +141,7 @@
     <None Include="MonolithUniversal_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\DashboardBackground.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -156,6 +169,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PluginsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tiles\Blank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tiles\Slider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,15 +14,18 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MonolithUniversal.Tiles
 {
-    public sealed partial class Toggle : UserControl, ITile
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class Slider : UserControl, ITile
     {
         private ISignal signal;
 
-        public Toggle()
+        public Slider()
         {
             this.InitializeComponent();
         }
@@ -34,16 +37,16 @@ namespace MonolithUniversal.Tiles
         }
 
         public static readonly DependencyProperty IdentifierProperty =
-            DependencyProperty.Register("Identifier", typeof(string), typeof(Toggle), new PropertyMetadata("Unknown"));
+            DependencyProperty.Register("Identifier", typeof(string), typeof(Slider), new PropertyMetadata(""));
 
-        public bool State
+        public int State
         {
-            get { return (bool)GetValue(StateProperty); }
+            get { return (int)GetValue(StateProperty); }
             set { SetValue(StateProperty, value); }
         }
 
         public static readonly DependencyProperty StateProperty =
-            DependencyProperty.Register("State", typeof(bool), typeof(Toggle), new PropertyMetadata(false));
+            DependencyProperty.Register("State", typeof(int), typeof(Slider), new PropertyMetadata(0));
 
         public void setSignal(ISignal s)
         {
@@ -58,6 +61,5 @@ namespace MonolithUniversal.Tiles
             state.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             BindingOperations.SetBinding(this, StateProperty, state);
         }
-
     }
 }

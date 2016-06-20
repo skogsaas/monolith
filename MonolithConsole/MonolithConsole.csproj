@@ -58,10 +58,6 @@
       <Project>{f0024c91-e0c7-4169-bb84-7e7026fd7a78}</Project>
       <Name>ConsoleLogger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugins\RandomNumber\RandomNumber.csproj">
-      <Project>{eb2a85fb-0f6d-400a-8654-361f57fccd36}</Project>
-      <Name>RandomNumber</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Plugins\RestBridge\RestBridge.csproj">
       <Project>{e3da9c06-9368-4f6e-8cdc-779ac414d886}</Project>
       <Name>RestBridge</Name>

@@ -1,9 +1,15 @@
 ﻿{
   "Nexa": [
     {
-      "Name": "Bryter",
+      "Name": "Toggle",
       "Group": 100,
       "Device": 1,
+      "Dimmable": false
+    },
+    {
+      "Name": "Slider",
+      "Group": 100,
+      "Device": 2,
       "Dimmable": true
     }
   ]

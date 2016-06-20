@@ -25,6 +25,8 @@ namespace Monolith.Signals
             {
                 if(this.stateHandler(value))
                 {
+                    Logging.Logger.Info("Setting signal <" + this.Identifier + "> to <" + value + ">");
+
                     this.InnerState.Value = value;
                 }
             }

@@ -15,7 +15,21 @@ namespace RFBridge
         public Gateway()
         {
             this.udp = new UdpClient();
-            this.udp.Connect(IPAddress.Parse("10.0.0.10"), 5000);
+
+            connect();
+        }
+
+        private bool connect()
+        {
+            try
+            {
+                this.udp.Connect(IPAddress.Parse("10.0.0.10"), 5000);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         #region NEXA

@@ -9,6 +9,8 @@ using Monolith.Signals;
 using Newtonsoft.Json;
 using System.Net;
 using Monolith.Devices;
+using System.Net.WebSockets;
+using System.IO;
 
 namespace Monolith.Plugins.REST
 {
@@ -18,18 +20,18 @@ namespace Monolith.Plugins.REST
 		private Channel deviceChannel;
         private Channel signalChannel;
 
-        private List<PluginState> plugins;
-		private List<DeviceState> devices;
-        private List<ISignal> signals;
+        private DataModel model;
 
         private HttpListener listener;
+
+        List<WebSocketHandler> webSockets;
 
         public RestBridge()
             : base("RestBridge")
         {
-            this.plugins = new List<PluginState>();
-			this.devices = new List<DeviceState>();
-            this.signals = new List<ISignal>();
+            this.model = new DataModel();
+
+            this.webSockets = new List<WebSocketHandler>();
         }
 
         public override void initialize()
@@ -65,57 +67,73 @@ namespace Monolith.Plugins.REST
         {
             if(typeof(PluginState).IsAssignableFrom(obj.GetType()))
             {
-                this.plugins.Add((PluginState)obj);
+                this.model.Plugins.Add((PluginState)obj);
             }
 			else if(typeof(DeviceState).IsAssignableFrom(obj.GetType()))
 			{
-				this.devices.Add((DeviceState)obj);
+				this.model.Devices.Add((DeviceState)obj);
 			}
             else if(typeof(ISignal).IsAssignableFrom(obj.GetType()))
             {
-                this.signals.Add((ISignal)obj);
+                this.model.Signals.Add((ISignal)obj);
             }
         }
 
-        private void process(HttpListenerContext context)
+        private async void process(HttpListenerContext context)
         {
-            string path = context.Request.RawUrl;
+            if(context.Request.IsWebSocketRequest)
+            {
+                HttpListenerWebSocketContext c = await context.AcceptWebSocketAsync(null);
 
-            if(path.StartsWith("/rest/plugins"))
-            {
-                handlePlugins(context);
-            }
-            if (path.StartsWith("/rest/plugin"))
-            {
-                handlePlugin(context);
-            }
-            else if (path.StartsWith("/rest/devices"))
-            {
-                handleDevices(context);
-            }
-            else if (path.StartsWith("/rest/device"))
-            {
-                handleDevice(context);
-            }
-            else if (path.StartsWith("/rest/signals"))
-            {
-                handleSignals(context);
-            }
-            else if (path.StartsWith("/rest/signal/"))
-            {
-                handleSignal(context);
+                WebSocketHandler h = new WebSocketHandler(c.WebSocket, this.model);
+                h.Disconnected += websocketDisconnected;
+                this.webSockets.Add(h);
             }
             else
             {
-                context.Response.Close();
+                string path = context.Request.RawUrl;
+
+                if (path.StartsWith("/rest/plugins"))
+                {
+                    handlePlugins(context);
+                }
+                if (path.StartsWith("/rest/plugin"))
+                {
+                    handlePlugin(context);
+                }
+                else if (path.StartsWith("/rest/devices"))
+                {
+                    handleDevices(context);
+                }
+                else if (path.StartsWith("/rest/device"))
+                {
+                    handleDevice(context);
+                }
+                else if (path.StartsWith("/rest/signals"))
+                {
+                    handleSignals(context);
+                }
+                else if (path.StartsWith("/rest/signal/"))
+                {
+                    handleSignal(context);
+                }
+                else
+                {
+                    context.Response.Close();
+                }
             }
+        }
+
+        private void websocketDisconnected(WebSocketHandler h)
+        {
+            this.webSockets.Remove(h);
         }
 
         #region Plugins
 
         private void handlePlugins(HttpListenerContext context)
         {
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.plugins, Formatting.Indented);
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.model.Plugins, Formatting.Indented);
             byte[] data = Encoding.UTF8.GetBytes(json);
 
             context.Response.ContentLength64 = data.Length;
@@ -147,7 +165,7 @@ namespace Monolith.Plugins.REST
 
         private void handleDevices(HttpListenerContext context)
         {
-			string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.devices, Formatting.Indented);
+			string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.model.Devices, Formatting.Indented);
 			byte[] data = Encoding.UTF8.GetBytes(json);
 
 			context.Response.ContentLength64 = data.Length;
@@ -194,7 +212,7 @@ namespace Monolith.Plugins.REST
         {
             List<BasicSignal> collection = new List<BasicSignal>();
 
-            foreach(ISignal signal in this.signals)
+            foreach(ISignal signal in this.model.Signals)
             {
                 collection.Add(new BasicSignal(signal));
             }
@@ -207,7 +225,7 @@ namespace Monolith.Plugins.REST
             context.Response.Close();
         }
 
-        private void handleSignal(HttpListenerContext context)
+        private async void handleSignal(HttpListenerContext context)
         {
             string identifier = context.Request.RawUrl.Substring(("/rest/signal/").Length);
 
@@ -215,11 +233,42 @@ namespace Monolith.Plugins.REST
 
             if(signal != null)
             {
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(signal, Formatting.Indented);
-                byte[] data = Encoding.UTF8.GetBytes(json);
+                if(context.Request.HttpMethod == "GET")
+                {
+                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(signal, Formatting.Indented);
+                    byte[] data = Encoding.UTF8.GetBytes(json);
 
-                context.Response.ContentLength64 = data.Length;
-                context.Response.OutputStream.Write(data, 0, data.Length);
+                    context.Response.ContentLength64 = data.Length;
+                    context.Response.OutputStream.Write(data, 0, data.Length);
+                }
+                else if(context.Request.HttpMethod == "POST")
+                {
+                    if(context.Request.HasEntityBody)
+                    {
+                        using (StreamReader sr = new StreamReader(context.Request.InputStream))
+                        {
+                            string body = await sr.ReadToEndAsync();
+
+                            JsonConvert.PopulateObject(body, signal);
+                        }
+
+                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(signal, Formatting.Indented);
+                        byte[] data = Encoding.UTF8.GetBytes(json);
+
+                        context.Response.ContentLength64 = data.Length;
+                        context.Response.OutputStream.Write(data, 0, data.Length);
+
+                        context.Response.StatusCode = 200; // "OK"
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 400; // "Bad Request"
+                    }
+                }
+            }
+            else
+            {
+                context.Response.StatusCode = 404; // "Not Found"
             }
 
             context.Response.Close();

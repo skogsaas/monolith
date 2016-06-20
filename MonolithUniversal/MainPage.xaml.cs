@@ -23,12 +23,14 @@ namespace MonolithUniversal
     public sealed partial class MainPage : Page
     {
         private Models.Model model;
+        private Providers.Control control;
 
         public MainPage()
         {
             this.InitializeComponent();
 
             this.model = new Models.Model();
+            this.control = new Providers.Control(this.model);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

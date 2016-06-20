@@ -31,7 +31,7 @@ namespace RFBridge
             base.initialize();
 
             this.SignalChannel = Manager.Instance.create("Signals");
-            this.gateway = new Gateway();
+            this.Transmitter = new Gateway();
 
             loadConfiguration();
 
