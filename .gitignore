@@ -27,3 +27,5 @@
 /packages/Mono.CSharp.4.0.0.143
 /Plugins/RFBridge/obj/Debug
 /Plugins/RFBridge/bin/Debug
+/Plugins/SQLiteStorage/obj/Debug
+/packages
