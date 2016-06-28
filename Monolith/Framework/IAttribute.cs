@@ -10,6 +10,9 @@ namespace Monolith.Framework
 
     public interface IAttribute
     {
+        string Name { get; }
+        Type AttributeType { get; }
+
         event AttributeEventHandler AttributeChanging;
         event AttributeEventHandler AttributeChanged;
     }

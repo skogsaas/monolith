@@ -25,11 +25,15 @@ namespace Monolith.Framework
             }
         }
 
+        public string Name { get; }
+        public Type AttributeType { get { return typeof(T); } }
+
         public event AttributeEventHandler AttributeChanging;
         public event AttributeEventHandler AttributeChanged;
 
-        public AttributeBase(IContainer container)
+        public AttributeBase(IContainer container, string name)
         {
+            this.Name = name;
             container.add(this);
         }
 

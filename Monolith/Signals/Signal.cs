@@ -47,7 +47,7 @@ namespace Monolith.Signals
         public Signal(string identifier, AcceptHandler handler)
             : base(identifier)
         {
-            this.InnerState = new AttributeBase<T>(this);
+            this.InnerState = new AttributeBase<T>(this, "State");
             this.Values = new Dictionary<T, string>();
 
             this.stateHandler = handler;

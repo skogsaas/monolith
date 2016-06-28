@@ -27,7 +27,7 @@ namespace Monolith.Devices
 		public DeviceState(string identifier)
             : base(identifier)
         {
-            this.state = new Framework.AttributeBase<States>(this);
+            this.state = new Framework.AttributeBase<States>(this, "State");
         }
     }
 }
