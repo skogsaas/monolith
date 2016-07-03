@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monolith.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RFBridge
 {
-    class Configuration
+    class RadioFrequencyBridgeConfiguration : IConfiguration
     {
         public struct NexaConfig
         {
@@ -18,7 +19,7 @@ namespace RFBridge
 
         public List<NexaConfig> Nexa { get; set; }
 
-        public Configuration()
+        public RadioFrequencyBridgeConfiguration()
         {
             this.Nexa = new List<NexaConfig>();
         }

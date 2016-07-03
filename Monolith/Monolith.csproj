@@ -43,6 +43,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="Configuration\Manager.cs" />
     <Compile Include="DeviceManager.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
     <Compile Include="Signals\Binding.cs" />
@@ -76,9 +78,7 @@
   <ItemGroup>
     <Content Include="TODO.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

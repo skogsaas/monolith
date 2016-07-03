@@ -6,22 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.IO;
 using Monolith.Framework;
 
 namespace RFBridge
 {
     public class RadioFrequencyBridge : PluginBase
     {
-        private Configuration config;
+        private RadioFrequencyBridgeConfiguration config;
 
         public Channel SignalChannel { get; private set; }
 
         public Gateway Transmitter { get; private set; }
 
         public RadioFrequencyBridge()
-            : base("RadioFrequenceyBridge")
+            : base(typeof(RadioFrequencyBridge).Name)
         {
             
         }
@@ -33,21 +31,13 @@ namespace RFBridge
             this.SignalChannel = Manager.Instance.create("Signals");
             this.Transmitter = new Gateway();
 
-            loadConfiguration();
+            this.config = Monolith.Configuration.Manager.Instance.load<RadioFrequencyBridgeConfiguration>(this.GetType().Name + ".cfg");
 
-            //this.task = Monolith.Utilities.PeriodicTask.StartPeriodicTask(this.trigger, 10000, new CancellationToken());
-        }
-
-        private void loadConfiguration()
-        {
-            try
+            if (this.config != null)
             {
-                string data = File.ReadAllText("RFBridge.json");
-                this.config = JsonConvert.DeserializeObject<Configuration>(data);
-
-                foreach(Configuration.NexaConfig device in this.config.Nexa)
+                foreach (RadioFrequencyBridgeConfiguration.NexaConfig device in this.config.Nexa)
                 {
-                    if(device.Dimmable)
+                    if (device.Dimmable)
                     {
                         NexaDimmer d = new NexaDimmer(this, device);
                     }
@@ -56,10 +46,6 @@ namespace RFBridge
                         NexaSwitch s = new NexaSwitch(this, device);
                     }
                 }
-            }
-            catch(Exception ex)
-            {
-
             }
         }
     }

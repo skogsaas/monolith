@@ -18,7 +18,7 @@ namespace RFBridge
 
         private RadioFrequencyBridge plugin;
 
-        public NexaSwitch(RadioFrequencyBridge p, Configuration.NexaConfig config)
+        public NexaSwitch(RadioFrequencyBridge p, RadioFrequencyBridgeConfiguration.NexaConfig config)
         {
             this.Name = config.Name;
             this.Group = config.Group;
