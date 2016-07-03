@@ -32,7 +32,7 @@ namespace Monolith.Plugins
             if(e != null)
             {
                 string line = String.Format("[{0, 0}] [{1, 0}:{2,0}] [{3, 0}] - {4, 0}", 
-                    e.Time.ToString("yyyy:MM:dd HH/mm/ss:fff"), 
+                    e.Time.ToString("yyyy/MM/dd HH:mm:ss.fff"), 
                     Path.GetFileName(e.FilePath), 
                     e.Line, 
                     e.Member, 
