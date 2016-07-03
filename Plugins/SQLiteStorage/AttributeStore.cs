@@ -1,6 +1,7 @@
 ﻿using Monolith.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,19 +10,19 @@ namespace Monolith.Plugins.SQLiteStorage
 {
     class AttributeStore<T> : IStore
     {
-        private DbHelper db;
+        private SQLiteConnection connection;
 
         private AttributeBase<T> property;
         private string identifier;
-        private string name;
 
-        public AttributeStore(DbHelper h, AttributeBase<T> p, string i, string n)
+        private DateTime time;
+
+        public AttributeStore(SQLiteConnection c, AttributeBase<T> p, string i, DateTime t)
         {
-            this.db = h;
-
+            this.connection = c;
             this.property = p;
             this.identifier = i;
-            this.name = n;
+            this.time = t;
 
             this.property.AttributeChanged += Property_AttributeChanged;
 
@@ -33,17 +34,23 @@ namespace Monolith.Plugins.SQLiteStorage
             store();
         }
 
-        public void store()
+        public async void store()
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
-            values["identifier"] = this.identifier;
-            values["name"] = this.name;
-            values["value"] = property.Value.ToString();
-            values["time"] = DateTime.Now.ToString();
-
-            if (!this.db.Insert("properties", values))
+            try
             {
-                Logging.Logger.Warning("Could not insert values into database!");
+                SQLiteCommand p = new SQLiteCommand(this.connection);
+                p.CommandText = "INSERT INTO properties (identifier, name, value, time) VALUES (@identifier, @name, @value, @time)";
+
+                p.Parameters.Add(new SQLiteParameter("@identifier", this.identifier));
+                p.Parameters.Add(new SQLiteParameter("@name", property.Name));
+                p.Parameters.Add(new SQLiteParameter("@value", property.Value));
+                p.Parameters.Add(new SQLiteParameter("@time", this.time.Ticks));
+
+                await p.ExecuteNonQueryAsync();
+            }
+            catch(Exception ex)
+            {
+
             }
         }
     }

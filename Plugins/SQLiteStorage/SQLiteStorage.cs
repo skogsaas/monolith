@@ -1,6 +1,7 @@
 ﻿using Monolith.Plugins;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,19 @@ namespace Monolith.Plugins.SQLiteStorage
 {
     public class SQLiteStorage : PluginBase
     {
-        private DbHelper db;
+        private SQLiteConnection connection;
         private Dictionary<string, ChannelStore> channels;
 
         public SQLiteStorage()
             : base(typeof(SQLiteStorage).Name)
         {
-            this.db = new DbHelper(Directory.GetCurrentDirectory() + @"\SQLiteStorage.db;Version=3;");
+            this.connection = new SQLiteConnection("Data Source=" + Directory.GetCurrentDirectory() + @"\SQLiteStorage.db;Version=3;");
+            this.connection.Open();
+
             this.channels = new Dictionary<string, ChannelStore>();
 
-            this.channels["Signals"] = new ChannelStore(this.db, "Signals");
+            this.channels["Signals"] = new ChannelStore(this.connection, "Signals");
+            this.channels["Logging"] = new ChannelStore(this.connection, "Logging");
         }
     }
 }

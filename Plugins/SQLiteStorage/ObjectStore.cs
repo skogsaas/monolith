@@ -11,45 +11,53 @@ namespace Monolith.Plugins.SQLiteStorage
 {
     public class ObjectStore
     {
-        private DbHelper db;
+        private SQLiteConnection connection;
 
         private IObject obj;
+        private DateTime time;
+
         private List<IStore> attributes;
 
-        public ObjectStore(DbHelper helper, IObject o)
+        public ObjectStore(SQLiteConnection c, IObject o)
         {
-            this.db = helper;
+            this.connection = c;
             this.obj = o;
-            this.attributes = new List<IStore>();
+            this.time = DateTime.Now;
 
-            this.store();
+            this.attributes = new List<IStore>();
 
             initialize();
         }
 
-        private void initialize()
+        private async void initialize()
         {
-            Type attribute = typeof(AttributeStore<>);
-
-            foreach(IAttribute iattr in this.obj.Attributes)
+            try
             {
-                Type type = iattr.GetType();
+                SQLiteCommand i = new SQLiteCommand(this.connection);
+                i.CommandText = "INSERT INTO identifiers (name, type) VALUES (@name, @type)";
 
-                Type construct = attribute.MakeGenericType(iattr.AttributeType);
+                i.Parameters.Add(new SQLiteParameter("@name", this.obj.GetType().Name + "_" + this.time.Ticks));
+                i.Parameters.Add(new SQLiteParameter("@type", this.obj.GetType().Name));
 
-                object[] p = { this.db, iattr, this.obj.Identifier, iattr.Name };
+                await i.ExecuteNonQueryAsync();
 
-                this.attributes.Add((IStore)Activator.CreateInstance(construct, p));
+                Type attribute = typeof(AttributeStore<>);
+
+                foreach (IAttribute iattr in this.obj.Attributes)
+                {
+                    Type type = iattr.GetType();
+
+                    Type construct = attribute.MakeGenericType(iattr.AttributeType);
+
+                    object[] p = { this.connection, iattr, this.obj.Identifier, this.time};
+
+                    this.attributes.Add((IStore)Activator.CreateInstance(construct, p));
+                }
             }
-        }
+            catch(Exception ex)
+            {
 
-        private void store()
-        {
-            string sql = "INSERT OR REPLACE INTO identifiers (identifier) VALUES('" + this.obj.Identifier + "')";
-
-            this.db.ExecuteNonQuery(sql);
-        }
-
-        
+            }
+        }        
     }
 }
