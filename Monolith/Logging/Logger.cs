@@ -78,7 +78,7 @@ namespace Monolith.Logging
 
         internal Logger()
         {
-            this.channel = Framework.Manager.Instance.create("Logging");
+            this.channel = Framework.Manager.Instance.create(Constants.Channel);
         }
 
         internal void log(string message, LogEvent.Severity severity, string memberName, string filePath,int lineNumber)

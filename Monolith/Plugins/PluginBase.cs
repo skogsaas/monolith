@@ -14,7 +14,7 @@ namespace Monolith.Plugins
 
         public PluginBase(string pluginName)
         {
-            this.pluginChannel = Manager.Instance.create("Plugins");
+            this.pluginChannel = Manager.Instance.create(Constants.Channel);
 
             this.pluginState = new PluginState(pluginName);
             this.pluginChannel.publish(this.pluginState);

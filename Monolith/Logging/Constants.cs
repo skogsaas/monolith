@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Configuration
+namespace Monolith.Logging
 {
-    public interface IConfiguration
+    public class Constants
     {
+        public const string Channel = "Logging";
     }
 }

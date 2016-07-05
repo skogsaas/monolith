@@ -10,10 +10,10 @@ namespace Monolith.Configuration
 {
     public class Manager
     {
-        #region Instance
+        #region Static interface
 
         private static Manager instance = null;
-        public static Manager Instance
+        private static Manager Instance
         {
             get {
                 if (instance == null)
@@ -23,59 +23,75 @@ namespace Monolith.Configuration
             }
         }
 
+        internal static bool Store(ConfigurationBase config)
+        {
+            return Manager.Instance.storeImpl(config);
+        }
+
+        internal static void Load(ConfigurationBase config)
+        {
+            Manager.Instance.loadImpl(config);
+        }
+
+        internal static void Register(ConfigurationBase config)
+        {
+            Manager.Instance.registerImpl(config);
+        }
+
         #endregion
+
+        private Dictionary<string, ConfigurationBase> configurations;
 
         private Manager()
         {
-
+            this.configurations = new Dictionary<string, ConfigurationBase>();
         }
 
-        public T load<T>(string filename)  where T : class, IConfiguration, new()
+        private void loadImpl(ConfigurationBase config)
         {
-            Type type = typeof(T);
-
             try
             {
-                string data = File.ReadAllText(filename);
+                string data = File.ReadAllText(config.Filename);
 
-                T config = JsonConvert.DeserializeObject<T>(data);
+                JsonConvert.PopulateObject(data, config);
 
-                Logging.Logger.Trace("Managed to load the configuration file <" + filename + ">");
+                Logging.Logger.Trace("Managed to load the configuration file <" + config.Filename + ">");
 
-                return config;
+                config.NotifyChanged();
             }
             catch(FileNotFoundException fex)
             {
-                Logging.Logger.Error("Could not find the configuration file <" + filename + ">");
+                Logging.Logger.Error("Could not find the configuration file <" + config.Filename + ">");
             }
             catch(Exception ex)
             {
-                Logging.Logger.Error("Could not load the configuration from the file <" + filename + "> - " + ex.Message);
+                Logging.Logger.Error("Could not load the configuration from the file <" + config.Filename + "> - " + ex.Message);
             }
-
-            return null;
         }
 
-        public bool store<T>(T config, string filename) where T : class, IConfiguration, new()
+        private bool storeImpl(ConfigurationBase config)
         {
-            Type type = typeof(T);
-
             try
             {
                 string data = JsonConvert.SerializeObject(config);
 
-                File.WriteAllText(type.Name + ".cfg", data);
+                File.WriteAllText(config.Filename, data);
 
-                Logging.Logger.Trace("Managed to store the configuration file <" + filename + ">");
+                Logging.Logger.Trace("Managed to store the configuration file <" + config.Filename + ">");
 
                 return true;
             }
             catch(Exception ex)
             {
-                Logging.Logger.Error("Could not store the configuration file <" + filename + "> - " + ex.Message);
+                Logging.Logger.Error("Could not store the configuration file <" + config.Filename + "> - " + ex.Message);
             }
 
             return false;
+        }
+
+        private void registerImpl(ConfigurationBase config)
+        {
+            this.configurations[config.Filename] = config;
         }
     }
 }
