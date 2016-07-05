@@ -7,8 +7,8 @@
     <ProjectGuid>{2D7756AB-91CC-4F20-B33E-213001FFB635}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonolithConsole</RootNamespace>
-    <AssemblyName>MonolithConsole</AssemblyName>
+    <RootNamespace>Totem</RootNamespace>
+    <AssemblyName>Totem</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

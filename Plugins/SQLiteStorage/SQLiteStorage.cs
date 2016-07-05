@@ -23,7 +23,7 @@ namespace Monolith.Plugins.SQLiteStorage
             this.channels = new Dictionary<string, ChannelStore>();
 
             this.channels["Signals"] = new ChannelStore(this.connection, "Signals");
-            this.channels["Logging"] = new ChannelStore(this.connection, "Logging");
+            //this.channels["Logging"] = new ChannelStore(this.connection, "Logging");
         }
     }
 }

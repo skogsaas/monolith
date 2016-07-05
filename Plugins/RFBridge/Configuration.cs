@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RFBridge
 {
-    class RadioFrequencyBridgeConfiguration : IConfiguration
+    class Configuration : ConfigurationBase
     {
         public struct NexaConfig
         {
@@ -19,9 +19,12 @@ namespace RFBridge
 
         public List<NexaConfig> Nexa { get; set; }
 
-        public RadioFrequencyBridgeConfiguration()
+        public Configuration()
+            : base("RFBridge.json")
         {
             this.Nexa = new List<NexaConfig>();
+
+            base.Load();
         }
     }
 }

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monolith", "Monolith\Monoli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unittest", "Unittest\Unittest.csproj", "{05BF1768-ABDE-4488-B419-70E2B648745F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonolithConsole", "MonolithConsole\MonolithConsole.csproj", "{2D7756AB-91CC-4F20-B33E-213001FFB635}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Totem", "MonolithConsole\Totem.csproj", "{2D7756AB-91CC-4F20-B33E-213001FFB635}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{30C91CAA-262F-4B2E-B815-2B5C0C735B6D}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestBridge", "Plugins\RestB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleEngine", "Plugins\RuleEngine\RuleEngine.csproj", "{5096360D-47DF-4BDC-8A17-3758BA05FBE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonolithUniversal", "MonolithUniversal\MonolithUniversal.csproj", "{8B5A2486-F0CF-4AF7-9A82-9954716FB763}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obelisk", "MonolithUniversal\Obelisk.csproj", "{8B5A2486-F0CF-4AF7-9A82-9954716FB763}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFBridge", "Plugins\RFBridge\RFBridge.csproj", "{668B17C5-D1A3-43A0-AEBE-760DB24F28B3}"
 EndProject

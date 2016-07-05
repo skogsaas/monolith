@@ -6,45 +6,45 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Monolith.Framework;
 
 namespace RFBridge
 {
     public class RadioFrequencyBridge : PluginBase
     {
-        private RadioFrequencyBridgeConfiguration config;
+        private Configuration config;
 
-        public Channel SignalChannel { get; private set; }
+        public Monolith.Framework.Channel SignalChannel { get; private set; }
 
         public Gateway Transmitter { get; private set; }
 
         public RadioFrequencyBridge()
             : base(typeof(RadioFrequencyBridge).Name)
         {
-            
+            this.config = new Configuration();
         }
 
         public override void initialize()
         {
             base.initialize();
 
-            this.SignalChannel = Manager.Instance.create("Signals");
+            this.SignalChannel = Monolith.Framework.Manager.Instance.create(Monolith.Signals.Constants.Channel);
             this.Transmitter = new Gateway();
 
-            this.config = Monolith.Configuration.Manager.Instance.load<RadioFrequencyBridgeConfiguration>(this.GetType().Name + ".cfg");
+            configure(this.config);
+            this.config.ConfigurationChanged += configure;
+        }
 
-            if (this.config != null)
+        private void configure(Monolith.Configuration.ConfigurationBase configuration)
+        {
+            foreach (Configuration.NexaConfig device in this.config.Nexa)
             {
-                foreach (RadioFrequencyBridgeConfiguration.NexaConfig device in this.config.Nexa)
+                if (device.Dimmable)
                 {
-                    if (device.Dimmable)
-                    {
-                        NexaDimmer d = new NexaDimmer(this, device);
-                    }
-                    else
-                    {
-                        NexaSwitch s = new NexaSwitch(this, device);
-                    }
+                    NexaDimmer d = new NexaDimmer(this, device);
+                }
+                else
+                {
+                    NexaSwitch s = new NexaSwitch(this, device);
                 }
             }
         }

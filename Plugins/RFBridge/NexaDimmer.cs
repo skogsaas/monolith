@@ -19,7 +19,7 @@ namespace RFBridge
 
         private RadioFrequencyBridge plugin;
 
-        public NexaDimmer(RadioFrequencyBridge p, RadioFrequencyBridgeConfiguration.NexaConfig config)
+        public NexaDimmer(RadioFrequencyBridge p, Configuration.NexaConfig config)
             : base(typeof(RadioFrequencyBridge).Name + "." + config.Name)
         {
             this.Name = config.Name;
