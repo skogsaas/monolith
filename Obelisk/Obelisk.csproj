@@ -7,8 +7,8 @@
     <ProjectGuid>{8B5A2486-F0CF-4AF7-9A82-9954716FB763}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonolithUniversal</RootNamespace>
-    <AssemblyName>MonolithUniversal</AssemblyName>
+    <RootNamespace>Obelisk</RootNamespace>
+    <AssemblyName>Obelisk</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -99,7 +99,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Providers\Control.cs" />
+    <Compile Include="BindingPage.xaml.cs">
+      <DependentUpon>BindingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Binding.cs" />
+    <Compile Include="Providers\Bindings.cs" />
+    <Compile Include="Providers\Provider.cs" />
     <Compile Include="Providers\ISignal.cs" />
     <Compile Include="Providers\Messages\MessageBase.cs" />
     <Compile Include="Providers\Messages\SignalEvent.cs" />
@@ -155,6 +160,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="BindingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DashboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

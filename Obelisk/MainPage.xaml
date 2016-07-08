@@ -15,6 +15,7 @@
                 <RadioButton Content="Dashboard" GroupName="menu" Click="Dashboard_Click" IsChecked="True" />
                 <RadioButton Content="Plugins" GroupName="menu" Click="Plugins_Click" />
                 <RadioButton Content="Devices" GroupName="menu" Click="Devices_Click" />
+                <RadioButton Content="Bindings" GroupName="menu" Click="Bindings_Click" />
             </StackPanel>
         </SplitView.Pane>
 

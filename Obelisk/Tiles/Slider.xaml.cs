@@ -1,5 +1,4 @@
-﻿using Obelisk.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,7 +22,7 @@ namespace Obelisk.Tiles
     /// </summary>
     public sealed partial class Slider : UserControl, ITile
     {
-        private ISignal signal;
+        private Models.ISignal signal;
 
         public Slider()
         {
@@ -48,7 +47,7 @@ namespace Obelisk.Tiles
         public static readonly DependencyProperty StateProperty =
             DependencyProperty.Register("State", typeof(int), typeof(Slider), new PropertyMetadata(0));
 
-        public void setSignal(ISignal s)
+        public void setSignal(Models.ISignal s)
         {
             this.signal = s;
 

@@ -7,9 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <VariableSizedWrapGrid x:Name="Container" Orientation="Horizontal">
-        <VariableSizedWrapGrid.Background>
-            <ImageBrush ImageSource="Assets\DashboardBackground.jpg" />
-        </VariableSizedWrapGrid.Background>
+    <VariableSizedWrapGrid x:Name="Container" Orientation="Horizontal"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     </VariableSizedWrapGrid>
 </Page>

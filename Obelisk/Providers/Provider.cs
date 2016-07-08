@@ -13,18 +13,20 @@ using Windows.Storage.Streams;
 
 namespace Obelisk.Providers
 {
-    class Control
+    class Provider
     {
         private MessageWebSocket websocket;
 
         public Model Model { get; private set; }
 
         private Signals signals;
+        private Bindings bindings;
 
-        public Control(Model model)
+        public Provider(Model model)
         {
             this.Model = model;
             this.signals = new Signals(this.Model);
+            this.bindings = new Bindings(this.Model);
 
             this.websocket = new MessageWebSocket();
             this.websocket.Control.MessageType = SocketMessageType.Utf8;

@@ -1,5 +1,4 @@
-﻿using Obelisk.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace Obelisk.Tiles
 {
     public sealed partial class Toggle : UserControl, ITile
     {
-        private ISignal signal;
+        private Models.ISignal signal;
 
         public Toggle()
         {
@@ -45,7 +44,7 @@ namespace Obelisk.Tiles
         public static readonly DependencyProperty StateProperty =
             DependencyProperty.Register("State", typeof(bool), typeof(Toggle), new PropertyMetadata(false));
 
-        public void setSignal(ISignal s)
+        public void setSignal(Models.ISignal s)
         {
             this.signal = s;
 

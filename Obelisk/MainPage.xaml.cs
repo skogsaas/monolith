@@ -23,14 +23,14 @@ namespace Obelisk
     public sealed partial class MainPage : Page
     {
         private Models.Model model;
-        private Providers.Control control;
+        private Providers.Provider control;
 
         public MainPage()
         {
             this.InitializeComponent();
 
             this.model = new Models.Model();
-            this.control = new Providers.Control(this.model);
+            this.control = new Providers.Provider(this.model);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -51,6 +51,11 @@ namespace Obelisk
         private void Devices_Click(object sender, RoutedEventArgs e)
         {
             this.SplitViewContent.Navigate(typeof(DevicesPage), this.model);
+        }
+
+        private void Bindings_Click(object sender, RoutedEventArgs e)
+        {
+            this.SplitViewContent.Navigate(typeof(BindingPage), this.model);
         }
     }
 }

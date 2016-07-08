@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monolith.Plugins;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,10 @@ namespace Monolith
     public class Server
     {
         private PluginManager plugins;
-        private DeviceManager devices;
 
         public Server()
         {
             this.plugins = new PluginManager();
-            this.devices = new DeviceManager();
         }
     }
 }
