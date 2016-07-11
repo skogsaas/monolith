@@ -14,7 +14,7 @@ namespace Monolith.Framework
 
         public List<IAttribute> Attributes { get { return this.attributes; } }
 
-        public string Type { get { return this.GetType().ToString(); } }
+        public string Type { get { return this.GetType().Name; } }
 
         public event ObjectEventHandler ObjectChanged;
 

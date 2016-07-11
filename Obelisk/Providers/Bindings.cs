@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Obelisk.Providers
         {
             try
             {
-                WebRequest request = WebRequest.Create("http://localhost:8080/rest/signals");
+                WebRequest request = WebRequest.Create("http://localhost:8080/rest/bindings");
                 WebResponse response = await request.GetResponseAsync();
 
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
