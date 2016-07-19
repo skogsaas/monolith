@@ -57,6 +57,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GenericBindings\GenericBindings.csproj">
+      <Project>{25988192-3571-434a-9172-b6c1064e23b0}</Project>
+      <Name>GenericBindings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Monolith\Monolith.csproj">
       <Project>{50fb65e6-e115-4197-9d27-c04dcf95145c}</Project>
       <Name>Monolith</Name>

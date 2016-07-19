@@ -44,14 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings\BindingBase.cs" />
+    <Compile Include="Bindings\Constants.cs" />
     <Compile Include="Bindings\IBinding.cs" />
     <Compile Include="Bindings\Manager.cs" />
+    <Compile Include="Bindings\BindingState.cs" />
     <Compile Include="Configuration\ConfigurationBase.cs" />
     <Compile Include="Configuration\Manager.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
     <Compile Include="Logging\Constants.cs" />
     <Compile Include="Plugins\Constants.cs" />
-    <Compile Include="Signals\Binding.cs" />
     <Compile Include="Framework\AttributeBase.cs" />
     <Compile Include="Framework\Channel.cs" />
     <Compile Include="Framework\EventBase.cs" />

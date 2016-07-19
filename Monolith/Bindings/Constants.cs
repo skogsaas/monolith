@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Monolith.Bindings
 {
-    public interface IBinding
+    public class Constants
     {
+        public const string Channel = "Bindings";
     }
 }

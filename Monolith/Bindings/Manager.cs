@@ -30,18 +30,18 @@ namespace Monolith.Bindings
             }
         }
 
-        public static void Register(BindingBase b)
+        public static void Register(Type t)
         {
-            Manager.Instance.register(b);
+            Manager.Instance.register(t);
         }
 
         #endregion
 
         private List<Type> bindings;
 
-        private void register(BindingBase b)
+        private void register(Type t)
         {
-            this.bindings.Add(b.GetType());
+            this.bindings.Add(t);
         }
     }
 }

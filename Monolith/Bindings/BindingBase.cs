@@ -7,18 +7,28 @@ using System.Threading.Tasks;
 
 namespace Monolith.Bindings
 {
-    public class BindingBase
+    public class BindingBase<U, V> : IBinding
+        where U : IConvertible
+        where V : IConvertible
     {
-        public ISignal From { get; protected set; }
-        public ISignal To { get; protected set; }
+        protected Signal<U> First { get; private set; }
+        protected Signal<V> Second { get; private set; }
+
+        private Framework.Channel bindingChannel;
+        protected BindingState State { get; private set; }
 
         public BindingBase()
         {
+            this.bindingChannel = Framework.Manager.Instance.create(Constants.Channel);
         }
 
-        public virtual void initialize()
+        public virtual void initialize(string identifier, Signal<U> f, Signal<V> s)
         {
+            this.First = f;
+            this.Second = s;
 
+            this.State = new BindingState(identifier);
+            this.bindingChannel.publish(this.State);
         }
     }
 }
