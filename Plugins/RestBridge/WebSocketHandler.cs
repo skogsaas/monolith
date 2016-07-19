@@ -16,18 +16,14 @@ namespace Monolith.Plugins.REST
     {
         private WebSocket socket;
         private CancellationTokenSource token;
-        private DataModel model;
 
         public delegate void ClosedHandler(WebSocketHandler h);
         public event ClosedHandler Disconnected;
 
-        public WebSocketHandler(WebSocket s, DataModel m)
+        public WebSocketHandler(WebSocket s)
         {
             this.socket = s;
             this.token = new CancellationTokenSource();
-            this.model = m;
-
-            this.model.Signals.CollectionChanged += Signals_CollectionChanged;
 
             Task.Factory.StartNew(receive, this.token.Token);
         }

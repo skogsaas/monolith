@@ -6,52 +6,43 @@ using System.Threading.Tasks;
 using Monolith.Plugins;
 using Monolith.Framework;
 using Monolith.Signals;
-using Newtonsoft.Json;
 using System.Net;
 using Monolith.Devices;
 using System.Net.WebSockets;
-using System.IO;
 
 namespace Monolith.Plugins.REST
 {
     public class RestBridge : PluginBase
     {
-        private Channel pluginChannel;
-		private Channel deviceChannel;
-        private Channel signalChannel;
-
-        private DataModel model;
-
         private HttpListener listener;
 
         List<WebSocketHandler> webSockets;
+        Dictionary<string, IApi> handlers;
 
         public RestBridge()
             : base("RestBridge")
         {
-            this.model = new DataModel();
-
             this.webSockets = new List<WebSocketHandler>();
+            this.handlers = new Dictionary<string, IApi>();
         }
 
         public override void initialize()
         {
             base.initialize();
 
-			this.pluginChannel = Manager.Instance.create("Plugins");
-			this.pluginChannel.subscribe(typeof(PluginState), onObject);
-
-			this.deviceChannel = Manager.Instance.create("Devices");
-			this.deviceChannel.subscribe(typeof(DeviceState), onObject);
-
-            this.signalChannel = Manager.Instance.create("Signals");
-            this.signalChannel.subscribe(typeof(ISignal), onObject);
-
             this.listener = new HttpListener();
             this.listener.Prefixes.Add("http://+:8080/rest/");
             this.listener.Start();
 
+            register(PluginApi.Path, new PluginApi());
+            register(PluginsApi.Path, new PluginsApi());
+
             Task.Factory.StartNew(() => listen());
+        }
+
+        private void register(string path, IApi api)
+        {
+            this.handlers["/rest/" + path + "/"] = api;
         }
 
         private async void listen()
@@ -63,63 +54,29 @@ namespace Monolith.Plugins.REST
             }
         }
 
-        private void onObject(Channel channel, IObject obj)
-        {
-            if(typeof(PluginState).IsAssignableFrom(obj.GetType()))
-            {
-                this.model.Plugins.Add((PluginState)obj);
-            }
-			else if(typeof(DeviceState).IsAssignableFrom(obj.GetType()))
-			{
-				this.model.Devices.Add((DeviceState)obj);
-			}
-            else if(typeof(ISignal).IsAssignableFrom(obj.GetType()))
-            {
-                this.model.Signals.Add((ISignal)obj);
-            }
-        }
-
-        private async void process(HttpListenerContext context)
+        private void process(HttpListenerContext context)
         {
             if(context.Request.IsWebSocketRequest)
             {
+                /*
                 HttpListenerWebSocketContext c = await context.AcceptWebSocketAsync(null);
 
                 WebSocketHandler h = new WebSocketHandler(c.WebSocket, this.model);
                 h.Disconnected += websocketDisconnected;
                 this.webSockets.Add(h);
+                */
             }
             else
             {
                 string path = context.Request.RawUrl;
 
-                if (path.StartsWith("/rest/plugins"))
+                foreach(KeyValuePair<string, IApi> pair in this.handlers)
                 {
-                    handlePlugins(context);
-                }
-                if (path.StartsWith("/rest/plugin"))
-                {
-                    handlePlugin(context);
-                }
-                else if (path.StartsWith("/rest/devices"))
-                {
-                    handleDevices(context);
-                }
-                else if (path.StartsWith("/rest/device"))
-                {
-                    handleDevice(context);
-                }
-                else if (path.StartsWith("/rest/signals"))
-                {
-                    handleSignals(context);
-                }
-                else if (path.StartsWith("/rest/signal/"))
-                {
-                    handleSignal(context);
-                }
-                else
-                {
-                    context.Response.Close();
+                    if(path.StartsWith(pair.Key))
+                    {
+                        pair.Value.handle(context);
+                        break;
+                    }
                 }
             }
         }
@@ -129,38 +86,7 @@ namespace Monolith.Plugins.REST
             this.webSockets.Remove(h);
         }
 
-        #region Plugins
-
-        private void handlePlugins(HttpListenerContext context)
-        {
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.model.Plugins, Formatting.Indented);
-            byte[] data = Encoding.UTF8.GetBytes(json);
-
-            context.Response.ContentLength64 = data.Length;
-            context.Response.OutputStream.Write(data, 0, data.Length);
-            context.Response.Close();
-        }
-
-        private void handlePlugin(HttpListenerContext context)
-        {
-            string identifier = context.Request.RawUrl.Substring(("/rest/plugin/").Length);
-
-            PluginState plugin = (PluginState)this.pluginChannel.find(identifier);
-
-            if (plugin != null)
-            {
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(plugin, Formatting.Indented);
-                byte[] data = Encoding.UTF8.GetBytes(json);
-
-                context.Response.ContentLength64 = data.Length;
-                context.Response.OutputStream.Write(data, 0, data.Length);
-            }
-
-            context.Response.Close();
-        }
-
-        #endregion
-
+        /*
         #region Devices
 
         private void handleDevices(HttpListenerContext context)
@@ -275,5 +201,6 @@ namespace Monolith.Plugins.REST
         }
 
         #endregion
+        */
     }
 }
