@@ -39,6 +39,11 @@ namespace Monolith.Bindings
 
         private List<Type> bindings;
 
+		private Manager()
+		{
+			this.bindings = new List<Type>();
+		}
+
         private void register(Type t)
         {
             this.bindings.Add(t);
