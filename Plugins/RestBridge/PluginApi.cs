@@ -17,7 +17,7 @@ namespace Monolith.Plugins.REST
         {
             get
             {
-                return "plugins";
+                return "plugin";
             }
         }
 

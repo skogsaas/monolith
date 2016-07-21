@@ -36,6 +36,8 @@ namespace Monolith.Plugins.REST
 
             register(PluginApi.Path, new PluginApi());
             register(PluginsApi.Path, new PluginsApi());
+			register(SignalApi.Path, new SignalApi());
+			register(SignalsApi.Path, new SignalsApi());
 
             Task.Factory.StartNew(() => listen());
         }
