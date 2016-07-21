@@ -47,7 +47,9 @@
     <Compile Include="IApi.cs" />
     <Compile Include="Messages\MessageBase.cs" />
     <Compile Include="Messages\SignalEvent.cs" />
+    <Compile Include="DeviceApi.cs" />
     <Compile Include="PluginApi.cs" />
+    <Compile Include="DevicesApi.cs" />
     <Compile Include="PluginsApi.cs" />
     <Compile Include="RestBridge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

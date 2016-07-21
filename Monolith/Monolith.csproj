@@ -50,6 +50,7 @@
     <Compile Include="Bindings\BindingState.cs" />
     <Compile Include="Configuration\ConfigurationBase.cs" />
     <Compile Include="Configuration\Manager.cs" />
+    <Compile Include="Devices\Constants.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
     <Compile Include="Logging\Constants.cs" />
     <Compile Include="Plugins\Constants.cs" />

@@ -36,8 +36,11 @@ namespace Monolith.Plugins.REST
 
             register(PluginApi.Path, new PluginApi());
             register(PluginsApi.Path, new PluginsApi());
-			register(SignalApi.Path, new SignalApi());
+            register(DeviceApi.Path, new DeviceApi());
+            register(DevicesApi.Path, new DevicesApi());
+            register(SignalApi.Path, new SignalApi());
 			register(SignalsApi.Path, new SignalsApi());
+            register(BindingsApi.Path, new BindingsApi());
 
             Task.Factory.StartNew(() => listen());
         }
@@ -87,122 +90,5 @@ namespace Monolith.Plugins.REST
         {
             this.webSockets.Remove(h);
         }
-
-        /*
-        #region Devices
-
-        private void handleDevices(HttpListenerContext context)
-        {
-			string json = Newtonsoft.Json.JsonConvert.SerializeObject(this.model.Devices, Formatting.Indented);
-			byte[] data = Encoding.UTF8.GetBytes(json);
-
-			context.Response.ContentLength64 = data.Length;
-			context.Response.OutputStream.Write(data, 0, data.Length);
-			context.Response.Close();
-        }
-
-        private void handleDevice(HttpListenerContext context)
-        {
-            string identifier = context.Request.RawUrl.Substring(("/rest/device/").Length);
-
-            DeviceState device = (DeviceState)this.deviceChannel.find(identifier);
-
-            if (device != null)
-            {
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(device, Formatting.Indented);
-                byte[] data = Encoding.UTF8.GetBytes(json);
-
-                context.Response.ContentLength64 = data.Length;
-                context.Response.OutputStream.Write(data, 0, data.Length);
-            }
-
-            context.Response.Close();
-        }
-
-        #endregion
-
-        #region Signals
-
-        private struct BasicSignal
-        {
-            private ISignal signal;
-
-            public string Identifier { get { return this.signal.Identifier; } }
-            public string SignalType { get { return this.signal.SignalType.UnderlyingSystemType.Name; } }
-
-            public BasicSignal(ISignal s)
-            {
-                signal = s;
-            }
-        }
-
-        private void handleSignals(HttpListenerContext context)
-        {
-            List<BasicSignal> collection = new List<BasicSignal>();
-
-            foreach(ISignal signal in this.model.Signals)
-            {
-                collection.Add(new BasicSignal(signal));
-            }
-
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(collection, Formatting.Indented);
-            byte[] data = Encoding.UTF8.GetBytes(json);
-
-            context.Response.ContentLength64 = data.Length;
-            context.Response.OutputStream.Write(data, 0, data.Length);
-            context.Response.Close();
-        }
-
-        private async void handleSignal(HttpListenerContext context)
-        {
-            string identifier = context.Request.RawUrl.Substring(("/rest/signal/").Length);
-
-            ISignal signal = (ISignal)this.signalChannel.find(identifier);
-
-            if(signal != null)
-            {
-                if(context.Request.HttpMethod == "GET")
-                {
-                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(signal, Formatting.Indented);
-                    byte[] data = Encoding.UTF8.GetBytes(json);
-
-                    context.Response.ContentLength64 = data.Length;
-                    context.Response.OutputStream.Write(data, 0, data.Length);
-                }
-                else if(context.Request.HttpMethod == "POST")
-                {
-                    if(context.Request.HasEntityBody)
-                    {
-                        using (StreamReader sr = new StreamReader(context.Request.InputStream))
-                        {
-                            string body = await sr.ReadToEndAsync();
-
-                            JsonConvert.PopulateObject(body, signal);
-                        }
-
-                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(signal, Formatting.Indented);
-                        byte[] data = Encoding.UTF8.GetBytes(json);
-
-                        context.Response.ContentLength64 = data.Length;
-                        context.Response.OutputStream.Write(data, 0, data.Length);
-
-                        context.Response.StatusCode = 200; // "OK"
-                    }
-                    else
-                    {
-                        context.Response.StatusCode = 400; // "Bad Request"
-                    }
-                }
-            }
-            else
-            {
-                context.Response.StatusCode = 404; // "Not Found"
-            }
-
-            context.Response.Close();
-        }
-
-        #endregion
-        */
     }
 }
