@@ -8,5 +8,6 @@ namespace Monolith.Bindings
 {
     public interface IBinding
     {
+        void initialize(string identifier, Signals.Signal<IConvertible> f, Signals.Signal<IConvertible> s);
     }
 }

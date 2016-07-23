@@ -26,12 +26,30 @@ namespace Monolith.Plugins.REST
 
         public void handle(HttpListenerContext context)
         {
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(Bindings.Manager.Types, Formatting.Indented);
+            List<BindingDefinition> bindings = new List<BindingDefinition>();
+
+            foreach(Type t in Bindings.Manager.Types)
+            {
+                BindingDefinition b = new BindingDefinition();
+
+                b.type = t.Name;
+                b.plugin = t.Module.Name;
+
+                bindings.Add(b);
+            }
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(bindings, Formatting.Indented);
             byte[] data = Encoding.UTF8.GetBytes(json);
 
             context.Response.ContentLength64 = data.Length;
             context.Response.OutputStream.Write(data, 0, data.Length);
             context.Response.Close();
+        }
+
+        struct BindingDefinition
+        {
+            public string type;
+            public string plugin;
         }
     }
 }

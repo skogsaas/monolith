@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Monolith.Signals
 {
     public class Signal<T> : Framework.ObjectBase, ISignal
+        where T : IConvertible
     {
         public delegate bool AcceptHandler(T value);
         private AcceptHandler stateHandler = null;

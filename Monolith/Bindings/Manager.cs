@@ -37,6 +37,8 @@ namespace Monolith.Bindings
 
         #endregion
 
+        #region Implementation
+
         private List<Type> bindings;
 
 		private Manager()
@@ -48,5 +50,7 @@ namespace Monolith.Bindings
         {
             this.bindings.Add(t);
         }
+
+        #endregion
     }
 }

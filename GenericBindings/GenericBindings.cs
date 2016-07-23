@@ -20,8 +20,8 @@ namespace Monolith.Plugins.GenericBindings
         {
             base.initialize();
 
-            Manager.Register(typeof(OneWay<,>));
-            Manager.Register(typeof(TwoWay<,>));
+            Manager.Register(typeof(OneWay));
+            Manager.Register(typeof(TwoWay));
         }
     }
 }
