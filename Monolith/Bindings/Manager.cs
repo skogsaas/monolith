@@ -26,6 +26,14 @@ namespace Monolith.Bindings
         {
             get
             {
+                return Manager.Instance.types;
+            }
+        }
+
+        public static Dictionary<string, IBinding> Bindings
+        {
+            get
+            {
                 return Manager.Instance.bindings;
             }
         }
@@ -39,16 +47,28 @@ namespace Monolith.Bindings
 
         #region Implementation
 
-        private List<Type> bindings;
+        private List<Type> types;
+        private Dictionary<string, IBinding> bindings;
 
 		private Manager()
 		{
-			this.bindings = new List<Type>();
+			this.types = new List<Type>();
+            this.bindings = new Dictionary<string, IBinding>();
 		}
 
         private void register(Type t)
         {
-            this.bindings.Add(t);
+            this.types.Add(t);
+        }
+
+        private void create(Type t, string identifier, Signals.Signal<IConvertible> first, Signals.Signal<IConvertible> second)
+        {
+            if(typeof(IBinding).IsAssignableFrom(t))
+            {
+                IBinding b = (IBinding)Activator.CreateInstance(t, new object[] { identifier, first, second });
+
+                this.bindings[identifier] = b;
+            }
         }
 
         #endregion
