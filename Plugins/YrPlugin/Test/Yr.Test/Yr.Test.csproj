@@ -54,8 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yr.Network\Yr.Network.csproj">
-      <Project>{c8756957-534e-4edf-b158-3b75639d251e}</Project>
+    <ProjectReference Include="..\..\Network\Yr.Network\Yr.Network.csproj">
+      <Project>{6cb4cb52-d52e-49cf-806b-f8fcb2d560f1}</Project>
       <Name>Yr.Network</Name>
     </ProjectReference>
   </ItemGroup>

@@ -11,7 +11,7 @@ namespace Yr.Network
     public class NetworkSettings
     {
 
-        private string basePath; 
+        private string basePath;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
 
@@ -33,10 +33,11 @@ namespace Yr.Network
             }
         }
 
-        private string fileType;
+        [JsonIgnore]
+        private string fileType = "xml";
 
-        [DefaultValue("xml")]
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public bool SanitizeHtml = false; 
+
         public string FileType
         {
             get
@@ -49,10 +50,10 @@ namespace Yr.Network
                 {
                     case "xml":
                         this.fileType = value.ToLower();
-                        return;
+                        break; 
                     case "json":
                         this.fileType = value.ToLower();
-                        return;
+                        break;
                     default:
                         throw new ArgumentException("Not a valid options, available file formats : json, xml");
                 }
