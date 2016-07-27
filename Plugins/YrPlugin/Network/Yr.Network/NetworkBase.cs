@@ -25,8 +25,7 @@ namespace Yr.Network
             
             XmlSerializer serializer = new XmlSerializer(typeof(T));
 
-            return (T)serializer.Deserialize(sr);
-            
+            return (T)serializer.Deserialize(sr);       
         }
     }
 }
