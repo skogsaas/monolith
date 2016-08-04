@@ -62,14 +62,15 @@ namespace Yr.Network
             {
                 this.createFile(); 
             }
-            this.loadFile(); 
+
+            NetworkInit.Settings = this.loadFile(); 
         }
 
         public NetworkInit(bool overrideFile = false)
         {
             this.createFile(overrideFile);
 
-            this.loadFile(); 
+            NetworkInit.Settings =  this.loadFile(); 
         }
 
         public void createFile(bool overrideFile = false)

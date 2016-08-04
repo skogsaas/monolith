@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Yr.Test.Objects;
+using Yr.Network.Test.Objects;
 
-namespace Yr.Test
+namespace Yr.Network.Test
 {
     [TestClass]
     public class YrNetworkObjectTest

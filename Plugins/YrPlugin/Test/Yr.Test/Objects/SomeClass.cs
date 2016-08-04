@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Yr.Network; 
 
-namespace Yr.Test.Objects
+namespace Yr.Network.Test.Objects
 {
     public class SomeClass : NetworkBase<SomeClass> 
     {

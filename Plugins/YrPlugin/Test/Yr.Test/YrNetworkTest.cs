@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Yr.Network;
 using System.IO;
 
-namespace Yr.Test
+namespace Yr.Network.Test
 {
     [TestClass]
     public class YrNetworkTest
