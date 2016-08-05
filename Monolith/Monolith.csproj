@@ -58,6 +58,7 @@
     <Compile Include="Framework\IAction.cs" />
     <Compile Include="Framework\IActionContainer.cs" />
     <Compile Include="Framework\IAttributeCollection.cs" />
+    <Compile Include="Framework\ObjectReference.cs" />
     <Compile Include="Logging\Constants.cs" />
     <Compile Include="Plugins\Constants.cs" />
     <Compile Include="Framework\AttributeBase.cs" />
