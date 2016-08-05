@@ -47,12 +47,19 @@ namespace Yr
 
                 for(int x = 0; x < value.Count(); x++)
                 {
-                    if(x < info.Length && x < value.Length && !String.IsNullOrEmpty(info[x]) && !String.IsNullOrEmpty(value[x]))
+                    if (x < info.Length && x < value.Length && !String.IsNullOrEmpty(info[x]) && !String.IsNullOrEmpty(value[x]))
                     {
-                        XElement valueElement = new XElement(info[x]);
-                        valueElement.Value = value[x];
+                        try
+                        {
+                            XElement valueElement = new XElement(info[x]);
+                            valueElement.Value = value[x];
 
-                        element.Add(valueElement); 
+                            element.Add(valueElement); 
+                        }
+                        catch(Exception e)
+                        {
+
+                        }
                     }
                 }
                 root.Add(element); 
