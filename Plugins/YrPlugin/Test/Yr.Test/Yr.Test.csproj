@@ -36,6 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,12 +53,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CountryTest.cs" />
     <Compile Include="YrSettingsTest.cs" />
     <Compile Include="YrMainTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Plugins\YrPlugin\Yr\Yr.csproj">
+    <ProjectReference Include="..\..\Network\Yr.Network\Yr.Network.csproj">
+      <Project>{6cb4cb52-d52e-49cf-806b-f8fcb2d560f1}</Project>
+      <Name>Yr.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Yr\Yr.csproj">
       <Project>{e0ba3025-7cae-4bed-94b4-de856e123a3b}</Project>
       <Name>Yr</Name>
     </ProjectReference>

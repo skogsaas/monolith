@@ -25,7 +25,7 @@ namespace Yr.Network
             }
         }
 
-        private async Task<string> preformRequest(string path)
+        protected async Task<string> preformRequest(string path)
         {
             if (!checkUrl(path))
             {
@@ -36,7 +36,7 @@ namespace Yr.Network
                         .ContinueWith(tsk => tsk.Result.EnsureSuccessStatusCode())
                         .ContinueWith(tsk => tsk.Result.Content.ReadAsStringAsync());
 
-            return await task.Unwrap(); 
+            return await await task; 
         }
 
         protected async Task<string> preformRequest(string path, string content)

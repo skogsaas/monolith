@@ -29,8 +29,6 @@ namespace Yr.Network.Test
         public void TestEmptyXml()
         {
             SomeClass another = some.createObjectFromXml("");
-
-
         }
     }
 }

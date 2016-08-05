@@ -11,24 +11,28 @@ namespace Yr
 {
     public class Yr
     {
+        public string settingsFileName = "settings.json";
 
         private static Settings settings = null;
 
-        public string settingsFileName = "settings.json";
+        private static string settingsFilePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-        private string settingsFilePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
-        public string SettingsFilePath
+        public static string FilePath
         {
             get
             {
-                return this.settingsFilePath; 
+                if(!settingsFilePath.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    settingsFilePath += Path.DirectorySeparatorChar; 
+                }
+
+                return settingsFilePath; 
             }
             set
             {
                 if (!Directory.Exists(value))
                     throw new DirectoryNotFoundException("Could not found the specified directory");
-                this.settingsFilePath = value; 
+                settingsFilePath = value; 
             }
         }
 
@@ -59,7 +63,7 @@ namespace Yr
 
         public Yr()
         {
-            if(!File.Exists(this.settingsFilePath + Path.DirectorySeparatorChar + this.settingsFileName))
+            if(!File.Exists(settingsFilePath + Path.DirectorySeparatorChar + this.settingsFileName))
             {
                 this.createFile(); 
             }
@@ -75,7 +79,7 @@ namespace Yr
 
         public void createFile(bool overrideFile = false)
         {
-            string filePath = this.settingsFilePath + Path.DirectorySeparatorChar + this.settingsFileName;
+            string filePath = settingsFilePath + Path.DirectorySeparatorChar + this.settingsFileName;
 
             if (overrideFile == false && File.Exists(filePath))
                 throw new IOException("File allready exists");
@@ -100,7 +104,7 @@ namespace Yr
 
         public Settings loadFile()
         {
-            string filePath = this.settingsFilePath + Path.DirectorySeparatorChar + this.settingsFileName;
+            string filePath = settingsFilePath + Path.DirectorySeparatorChar + this.settingsFileName;
 
             if(File.Exists(filePath))
             {
