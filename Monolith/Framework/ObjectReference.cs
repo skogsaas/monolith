@@ -14,32 +14,6 @@ namespace Monolith.Framework
         public Channel Channel { get; private set; }
         public string Identifier { get; private set; }
 
-        public bool HasObject
-        {
-            get
-            {
-                if(this.obj == null)
-                {
-                    this.obj = this.Channel.find(this.Identifier);
-                }
-
-                return (this.obj == null);
-            }
-        }
-
-        public IObject Reference
-        {
-            get
-            {
-                if(HasObject)
-                {
-                    return this.obj;
-                }
-
-                return null;
-            }
-        }
-
         public event AttributeEventHandler AttributeChanged;
         public event AttributeEventHandler AttributeChanging;
 
@@ -55,6 +29,16 @@ namespace Monolith.Framework
             this.Identifier = identifier;
 
             container.addAttribute(this);
+        }
+
+        public IObject Get()
+        {
+            if (this.obj == null)
+            {
+                this.obj = this.Channel.find(this.Identifier);
+            }
+
+            return this.obj;
         }
     }
 }

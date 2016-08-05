@@ -33,11 +33,11 @@ namespace Monolith.Framework
             this.Name = name;
         }
 
-        public IObject find(string name)
+        public IObject find(string identifier)
         {
-            if(this.objects.ContainsKey(name))
+            if(this.objects.ContainsKey(identifier))
             {
-                return this.objects[name];
+                return this.objects[identifier];
             }
 
             return null;
