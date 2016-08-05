@@ -19,14 +19,10 @@ namespace Obelisk.Models
         public string Identifier { get; set; }
         public string Type { get; set; }
         public States State { get; set; }
-        
 
-        public Plugin()
+        public Plugin(string identifier)
         {
-            this.Identifier = "Plugin Name";
-            this.Type = "Plugin Type";
-            this.State = States.Uninitialized;
-            
+            this.Identifier = identifier;
         }
     }
 }

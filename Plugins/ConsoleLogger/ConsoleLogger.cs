@@ -22,7 +22,7 @@ namespace Monolith.Plugins
             base.initialize();
 
             this.logChannel = Framework.Manager.Instance.create("Logging");
-            this.logChannel.subscribe(typeof(Logging.LogEvent), onEvent);
+            this.logChannel.subscribePublish(typeof(Logging.LogEvent), onEvent);
         }
 
         private void onEvent(Framework.Channel cha, Framework.IEvent evt)

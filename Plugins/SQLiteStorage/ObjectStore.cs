@@ -43,11 +43,11 @@ namespace Monolith.Plugins.SQLiteStorage
 
                 Type attribute = typeof(AttributeStore<>);
 
-                foreach (IAttribute iattr in this.obj.Attributes)
+                foreach (IAttribute iattr in this.obj.getAttributes())
                 {
                     Type type = iattr.GetType();
 
-                    Type construct = attribute.MakeGenericType(iattr.AttributeType);
+                    Type construct = attribute.MakeGenericType(iattr.GetAttributeType());
 
                     object[] p = { this.connection, iattr, this.obj.Identifier, this.time};
 

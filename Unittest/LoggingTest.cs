@@ -14,7 +14,7 @@ namespace Unittest
             int events = 0;
 
             Channel channel = Manager.Instance.create("Logging");
-            channel.subscribe(
+            channel.subscribePublish(
                 typeof(LogEvent), 
                 (Channel c, IEvent evt) => 
                 {

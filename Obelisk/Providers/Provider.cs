@@ -19,13 +19,15 @@ namespace Obelisk.Providers
 
         public Model Model { get; private set; }
 
-        private Signals signals;
+        private SignalList signals;
+        private PluginList plugins;
         private Bindings bindings;
 
         public Provider(Model model)
         {
             this.Model = model;
-            this.signals = new Signals(this.Model);
+            this.signals = new SignalList(this.Model);
+            this.plugins = new PluginList(this.Model);
             this.bindings = new Bindings(this.Model);
 
             this.websocket = new MessageWebSocket();
@@ -34,15 +36,14 @@ namespace Obelisk.Providers
 
             connect();
 
-            getPlugins();
             getDevices();
         }
 
         private async void connect()
         {
-            await this.websocket.ConnectAsync(new Uri("ws://localhost:8080/rest"));
-
             /*
+            await this.websocket.ConnectAsync(new Uri("ws://localhost:8080/rest/"));
+            
             DataWriter w = new DataWriter(this.websocket.OutputStream);
             w.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
 
@@ -64,28 +65,8 @@ namespace Obelisk.Providers
                 {
                     Messages.SignalEvent msg = JsonConvert.DeserializeObject<Messages.SignalEvent>(data);
 
-                    this.signals.add(msg.Signal, msg.SignalType);
+                    //this.signals.add(msg.Signal, msg.SignalType);
                 }
-            }
-        }
-
-        private async void getPlugins()
-        {
-            try
-            {
-                WebRequest request = WebRequest.Create("http://localhost:8080/rest/plugins");
-                WebResponse response = await request.GetResponseAsync();
-
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string data = await reader.ReadToEndAsync();
-
-                    this.Model.Plugins = JsonConvert.DeserializeObject<ObservableCollection<Plugin>>(data);
-                }
-            }
-            catch (Exception ex)
-            {
-
             }
         }
 
@@ -93,7 +74,7 @@ namespace Obelisk.Providers
         {
             try
             {
-                WebRequest request = WebRequest.Create("http://localhost:8080/rest/devices");
+                WebRequest request = WebRequest.Create("http://localhost:8080/rest/devices/");
                 WebResponse response = await request.GetResponseAsync();
 
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))

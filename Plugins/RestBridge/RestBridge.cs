@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Monolith.Plugins;
-using Monolith.Framework;
-using Monolith.Signals;
 using System.Net;
+using Monolith.Framework;
+using Monolith.Plugins;
 using Monolith.Devices;
-using System.Net.WebSockets;
+using Monolith.Signals;
+using Monolith.Bindings;
 
 namespace Monolith.Plugins.REST
 {
@@ -34,13 +34,13 @@ namespace Monolith.Plugins.REST
             this.listener.Prefixes.Add("http://+:8080/rest/");
             this.listener.Start();
 
-            register(PluginApi.Path, new PluginApi());
-            register(PluginsApi.Path, new PluginsApi());
-            register(DeviceApi.Path, new DeviceApi());
-            register(DevicesApi.Path, new DevicesApi());
-            register(SignalApi.Path, new SignalApi());
-			register(SignalsApi.Path, new SignalsApi());
-            register(BindingsApi.Path, new BindingsApi());
+            register("plugins", new GenericListApi<PluginState>(Framework.Manager.Instance.create(Plugins.Constants.Channel)));
+            register("devices", new GenericListApi<DeviceState>(Framework.Manager.Instance.create(Devices.Constants.Channel)));
+            register("signals", new GenericListApi<ISignal>(Framework.Manager.Instance.create(Signals.Constants.Channel)));
+            register("bindings", new GenericListApi<BindingState>(Framework.Manager.Instance.create(Bindings.Constants.Channel)));
+
+            register("signal", new SignalApi());
+            register("plugin", new GenericApi<PluginState>(Framework.Manager.Instance.create(Plugins.Constants.Channel), "/rest/plugin/"));
 
             Task.Factory.StartNew(() => listen());
         }

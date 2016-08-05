@@ -8,5 +8,6 @@ namespace Monolith.Framework
 {
     public interface IEvent
     {
+        string Type { get; }
     }
 }

@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obelisk", "Obelisk\Obelisk.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Totem", "Totem\Totem.csproj", "{2D7756AB-91CC-4F20-B33E-213001FFB635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericBindings", "GenericBindings\GenericBindings.csproj", "{25988192-3571-434A-9172-B6C1064E23B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericBindings", "Plugins\GenericBindings\GenericBindings.csproj", "{25988192-3571-434A-9172-B6C1064E23B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

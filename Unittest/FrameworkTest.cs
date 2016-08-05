@@ -23,7 +23,7 @@ namespace Unittest
 
             int events = 0;
 
-            ch.subscribe(typeof(IEvent), (Channel c, IEvent e) => { events++; });
+            ch.subscribePublish(typeof(IEvent), (Channel c, IEvent e) => { events++; });
 
             ch.publish(new TestEvent());
 
@@ -38,7 +38,7 @@ namespace Unittest
             int objects = 0;
             TestObject obj = new TestObject("OBJECT");
 
-            ch.subscribe(typeof(IObject), (Channel c, IObject o) => { objects++; Assert.AreSame(obj, o); });
+            ch.subscribePublish(typeof(IObject), (Channel c, IObject o) => { objects++; Assert.AreSame(obj, o); });
 
             ch.publish(obj);
 

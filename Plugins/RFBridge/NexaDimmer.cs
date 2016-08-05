@@ -30,8 +30,8 @@ namespace RFBridge
 
             string name = typeof(RadioFrequencyBridge).Name + "." + this.Name;
 
-            this.Signal = new Signal<int>(name, Signal<int>.AllwaysAccept);
-            this.Signal.InnerState.AttributeChanged += this.signalChanged;
+            this.Signal = new Signal<int>(name);
+            this.Signal.State.AttributeChanged += this.signalChanged;
 
             this.plugin.SignalChannel.publish(this.Signal);
         }

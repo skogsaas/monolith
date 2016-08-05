@@ -9,40 +9,47 @@ using System.Threading.Tasks;
 
 namespace Obelisk.Providers
 {
-    public class Bindings
+    public class Plugin
     {
+        public Models.Plugin PluginModel { get; private set; }
+
         private Models.Model model;
 
-        public Bindings(Models.Model m)
+        public Plugin(Models.Model m, string identifier)
         {
             this.model = m;
-        }
 
+            this.PluginModel = new Models.Plugin(identifier);
+
+            // Do the initial pull.
+            pull();
+
+            this.model.Plugins.Add(this.PluginModel);
+        }
+        
         private async void pull()
         {
-            /*
             try
             {
-                WebRequest request = WebRequest.Create("http://localhost:8080/rest/bindings/");
+                WebRequest request = WebRequest.Create("http://localhost:8080/rest/plugin/" + this.PluginModel.Identifier);
+                request.Method = "GET";
+
                 WebResponse response = await request.GetResponseAsync();
 
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     string data = await reader.ReadToEndAsync();
-
-                    List<BasicSignal> basics = JsonConvert.DeserializeObject<List<BasicSignal>>(data);
-
-                    foreach (BasicSignal basic in basics)
-                    {
-                        create(basic.Identifier, basic.SignalType);
-                    }
+                    
+                    JsonConvert.PopulateObject(data, this);
                 }
             }
             catch (Exception ex)
             {
 
             }
-            */
+            finally
+            {
+            }
         }
     }
 }

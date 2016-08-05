@@ -34,7 +34,7 @@ namespace Monolith.Plugins.REST
             {
                 SignalEvent msg = new SignalEvent();
                 msg.Signal = (o as ISignal).Identifier;
-                msg.SignalType = (o as ISignal).SignalType.Name;
+                //msg.SignalType = (o as ISignal).SignalType.Name;
 
                 string data = JsonConvert.SerializeObject(msg);
 

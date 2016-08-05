@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monolith.Logging
 {
-    public class LogEvent : Framework.IEvent
+    public class LogEvent : Framework.EventBase
     {
         public enum Severity
         {
@@ -23,5 +23,11 @@ namespace Monolith.Logging
         public int Line { get; set; }
         public Severity Level { get; set; }
         public string Message { get; set; }
+
+        public LogEvent()
+            : base()
+        {
+
+        }
     }
 }

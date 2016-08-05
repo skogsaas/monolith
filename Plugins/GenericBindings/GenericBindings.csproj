@@ -46,7 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Monolith\Monolith.csproj">
+    <ProjectReference Include="..\..\Monolith\Monolith.csproj">
       <Project>{50FB65E6-E115-4197-9D27-C04DCF95145C}</Project>
       <Name>Monolith</Name>
     </ProjectReference>

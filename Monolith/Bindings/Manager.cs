@@ -43,6 +43,11 @@ namespace Monolith.Bindings
             Manager.Instance.register(t);
         }
 
+        public static void Create(Type t, string identifier, Signals.Signal<IConvertible> first, Signals.Signal<IConvertible> second)
+        {
+            Manager.Instance.create(t, identifier, first, second);
+        }
+
         #endregion
 
         #region Implementation

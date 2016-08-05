@@ -14,6 +14,7 @@ namespace Obelisk.Providers
         public Models.Signal<T> SignalModel { get; private set; }
 
         private Models.Model model;
+
         private bool signalLock = false;
 
         public Signal(Models.Model m, string identifier)
@@ -23,10 +24,10 @@ namespace Obelisk.Providers
             this.SignalModel = new Models.Signal<T>(identifier);
             this.SignalModel.PropertyChanged += SignalModel_PropertyChanged;
 
-            this.model.Signals.Add(this.SignalModel);
-
             // Do the initial pull.
             pull();
+
+            this.model.Signals.Add(this.SignalModel);
         }
 
         private void SignalModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

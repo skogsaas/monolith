@@ -21,8 +21,8 @@ namespace Monolith.Plugins.SQLiteStorage
             this.objects = new Dictionary<string, ObjectStore>();
 
             this.channel = Manager.Instance.create(name);
-            this.channel.subscribe(typeof(IObject), this.onObject);
-            this.channel.subscribe(typeof(IEvent), this.onEvent);
+            this.channel.subscribePublish(typeof(IObject), this.onObject);
+            this.channel.subscribePublish(typeof(IEvent), this.onEvent);
         }
 
         private void onObject(Channel c, IObject o)

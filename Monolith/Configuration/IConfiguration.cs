@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Framework
+namespace Monolith.Configuration
 {
-    public interface IAttributeContainer
+    public interface IConfiguration
     {
-        void addAttribute(IAttribute a);
+        string Identifier { get; }
     }
 }

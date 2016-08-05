@@ -104,12 +104,14 @@
     </Compile>
     <Compile Include="Models\Binding.cs" />
     <Compile Include="Providers\Bindings.cs" />
+    <Compile Include="Providers\GenericList.cs" />
+    <Compile Include="Providers\Plugin.cs" />
+    <Compile Include="Providers\PluginList.cs" />
     <Compile Include="Providers\Provider.cs" />
     <Compile Include="Providers\ISignal.cs" />
     <Compile Include="Providers\Messages\MessageBase.cs" />
     <Compile Include="Providers\Messages\SignalEvent.cs" />
     <Compile Include="Providers\Signal.cs" />
-    <Compile Include="Providers\Signals.cs" />
     <Compile Include="DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
@@ -128,6 +130,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ISignal.cs" />
+    <Compile Include="Providers\SignalList.cs" />
     <Compile Include="Tiles\Blank.xaml.cs">
       <DependentUpon>Blank.xaml</DependentUpon>
     </Compile>

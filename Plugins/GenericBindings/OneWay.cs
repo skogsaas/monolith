@@ -19,7 +19,7 @@ namespace Monolith.Plugins.GenericBindings
         {
             base.initialize(identifier, f, s);
 
-            this.First.InnerState.AttributeChanged += (IAttribute a) => { this.Second.State = this.First.State; };
+            this.First.State.AttributeChanged += (IAttribute a) => { this.Second.State.Value = this.First.State.Value; };
         }
     }
 }

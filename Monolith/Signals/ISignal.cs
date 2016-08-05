@@ -9,6 +9,5 @@ namespace Monolith.Signals
     public interface ISignal
     {
         string Identifier { get; }
-        Type SignalType { get; }
     }
 }

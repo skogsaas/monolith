@@ -19,8 +19,8 @@ namespace Monolith.Plugins.RandomNumber
             this.random = new Random();
             this.channel = Framework.Manager.Instance.create("Signals");
 
-            this.signal = new Signal<int>("Random", Signal<int>.NeverAccept);
-            this.signal.State = this.random.Next(0, 100);
+            this.signal = new Signal<int>("Random");
+            this.signal.State.Value = this.random.Next(0, 100);
             this.channel.publish(this.signal);
 
             this.task = Monolith.Utilities.PeriodicTask.StartPeriodicTask(trigger, 5000, new CancellationToken());
@@ -34,7 +34,7 @@ namespace Monolith.Plugins.RandomNumber
         private void trigger()
         {
             Monolith.Logging.Logger.Trace("Test");
-            this.signal.State = this.random.Next(0, 100);
+            this.signal.State.Value = this.random.Next(0, 100);
         }
     }
 }

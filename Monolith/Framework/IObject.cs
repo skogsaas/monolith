@@ -11,7 +11,10 @@ namespace Monolith.Framework
     public interface IObject
     {
         string Identifier { get; }
-        List<IAttribute> Attributes { get; }
+        string Type { get; }
+
+        List<IAttribute> getAttributes();
+        List<IAction> getActions();
 
         event ObjectEventHandler ObjectChanged;
     }

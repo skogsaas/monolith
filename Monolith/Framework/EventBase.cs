@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    class EventBase : IEvent
+    public class EventBase : IEvent
     {
+        public string Type { get; set; }
+
+        public EventBase()
+        {
+            this.Type = this.GetType().Name;
+        }
     }
 }

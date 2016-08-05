@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -10,31 +9,34 @@ using System.Threading.Tasks;
 
 namespace Monolith.Plugins.REST
 {
-	class SignalApi : IApi
-	{
-		private Channel channel;
+    public class GenericApi<T> : IApi
+    {
+        private Channel channel;
+        private string path;
 
-		public SignalApi()
-		{
-			this.channel = Framework.Manager.Instance.create(Signals.Constants.Channel);
-		}
+        public GenericApi(Channel c, string p)
+        {
+            this.channel = c;
+            this.path = p;
+        }
 
-		public async void handle(HttpListenerContext context)
-		{
-            string identifier = context.Request.RawUrl.Substring(("/rest/signal/").Length);
+        public async void handle(HttpListenerContext context)
+        {
+            string identifier = context.Request.RawUrl.Substring((this.path).Length);
 
-            Signals.ISignal signal = (Signals.ISignal)this.channel.find(identifier);
+            IObject obj = this.channel.find(identifier);
 
-            if (signal != null)
+            if (obj != null)
             {
                 if (context.Request.HttpMethod == "GET")
                 {
-                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(signal, Formatting.Indented);
+                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(obj, Formatting.Indented);
                     byte[] data = Encoding.UTF8.GetBytes(json);
 
                     context.Response.ContentLength64 = data.Length;
                     context.Response.OutputStream.Write(data, 0, data.Length);
                 }
+                /*
                 else if (context.Request.HttpMethod == "POST")
                 {
                     if (context.Request.HasEntityBody)
@@ -59,6 +61,7 @@ namespace Monolith.Plugins.REST
                         context.Response.StatusCode = 400; // "Bad Request"
                     }
                 }
+                */
             }
             else
             {
@@ -67,5 +70,5 @@ namespace Monolith.Plugins.REST
 
             context.Response.Close();
         }
-	}
+    }
 }

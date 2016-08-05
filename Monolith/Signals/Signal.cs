@@ -10,58 +10,20 @@ namespace Monolith.Signals
     public class Signal<T> : Framework.ObjectBase, ISignal
         where T : IConvertible
     {
-        public delegate bool AcceptHandler(T value);
-        private AcceptHandler stateHandler = null;
+        public AttributeBase<T> State { get; private set; }
+        public AttributeBase<T> Minimum { get; private set; }
+        public AttributeBase<T> Maximum { get; private set; }
+        public AttributeBase<Dictionary<T, string>> Values { get; private set; }
 
-        public AttributeBase<T> InnerState { get; private set; }
-
-        public T State
-        {
-            get
-            {
-                return this.InnerState.Value;
-            }
-
-            set
-            {
-                if(this.stateHandler(value))
-                {
-                    Logging.Logger.Info("Setting signal <" + this.Identifier + "> to <" + value + ">");
-
-                    this.InnerState.Value = value;
-                }
-            }
-        }
-
-        public T Minimum { get; set; }
-        public T Maximum { get; set; }
-        public Dictionary<T, string> Values { get; private set; }
-
-        public Type SignalType
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
-
-        public Signal(string identifier, AcceptHandler handler)
+        public Signal(string identifier)
             : base(identifier)
         {
-            this.InnerState = new AttributeBase<T>(this, "State");
-            this.Values = new Dictionary<T, string>();
+            this.Type = "Signal." + typeof(T).Name;
 
-            this.stateHandler = handler;
-        }
-
-        public static bool AllwaysAccept(T value)
-        {
-            return true;
-        }
-
-        public static bool NeverAccept(T value)
-        {
-            return false;
+            this.State = new AttributeBase<T>(this, "State");
+            this.Minimum = new AttributeBase<T>(this, "Minimum");
+            this.Maximum = new AttributeBase<T>(this, "Maximum");
+            this.Values = new AttributeBase<Dictionary<T, string>>(this, "Values");
         }
     }
 }

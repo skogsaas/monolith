@@ -49,9 +49,15 @@
     <Compile Include="Bindings\Manager.cs" />
     <Compile Include="Bindings\BindingState.cs" />
     <Compile Include="Configuration\ConfigurationBase.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\Manager.cs" />
     <Compile Include="Devices\Constants.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
+    <Compile Include="Framework\Action.cs" />
+    <Compile Include="Framework\AttributeCollectionBase.cs" />
+    <Compile Include="Framework\IAction.cs" />
+    <Compile Include="Framework\IActionContainer.cs" />
+    <Compile Include="Framework\IAttributeCollection.cs" />
     <Compile Include="Logging\Constants.cs" />
     <Compile Include="Plugins\Constants.cs" />
     <Compile Include="Framework\AttributeBase.cs" />

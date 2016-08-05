@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    public interface IAttributeContainer
+    public interface IActionContainer
     {
-        void addAttribute(IAttribute a);
+        void addAction(IAction a);
     }
 }

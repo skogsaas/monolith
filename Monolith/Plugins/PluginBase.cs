@@ -27,7 +27,7 @@ namespace Monolith.Plugins
 
         public virtual void initialize()
         {
-            this.pluginState.State = PluginState.States.Initialized;
+            this.pluginState.State.Value = PluginState.States.Initialized;
         }
     }
 }

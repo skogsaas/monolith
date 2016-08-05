@@ -26,15 +26,21 @@ namespace Monolith.Framework
         }
 
         public string Name { get; }
-        public Type AttributeType { get { return typeof(T); } }
+
+        public string Type { get { return typeof(T).Name; } }
 
         public event AttributeEventHandler AttributeChanging;
         public event AttributeEventHandler AttributeChanged;
 
-        public AttributeBase(IContainer container, string name)
+        public AttributeBase(IAttributeContainer container, string name)
         {
             this.Name = name;
-            container.add(this);
+            container.addAttribute(this);
+        }
+
+        public Type GetAttributeType()
+        {
+            return typeof(T);
         }
 
         public static implicit operator T(AttributeBase<T> a)

@@ -16,18 +16,12 @@ namespace Monolith.Plugins
             Online
         }
 
-        private Framework.AttributeBase<States> state;
-
-        public States State
-        {
-            get { return this.state.Value; }
-            set { this.state.Value = value; }
-        }
+        public Framework.AttributeBase<States> State { get; private set; }
 
         public PluginState(string identifier)
             : base(identifier)
         {
-            this.state = new Framework.AttributeBase<States>(this, "State");
+            this.State = new Framework.AttributeBase<States>(this, "State");
         }
     }
 }
