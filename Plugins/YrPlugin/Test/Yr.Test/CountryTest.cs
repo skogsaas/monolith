@@ -37,5 +37,26 @@ namespace Yr.Test
         {
             country.writeFile(country.getXml(country.getList())); 
         }
+
+        [TestMethod]
+        public void TestGetCountryLocation()
+        {
+            this.TestWriteCountryFile();
+
+            XElement element = country.loadFile();
+
+            Assert.IsTrue(element.HasElements); 
+        }
+
+        [TestMethod]
+        public void TestGetCountryLocationElements()
+        {
+            this.TestWriteCountryFile();
+
+            XElement element = country.loadFile();
+
+            Assert.IsTrue(element.HasElements);
+
+        }
     }
 }

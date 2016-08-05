@@ -72,24 +72,23 @@ namespace Yr
         {
             FileStream stream = File.Open(Yr.FilePath + Yr.Settings.locationFileName, FileMode.OpenOrCreate);
             
-            element.Save(stream); 
+            element.Save(stream);
+
+            stream.Close(); 
         }
 
 
-        public void loadFile()
+        public XElement loadFile()
         {
-            if(File.Exists(Yr.FilePath + Yr.Settings.locationFileName))
-                {
-                
-                }
-                else 
-                {
-                }
+            if (File.Exists(Yr.FilePath + Yr.Settings.locationFileName))
+            {
+                FileStream stream = File.Open(Yr.FilePath + Yr.Settings.locationFileName, FileMode.Open);
+
+                return XElement.Load(stream);
+
+                stream.Close(); 
+            }
+            return null; 
         }
-
-        
-
-        
-
     }
 }
