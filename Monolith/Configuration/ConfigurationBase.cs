@@ -6,34 +6,14 @@ using System.Threading.Tasks;
 
 namespace Monolith.Configuration
 {
-    public class ConfigurationBase
+    public class ConfigurationBase : Framework.ObjectBase, IConfiguration
     {
-        public delegate void ConfigurationChangedHandler(ConfigurationBase configuration);
+        public string Plugin { get; set; }
 
-        public event ConfigurationChangedHandler ConfigurationChanged;
-
-        public string Filename { get; private set; }
-
-        public ConfigurationBase(string filename)
+        public ConfigurationBase(string identifier)
+            : base(identifier)
         {
-            this.Filename = filename;
-
-            Manager.Register(this);
-        }
-
-        public void Store()
-        {
-            Manager.Store(this);
-        }
-
-        public void Load()
-        {
-            Manager.Load(this);
-        }
-
-        internal void NotifyChanged()
-        {
-            this.ConfigurationChanged?.Invoke(this);
+            this.Plugin = this.GetType().Namespace;
         }
     }
 }

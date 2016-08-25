@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    public class Action<P, R> : IAction
+    public class Action<R, P> : IAction
     {
         public delegate R Handler(P parameter);
         
@@ -14,17 +14,29 @@ namespace Monolith.Framework
 
         public string Method { get; private set; }
 
-        public Action(IActionContainer container, string m, Handler h)
+        public Action(IActionContainer container, string method, Handler handler = null)
         {
-            this.Method = m;
-            this.handler = h;
+            this.Method = method;
+            this.handler = handler;
 
             container.addAction(this);
         }
 
         public R Execute(P parameter)
         {
-            return this.handler(parameter);
+            if(this.handler != null)
+            {
+                return this.handler(parameter);
+            }
+            else
+            {
+                return default(R);
+            }
+        }
+
+        public void SetHandler(Handler handler)
+        {
+            this.handler = handler;
         }
     }
 }

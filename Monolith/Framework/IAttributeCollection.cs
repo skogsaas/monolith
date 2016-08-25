@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    public delegate void AttributeCollectionEventHandler(IAttributeCollection collection, IAttribute attr);
+    public delegate void AttributeCollectionEventHandler(IAttribute attr);
 
-    public interface IAttributeCollection : IAttribute, IAttributeContainer, IEnumerable<KeyValuePair<string, IAttribute>>
+    public interface IAttributeCollection<T> : IAttribute, IAttributeContainer, IEnumerable<KeyValuePair<string, T>>
+        where T : IAttribute
     {
-        IAttribute this[string key] { get; }
+        T this[string key] { get; }
 
-        void Add(string key, IAttribute attr);
+        void Add(string key, T attr);
 
         void Remove(string key);
 

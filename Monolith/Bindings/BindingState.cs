@@ -14,18 +14,12 @@ namespace Monolith.Bindings
             Initialized
         }
 
-        private Framework.AttributeBase<States> state;
-
-        public States State
-        {
-            get { return this.state.Value; }
-            set { this.state.Value = value; }
-        }
+        public Framework.AttributeBase<States> State;
 
         public BindingState(string identifier)
             : base(identifier)
         {
-            this.state = new Framework.AttributeBase<States>(this, "State");
+            this.State = new Framework.AttributeBase<States>(this, "State");
         }
     }
 }

@@ -9,17 +9,20 @@ using Monolith.Signals;
 
 namespace Monolith.Plugins.GenericBindings
 {
-    class OneWay : BindingBase
+    public class OneWay : BindingBase
     {
         public OneWay()
         {
         }
 
-        public override void initialize(string identifier, Signal<IConvertible> f, Signal<IConvertible> s)
+        protected override void onInitialized()
         {
-            base.initialize(identifier, f, s);
+            this.First.Get().State.AttributeChanged += State_AttributeChanged;
+        }
 
-            this.First.State.AttributeChanged += (IAttribute a) => { this.Second.State.Value = this.First.State.Value; };
+        private void State_AttributeChanged(IAttribute a)
+        {
+            this.Second.Get().State.Value = this.First.Get().State.Value;
         }
     }
 }

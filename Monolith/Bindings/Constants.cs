@@ -9,5 +9,7 @@ namespace Monolith.Bindings
     public class Constants
     {
         public const string Channel = "Bindings";
+        public const string ConfigurationIdentifier = "BindingsConfiguration";
+        public const string BindingManagerProxyIdentifier = "BindingManagerProxy";
     }
 }

@@ -8,6 +8,8 @@ namespace Monolith.Configuration
 {
     public interface IConfiguration
     {
+        string Type { get; }
+        string Plugin { get; }
         string Identifier { get; }
     }
 }

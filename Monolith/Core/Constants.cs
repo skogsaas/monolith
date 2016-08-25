@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Bindings
+namespace Monolith.Core
 {
-    public interface IBinding
+    public class Constants
     {
-        void initialize(BindingConfiguration config);
+        public const string Channel = "Core";
     }
 }

@@ -6,39 +6,47 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    class ObjectReference : IAttribute
+    public class ObjectReference<T>
     {
-        private IObject obj;
+        private T obj;
 
-        public string Name { get; private set; }
         public Channel Channel { get; private set; }
         public string Identifier { get; private set; }
 
-        public event AttributeEventHandler AttributeChanged;
-        public event AttributeEventHandler AttributeChanging;
+        public delegate void ReferenceEventHandler(ObjectReference<T> r);
 
-        public Type GetAttributeType()
-        {
-            return this.GetType();
-        }
+        public event ReferenceEventHandler ReferenceChanged;
+        public event ReferenceEventHandler ReferenceChanging;
 
-        public ObjectReference(IAttributeContainer container, string name, Channel channel, string identifier)
+        public ObjectReference(Channel channel, string identifier)
         {
-            this.Name = name;
             this.Channel = channel;
             this.Identifier = identifier;
 
-            container.addAttribute(this);
+            if(Get() == null)
+            {
+                this.Channel.subscribePublish(typeof(T), onObjectPublish);
+            }
         }
 
-        public IObject Get()
+        public T Get()
         {
             if (this.obj == null)
             {
-                this.obj = this.Channel.find(this.Identifier);
+                this.obj = (T)this.Channel.find(this.Identifier);
             }
 
             return this.obj;
+        }
+
+        private void onObjectPublish(Channel c, IObject o)
+        {
+            if(this.obj == null && o.Identifier == this.Identifier)
+            {
+                this.ReferenceChanging?.Invoke(this);
+                this.obj = (T)o;
+                this.ReferenceChanged?.Invoke(this);
+            }
         }
     }
 }

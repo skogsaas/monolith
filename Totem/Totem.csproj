@@ -69,10 +69,6 @@
       <Project>{e3da9c06-9368-4f6e-8cdc-779ac414d886}</Project>
       <Name>RestBridge</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugins\RFBridge\RFBridge.csproj">
-      <Project>{668b17c5-d1a3-43a0-aebe-760db24f28b3}</Project>
-      <Name>RFBridge</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Plugins\RuleEngine\RuleEngine.csproj">
       <Project>{5096360d-47df-4bdc-8a17-3758ba05fbe0}</Project>
       <Name>RuleEngine</Name>
@@ -80,6 +76,10 @@
     <ProjectReference Include="..\Plugins\SQLiteStorage\SQLiteStorage.csproj">
       <Project>{32661e2b-9a6f-4bdc-afc1-19a1e359a613}</Project>
       <Name>SQLiteStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\StaticConfig\StaticConfig.csproj">
+      <Project>{261571cc-2411-4a50-bbc2-fc06ae526050}</Project>
+      <Name>StaticConfig</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

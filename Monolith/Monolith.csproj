@@ -44,13 +44,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings\BindingBase.cs" />
+    <Compile Include="Bindings\BindingConfiguration.cs" />
+    <Compile Include="Bindings\BindingManagerProxy.cs" />
     <Compile Include="Bindings\Constants.cs" />
     <Compile Include="Bindings\IBinding.cs" />
-    <Compile Include="Bindings\Manager.cs" />
+    <Compile Include="Bindings\BindingManager.cs" />
     <Compile Include="Bindings\BindingState.cs" />
     <Compile Include="Configuration\ConfigurationBase.cs" />
+    <Compile Include="Configuration\ConfigurationManagerProxy.cs" />
+    <Compile Include="Configuration\Constants.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
-    <Compile Include="Configuration\Manager.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Devices\Constants.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
     <Compile Include="Framework\Action.cs" />
@@ -58,6 +62,7 @@
     <Compile Include="Framework\IAction.cs" />
     <Compile Include="Framework\IActionContainer.cs" />
     <Compile Include="Framework\IAttributeCollection.cs" />
+    <Compile Include="Framework\ObjectReferenceAttribute.cs" />
     <Compile Include="Framework\ObjectReference.cs" />
     <Compile Include="Logging\Constants.cs" />
     <Compile Include="Plugins\Constants.cs" />
@@ -82,6 +87,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Signals\Signal.cs" />
+    <Compile Include="Core\Constants.cs" />
     <Compile Include="Utilities\MultiDictionary.cs" />
     <Compile Include="Utilities\PeriodicTask.cs" />
     <Compile Include="Devices\DeviceState.cs" />

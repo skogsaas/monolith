@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    public class AttributeCollectionBase : IAttributeCollection
+    public class AttributeCollectionBase<T> : IAttributeCollection<T>
+        where T : IAttribute
     {
-        private Dictionary<string, IAttribute> elements;
+        private Dictionary<string, T> elements;
 
         public string Name { get; private set; }
 
-        public IAttribute this[string key]
+        public T this[string key]
         {
             get
             {
@@ -36,7 +37,7 @@ namespace Monolith.Framework
 
         public AttributeCollectionBase(IAttributeContainer container, string name)
         {
-            this.elements = new Dictionary<string, IAttribute>();
+            this.elements = new Dictionary<string, T>();
 
             this.Name = name;
 
@@ -48,14 +49,14 @@ namespace Monolith.Framework
             return this.GetType();
         }
 
-        public void Add(string key, IAttribute attr)
+        public void Add(string key, T attr)
         {
             this.elements.Add(key, attr);
 
             attr.AttributeChanging += onAttributeChanging;
             attr.AttributeChanged += onAttributeChanged;
 
-            this.AttributeAdded?.Invoke(this, attr);
+            this.AttributeAdded?.Invoke(attr);
         }
 
         public void Remove(string key)
@@ -68,7 +69,7 @@ namespace Monolith.Framework
 
                 this.elements.Remove(key);
 
-                this.AttributeRemoved?.Invoke(this, attr);
+                this.AttributeRemoved?.Invoke(attr);
             }
         }
 
@@ -79,7 +80,7 @@ namespace Monolith.Framework
 
         public void Clear()
         {
-            foreach(KeyValuePair<string, IAttribute> pair in this.elements)
+            foreach(KeyValuePair<string, T> pair in this.elements)
             {
                 pair.Value.AttributeChanging -= onAttributeChanging;
                 pair.Value.AttributeChanged -= onAttributeChanged;
@@ -88,7 +89,7 @@ namespace Monolith.Framework
             this.elements.Clear();
         }
 
-        public IEnumerator<KeyValuePair<string, IAttribute>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, T>> GetEnumerator()
         {
             return this.elements.GetEnumerator();
         }

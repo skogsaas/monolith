@@ -10,6 +10,9 @@ namespace Monolith.Plugins.GenericBindings
 {
     public class GenericBindings : PluginBase
     {
+        private Framework.Channel bindingChannel;
+        private Framework.ObjectReference<Bindings.BindingManagerProxy> bindingManager;
+
         public GenericBindings()
             : base("GenericBindings")
         {
@@ -20,8 +23,15 @@ namespace Monolith.Plugins.GenericBindings
         {
             base.initialize();
 
-            Manager.Register(typeof(OneWay));
-            Manager.Register(typeof(TwoWay));
+            this.bindingChannel = Framework.Manager.Instance.create(Bindings.Constants.Channel);
+            this.bindingManager = new Framework.ObjectReference<BindingManagerProxy>(this.bindingChannel, Bindings.Constants.BindingManagerProxyIdentifier);
+
+            this.bindingManager.ReferenceChanged += onReferenceChanged;
+        }
+
+        private void onReferenceChanged(Framework.ObjectReference<Bindings.BindingManagerProxy> r)
+        {
+            bool success = r.Get().Register.Execute(typeof(OneWay));
         }
     }
 }
