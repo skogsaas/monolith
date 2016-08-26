@@ -16,5 +16,7 @@ class Manager
     Messaging m_messaging;
 
     DeviceBase* m_devices[64];
+    
+    void handle(Message* msg);
 };
 

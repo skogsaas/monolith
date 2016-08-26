@@ -1,8 +1,7 @@
 #include "DhtSensor.h"
 
-DhtSensor::DhtSensor(Messaging& m, Time& t, int pin)
+DhtSensor::DhtSensor(Time& t, int pin)
   : m_lastread(0)
-  , m_messaging(m)
   , m_time(t)
   , m_dht(pin, DHT22)
   , m_pin(pin)
@@ -22,16 +21,25 @@ void DhtSensor::run()
 
 void DhtSensor::handle(Message* msg)
 {
-  if(msg->type == MessageTypes::Read)
+  DeviceMessage* dMsg = reinterpret_cast<DeviceMessage*>(msg);
+  
+  if(msg->type == MessageTypes::Pull)
   {
-    /*
     switch(msg->dataId)
     {
-      case 1:
-        
+      case 1: // Temperature
+        {
+          Packet packet;
+          packet.size = sizeof(DeviceDataMessage<double>);
+          packet.data = (unsigned char*)malloc(packet.size);
+          
+          DeviceDataMessage<double>* ddm = reinterpret_cast<DeviceDataMessage<double>*>(packet.data);
+          
+          ddm->channelId
+        }
       break;
 
-      case 2:
+      case 2: // Temperature
       break;
 
       default:
@@ -39,7 +47,7 @@ void DhtSensor::handle(Message* msg)
     }
     */
   }
-  else // Write
+  else // Push
   {
     // Do nothing, as this device don't support writing.
   }

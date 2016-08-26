@@ -37,12 +37,12 @@ bool Messaging::read(Packet& packet)
   return 0;
 }
 
-int Messaging::write(byte* data, int length)
+bool Messaging::write(Packet& packet)
 {
   m_udp.beginPacket(m_remoteIp, m_remotePort);
-  int written = m_udp.write(data, length);
-  m_udp.endPacket();
+  
+  int written = m_udp.write(packet.data, packet.size);
 
-  return written * m_udp.endPacket(); // This will return 0 on fail.
+  return m_udp.endPacket() != 0; // This will return 0 on fail.
 }
 

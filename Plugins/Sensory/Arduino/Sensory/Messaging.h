@@ -4,25 +4,29 @@
 
 enum MessageTypes : unsigned char
 {
-  Read = 1,
-  Write = 2
+  Push = 1,
+  Pull = 2
 };
 
 struct Message
 {
+  unsigned char channelId;
+};
+
+struct DeviceMessage : Message
+{
   MessageTypes type;
-  unsigned char deviceId;
+  unsigned char dataId;
 };
 
 template<typename T>
-struct DeviceMessage : Message
+struct DeviceDataMessage : DeviceMessage
 {
-  unsigned char dataId;
-  unsigned char dataLength;
+  unsigned char dataSize;
   T data;
-
-  DeviceMessage()
-    : dataLength(sizeof(T))
+  
+  DeviceDataMessage()
+    : dataSize(sizeof(T))
   {
   }
 };
@@ -35,6 +39,14 @@ struct Packet
   Packet()
     : size(0)
   {
+  }
+  
+  ~Packet()
+  {
+    if(size != 0)
+    {
+      free(data);
+    }
   }
 };
 

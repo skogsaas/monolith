@@ -10,15 +10,15 @@
 class DhtSensor : public DeviceBase
 {
   public:
-    DhtSensor(Messaging& m, Time& t, int pin);
+    DhtSensor(Time& t, int pin);
     void run() override;
 
-    void handle(Message* msg) override;
+    bool pull(DeviceMessage* msg) override;
+    bool push(DeviceMessage* msg) override;
 
   private:
     unsigned long m_lastread;
 
-    Messaging& m_messaging;
     Time& m_time;
 
     int m_pin;
