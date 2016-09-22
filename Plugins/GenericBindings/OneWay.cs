@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Monolith.Signals;
+using Monolith.Signaling;
 
 namespace Monolith.Plugins.GenericBindings
 {
@@ -17,12 +17,12 @@ namespace Monolith.Plugins.GenericBindings
 
         protected override void onInitialized()
         {
-            this.First.Get().State.AttributeChanged += State_AttributeChanged;
+            this.Signal.Get().State.AttributeChanged += State_AttributeChanged;
         }
 
         private void State_AttributeChanged(IAttribute a)
         {
-            this.Second.Get().State.Value = this.First.Get().State.Value;
+            this.Slot.Get().State.Value = this.Signal.Get().State.Value;
         }
     }
 }

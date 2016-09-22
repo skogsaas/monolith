@@ -1,5 +1,5 @@
 ﻿using Monolith.Framework;
-using Monolith.Signals;
+using Monolith.Signaling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Monolith.Devices;
 
-namespace RFBridge
+namespace NexaController
 {
     class NexaDimmer : DeviceBase
     {
@@ -15,30 +15,28 @@ namespace RFBridge
         public uint Group { get; set; }
         public byte Device { get; set; }
 
-        public Signal<int> Signal { get; private set; }
+        public Slot<int> Slot { get; private set; }
 
-        private RadioFrequencyBridge plugin;
+        private Gateway gateway;
 
-        public NexaDimmer(RadioFrequencyBridge p, Configuration.NexaConfig config)
-            : base(typeof(RadioFrequencyBridge).Name + "." + config.Name)
+        public NexaDimmer(DimmerConfiguration config, Gateway g, Channel channel)
+            : base(typeof(NexaDimmer).FullName + "." + config.Name)
         {
             this.Name = config.Name;
             this.Group = config.Group;
             this.Device = config.Device;
 
-            this.plugin = p;
+            this.gateway = g;
 
-            string name = typeof(RadioFrequencyBridge).Name + "." + this.Name;
+            this.Slot = new Slot<int>(this.GetType().FullName + "." + config.Name);
+            this.Slot.State.AttributeChanged += this.signalChanged;
 
-            this.Signal = new Signal<int>(name);
-            this.Signal.State.AttributeChanged += this.signalChanged;
-
-            this.plugin.SignalChannel.publish(this.Signal);
+            channel.publish(this.Slot);
         }
 
         private void signalChanged(IAttribute a)
         {
-            this.plugin.Transmitter.nexaDeviceDim(this.Group, this.Device, (byte)this.Signal.State);
+            this.gateway.nexaDeviceDim(this.Group, this.Device, (byte)this.Slot.State);
         }
     }
 }

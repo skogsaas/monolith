@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Threading;
 using System;
-using Monolith.Signals;
+using Monolith.Signaling;
 
 namespace Monolith.Plugins.RandomNumber
 {

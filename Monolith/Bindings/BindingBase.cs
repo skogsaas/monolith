@@ -8,8 +8,8 @@ namespace Monolith.Bindings
 {
     public class BindingBase : IBinding
     {
-        protected Framework.ObjectReference<Signals.Signal<IConvertible>> First { get; private set; }
-        protected Framework.ObjectReference<Signals.Signal<IConvertible>> Second { get; private set; }
+        protected Framework.ObjectReference<Signaling.Signal<IConvertible>> Signal { get; private set; }
+        protected Framework.ObjectReference<Signaling.Slot<IConvertible>> Slot { get; private set; }
         
         protected BindingState State { get; private set; }
 
@@ -25,25 +25,25 @@ namespace Monolith.Bindings
             this.State = new BindingState(config.Identifier);
             bindingChannel.publish(this.State);
 
-            Framework.Channel signalChannel = Framework.Manager.Instance.create(Signals.Constants.Channel);
+            Framework.Channel signalChannel = Framework.Manager.Instance.create(Signaling.Constants.Channel);
 
-            this.First = new Framework.ObjectReference<Signals.Signal<IConvertible>>(signalChannel, config.First.Value);
-            this.Second = new Framework.ObjectReference<Signals.Signal<IConvertible>>(signalChannel, config.Second.Value);
+            this.Signal = new Framework.ObjectReference<Signaling.Signal<IConvertible>>(signalChannel, config.Signal.Value);
+            this.Slot = new Framework.ObjectReference<Signaling.Slot<IConvertible>>(signalChannel, config.Slot.Value);
 
-            if(this.First.Get() != null && this.Second != null)
+            if(this.Signal.Get() != null && this.Slot != null)
             {
                 onInitialized();
             }
             else
             {
-                if(this.First.Get() == null)
+                if(this.Signal.Get() == null)
                 {
-                    this.First.ReferenceChanged += onReferenceChanged;
+                    this.Signal.ReferenceChanged += onReferenceChanged;
                 }
 
-                if (this.Second.Get() == null)
+                if (this.Slot.Get() == null)
                 {
-                    this.Second.ReferenceChanged += onReferenceChanged;
+                    this.Slot.ReferenceChanged += onReferenceChanged;
                 }
             }
         }
@@ -53,9 +53,17 @@ namespace Monolith.Bindings
             throw new NotImplementedException();
         }
 
-        private void onReferenceChanged(Framework.ObjectReference<Signals.Signal<IConvertible>> r)
+        private void onReferenceChanged(Framework.ObjectReference<Signaling.Signal<IConvertible>> r)
         {
-            if (this.First.Get() != null && this.Second != null)
+            if (this.Signal.Get() != null && this.Slot != null)
+            {
+                onInitialized();
+            }
+        }
+
+        private void onReferenceChanged(Framework.ObjectReference<Signaling.Slot<IConvertible>> r)
+        {
+            if (this.Signal.Get() != null && this.Slot != null)
             {
                 onInitialized();
             }

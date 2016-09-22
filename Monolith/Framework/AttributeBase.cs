@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    public class AttributeBase<T> : IAttribute
+    public class AttributeBase<T> : IAttributeBase
+        where T : IConvertible
     {
         protected T _value;
 
@@ -26,8 +27,6 @@ namespace Monolith.Framework
         }
 
         public string Name { get; }
-
-        public string Type { get { return typeof(T).Name; } }
 
         public event AttributeEventHandler AttributeChanging;
         public event AttributeEventHandler AttributeChanged;

@@ -2,10 +2,10 @@
 
 Messaging::Messaging()
   : m_mac({0x00,0x01,0x02,0x03,0x04,0x05})
-  , m_localIp(IPAddress(192, 168, 1, 115))
+  , m_localIp(IPAddress(192, 168, 1, 150))
   , m_localPort(5000)
-  , m_remoteIp(IPAddress(192, 168, 1, 110))
-  , m_remotePort(5000)
+  , m_remoteIp(IPAddress(192, 168, 1, 187))
+  , m_remotePort(5001)
 {
   Ethernet.begin(m_mac, m_localIp);
 

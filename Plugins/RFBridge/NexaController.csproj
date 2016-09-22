@@ -46,10 +46,11 @@
   <ItemGroup>
     <Compile Include="NexaSwitch.cs" />
     <Compile Include="NexaDimmer.cs" />
-    <Compile Include="RadioFrequencyBridge.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="Gateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configuration.cs" />
+    <Compile Include="DimmerConfiguration.cs" />
+    <Compile Include="SwitchConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Monolith\Monolith.csproj">

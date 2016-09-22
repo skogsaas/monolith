@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RFBridge
+namespace NexaController
 {
     public class Gateway
     {
@@ -46,6 +46,7 @@ namespace RFBridge
 
             await this.udp.SendAsync(data, data.Length);
         }
+
         public async void nexaDeviceDim(uint group, byte device, byte dim)
         {
             byte[] data = new byte[7];

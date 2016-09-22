@@ -12,8 +12,8 @@ namespace Monolith.Configuration
     {
         private Dictionary<string, Type> types;
 
-        private List<IConfiguration> loaded;
-        private List<IConfiguration> unloaded;
+        private List<ConfigurationBase> loaded;
+        private List<ConfigurationIdentifier> unloaded;
 
         private Framework.Channel configChannel;
         private Framework.Channel coreChannel;
@@ -23,8 +23,8 @@ namespace Monolith.Configuration
         public ConfigurationManager()
         {
             this.types = new Dictionary<string, Type>();
-            this.loaded = new List<IConfiguration>();
-            this.unloaded = new List<IConfiguration>();
+            this.loaded = new List<ConfigurationBase>();
+            this.unloaded = new List<ConfigurationIdentifier>();
 
             this.configChannel = Framework.Manager.Instance.create(Constants.Channel);
             this.coreChannel = Framework.Manager.Instance.create(Core.Constants.Channel);
@@ -47,7 +47,7 @@ namespace Monolith.Configuration
                 {
                     string data = File.ReadAllText(filepath);
 
-                    IConfiguration config = JsonConvert.DeserializeObject<ConfigurationBase>(data);
+                    ConfigurationIdentifier config = JsonConvert.DeserializeObject<ConfigurationIdentifier>(data);
 
                     if(this.types.ContainsKey(config.Type))
                     {
@@ -70,23 +70,27 @@ namespace Monolith.Configuration
         {
             string data = File.ReadAllText(MakeFilePath(plugin, identifier));
 
-            ConfigurationBase config = (ConfigurationBase)Activator.CreateInstance(this.types[type], identifier);
+            //ConfigurationBase config = (ConfigurationBase)Activator.CreateInstance(this.types[type], identifier);
 
-            JsonConvert.PopulateObject(data, config);
+            //JsonConvert.PopulateObject(data, config);
+            ConfigurationBase config = (ConfigurationBase)JsonConvert.DeserializeObject(data, this.types[type], new Framework.Serialization.ObjectBaseSerializer());
 
             return config;
         }
 
-        private void store(IConfiguration config)
+        private void store(ConfigurationBase config)
         {
-            string data = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+            string data = JsonConvert.SerializeObject(config, Formatting.Indented,
+                new Framework.Serialization.ObjectBaseSerializer(), 
+                new Framework.Serialization.AttributeBaseSerializer(), 
+                new Framework.Serialization.AttributeCollectionBaseSerializer());
 
             EnsureDirectory(MakeDirectoryPath(config));
 
             File.WriteAllText(MakeFilePath(config), data);
         }
 
-        private void delete(IConfiguration config)
+        private void delete(ConfigurationBase config)
         {
             string path = MakeFilePath(config);
 
@@ -101,7 +105,7 @@ namespace Monolith.Configuration
             this.types.Add(type.Name, type);
             this.state.Types.Add(type.Name, new Framework.AttributeBase<string>(this.state.Types, type.Name));
 
-            foreach(IConfiguration configUnloaded in this.unloaded)
+            foreach(ConfigurationIdentifier configUnloaded in this.unloaded)
             {
                 if(configUnloaded.Type == type.Name)
                 {
@@ -155,9 +159,9 @@ namespace Monolith.Configuration
 
         private void onChange(Framework.IObject obj)
         {
-            if (typeof(IConfiguration).IsAssignableFrom(obj.GetType()))
+            if (typeof(ConfigurationBase).IsAssignableFrom(obj.GetType()))
             {
-                IConfiguration config = (IConfiguration)obj;
+                ConfigurationBase config = (ConfigurationBase)obj;
 
                 store(config);
             }
@@ -168,7 +172,7 @@ namespace Monolith.Configuration
             return Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder, plugin });
         }
 
-        private static string MakeDirectoryPath(IConfiguration config)
+        private static string MakeDirectoryPath(ConfigurationBase config)
         {
             return MakeDirectoryPath(config.Plugin);
         }
@@ -178,7 +182,7 @@ namespace Monolith.Configuration
             return Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder, plugin, identifier + ".cfg" });
         }
 
-        private static string MakeFilePath(IConfiguration config)
+        private static string MakeFilePath(ConfigurationBase config)
         {
             return MakeFilePath(config.Plugin, config.Identifier);
         }

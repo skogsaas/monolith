@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Monolith.Plugins.SQLiteStorage
 {
     class AttributeStore<T> : IStore
+        where T : IConvertible
     {
         private SQLiteConnection connection;
 

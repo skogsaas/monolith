@@ -7,7 +7,7 @@ using System.Net;
 using Monolith.Framework;
 using Monolith.Plugins;
 using Monolith.Devices;
-using Monolith.Signals;
+using Monolith.Signaling;
 using Monolith.Bindings;
 
 namespace Monolith.Plugins.REST
@@ -36,7 +36,7 @@ namespace Monolith.Plugins.REST
 
             register("plugins", new GenericListApi<PluginState>(Framework.Manager.Instance.create(Plugins.Constants.Channel)));
             register("devices", new GenericListApi<DeviceState>(Framework.Manager.Instance.create(Devices.Constants.Channel)));
-            register("signals", new GenericListApi<ISignal>(Framework.Manager.Instance.create(Signals.Constants.Channel)));
+            register("signals", new GenericListApi<ISignaling>(Framework.Manager.Instance.create(Signaling.Constants.Channel)));
             register("bindings", new GenericListApi<BindingState>(Framework.Manager.Instance.create(Bindings.Constants.Channel)));
 
             register("signal", new SignalApi());

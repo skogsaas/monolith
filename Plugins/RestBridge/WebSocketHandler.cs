@@ -1,4 +1,4 @@
-﻿using Monolith.Signals;
+﻿using Monolith.Signaling;
 using Newtonsoft.Json;
 using RestBridge.Messages;
 using System;
@@ -33,7 +33,7 @@ namespace Monolith.Plugins.REST
             foreach(object o in e.NewItems)
             {
                 SignalEvent msg = new SignalEvent();
-                msg.Signal = (o as ISignal).Identifier;
+                msg.Signal = (o as ISignaling).Identifier;
                 //msg.SignalType = (o as ISignal).SignalType.Name;
 
                 string data = JsonConvert.SerializeObject(msg);

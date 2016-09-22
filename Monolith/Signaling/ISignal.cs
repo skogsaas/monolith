@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Signals
+namespace Monolith.Signaling
 {
-    public interface ISignal
+    public interface ISignaling
     {
         string Identifier { get; }
     }

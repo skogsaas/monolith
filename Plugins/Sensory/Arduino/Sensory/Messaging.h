@@ -4,8 +4,8 @@
 
 enum MessageTypes : unsigned char
 {
-  Push = 1,
-  Pull = 2
+  Pull = 1,
+  Push = 2
 };
 
 struct Message

@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Monolith.Configuration
 {
-    public class ConfigurationBase : Framework.ObjectBase, IConfiguration
+    public class ConfigurationBase : Framework.ObjectBase
     {
-        public string Plugin { get; set; }
+        public Framework.String Plugin { get; private set; }
 
         public ConfigurationBase(string identifier)
             : base(identifier)
         {
-            this.Plugin = this.GetType().Namespace;
+            this.Plugin = new Framework.String(this, "Plugin");
+            this.Plugin.Value = this.GetType().Namespace;
         }
     }
 }

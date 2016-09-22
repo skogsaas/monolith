@@ -8,13 +8,11 @@ Manager::Manager()
   : m_time()
   , m_messaging()
 {
-  memset(m_devices, nullptr, sizeof(m_devices));
+  memset(m_devices, 0, sizeof(m_devices));
   
-  DeviceBase* dht = new DhtSensor(m_messaging, m_time, 3);
-  DeviceBase* dht2 = new DhtSensor(m_messaging, m_time, 4);
+  DeviceBase* dht = new DhtSensor(1, m_time, m_messaging, 3);
 
   m_devices[1] = dht;
-  m_devices[2] = dht2;
 }
 
 void Manager::run()
@@ -34,9 +32,18 @@ void Manager::run()
       }
       else if(msg->channelId > 0 && msg->channelId < 64)
       {
+        DeviceMessage* dmsg = reinterpret_cast<DeviceMessage*>(msg);
+        
         if(m_devices[msg->channelId] != nullptr)
         {
-          m_devices[msg->channelId]->handle(msg);
+          if(dmsg->type == MessageTypes::Pull)
+          {
+            bool success = m_devices[msg->channelId]->pull(dmsg);
+          }
+          else if(dmsg->type == MessageTypes::Push)
+          {
+            bool success = m_devices[msg->channelId]->push(dmsg);
+          }
         }
       }
     }
@@ -49,9 +56,4 @@ void Manager::run()
       m_devices[i]->run();
     }
   }
-}
-
-void Manager::handle(Message* msg)
-{
-  Serial.println("Handle message sent to channelId = 0.");
 }

@@ -10,7 +10,7 @@
 class DhtSensor : public DeviceBase
 {
   public:
-    DhtSensor(Time& t, int pin);
+    DhtSensor(unsigned char sensorId, Time& t, Messaging& m, int pin);
     void run() override;
 
     bool pull(DeviceMessage* msg) override;
@@ -20,11 +20,14 @@ class DhtSensor : public DeviceBase
     unsigned long m_lastread;
 
     Time& m_time;
+    Messaging& m_messaging;
 
     int m_pin;
     DHT m_dht;
 
-    double m_temperature; // DataId 1
-    double m_humidity;    // DataId 2
+    float m_temperature; // DataId 1
+    float m_humidity;    // DataId 2
+
+    void send(unsigned char dataId, float data);
 };
 

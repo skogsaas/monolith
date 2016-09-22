@@ -16,14 +16,14 @@ namespace Monolith.Plugins.REST
 
 		public SignalApi()
 		{
-			this.channel = Framework.Manager.Instance.create(Signals.Constants.Channel);
+			this.channel = Framework.Manager.Instance.create(Signaling.Constants.Channel);
 		}
 
 		public async void handle(HttpListenerContext context)
 		{
             string identifier = context.Request.RawUrl.Substring(("/rest/signal/").Length);
 
-            Signals.ISignal signal = (Signals.ISignal)this.channel.find(identifier);
+            Signaling.ISignaling signal = (Signaling.ISignaling)this.channel.find(identifier);
 
             if (signal != null)
             {

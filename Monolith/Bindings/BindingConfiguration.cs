@@ -9,15 +9,20 @@ namespace Monolith.Bindings
     public class BindingConfiguration : Configuration.ConfigurationBase
     {
         public Framework.AttributeBase<string> BindingType;
-        public Framework.AttributeBase<string> First;
-        public Framework.AttributeBase<string> Second;
+        public Framework.AttributeBase<string> Signal;
+        public Framework.AttributeBase<string> Slot;
 
         public BindingConfiguration() 
-            : base(typeof(BindingConfiguration).Name)
+            : this(typeof(BindingConfiguration).Name)
+        {
+        }
+
+        public BindingConfiguration(string identifier)
+            : base(identifier)
         {
             this.BindingType = new Framework.AttributeBase<string>(this, "BindingType");
-            this.First = new Framework.AttributeBase<string>(this, "First");
-            this.Second = new Framework.AttributeBase<string>(this, "Second");
+            this.Signal = new Framework.AttributeBase<string>(this, "Signal");
+            this.Slot = new Framework.AttributeBase<string>(this, "Slot");
         }
     }
 }

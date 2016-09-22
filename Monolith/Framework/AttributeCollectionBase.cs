@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Monolith.Framework
 {
-    public class AttributeCollectionBase<T> : IAttributeCollection<T>
+    public class AttributeCollectionBase<T> : IAttributeCollectionBase<T>
         where T : IAttribute
     {
         private Dictionary<string, T> elements;
@@ -44,19 +44,34 @@ namespace Monolith.Framework
             container.addAttribute(this);
         }
 
+        public Dictionary<string, IAttribute> GetAttributes()
+        {
+            Dictionary<string, IAttribute> collection = new Dictionary<string, IAttribute>();
+
+            foreach(KeyValuePair<string, T> pair in this.elements)
+            {
+                collection.Add(pair.Key, (IAttribute)pair.Value);
+            }
+
+            return collection;
+        }
+
         public Type GetAttributeType()
         {
-            return this.GetType();
+            return typeof(T);
         }
 
         public void Add(string key, T attr)
         {
-            this.elements.Add(key, attr);
+            if (!this.elements.ContainsKey(attr.Name))
+            {
+                this.elements.Add(attr.Name, (T)attr);
 
-            attr.AttributeChanging += onAttributeChanging;
-            attr.AttributeChanged += onAttributeChanged;
+                attr.AttributeChanging += onAttributeChanging;
+                attr.AttributeChanged += onAttributeChanged;
 
-            this.AttributeAdded?.Invoke(attr);
+                this.AttributeAdded?.Invoke(attr);
+            }
         }
 
         public void Remove(string key)
@@ -111,7 +126,15 @@ namespace Monolith.Framework
 
         public void addAttribute(IAttribute a)
         {
-            // Do nothing, as we should already know of this attribute
+            if(!this.elements.ContainsKey(a.Name))
+            {
+                this.elements.Add(a.Name, (T)a);
+
+                a.AttributeChanging += onAttributeChanging;
+                a.AttributeChanged += onAttributeChanged;
+
+                this.AttributeAdded?.Invoke(a);
+            }
         }
     }
 }

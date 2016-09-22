@@ -1,8 +1,10 @@
 #include "DhtSensor.h"
 
-DhtSensor::DhtSensor(Time& t, int pin)
-  : m_lastread(0)
+DhtSensor::DhtSensor(unsigned char s, Time& t, Messaging& m, int pin)
+  : DeviceBase(s)
+  , m_lastread(0)
   , m_time(t)
+  , m_messaging(m)
   , m_dht(pin, DHT22)
   , m_pin(pin)
   , m_temperature(0.0)
@@ -16,40 +18,73 @@ void DhtSensor::run()
   if((m_lastread + 5) <= m_time.totalSeconds())
   {
     m_lastread = m_time.totalSeconds();
+
+    float temperature = m_dht.readTemperature();
+    float humidity = m_dht.readHumidity();
+
+    if(m_temperature != temperature)
+    {
+      send(1, temperature);
+    }
+
+    if(m_humidity != humidity)
+    {
+      send(2, humidity);
+    }
+    
+    m_temperature = temperature;
+    m_humidity = humidity;
   }
 }
 
-void DhtSensor::handle(Message* msg)
+bool DhtSensor::pull(DeviceMessage* msg)
 {
-  DeviceMessage* dMsg = reinterpret_cast<DeviceMessage*>(msg);
+  DeviceDataMessage<float>* ddm = reinterpret_cast<DeviceDataMessage<float>*>(msg);
   
-  if(msg->type == MessageTypes::Pull)
+  switch(msg->dataId)
   {
-    switch(msg->dataId)
-    {
-      case 1: // Temperature
-        {
-          Packet packet;
-          packet.size = sizeof(DeviceDataMessage<double>);
-          packet.data = (unsigned char*)malloc(packet.size);
-          
-          DeviceDataMessage<double>* ddm = reinterpret_cast<DeviceDataMessage<double>*>(packet.data);
-          
-          ddm->channelId
-        }
-      break;
+    case 1: // Temperature
+      {
+        ddm->dataSize = sizeof(float);
+        ddm->data = m_temperature;
 
-      case 2: // Temperature
-      break;
+        return true;
+      }
+    break;
 
-      default:
-      break;
-    }
-    */
+    case 2: // Humidity
+      {          
+        
+        ddm->dataSize = sizeof(float);
+        ddm->data = m_humidity;
+
+        return true;
+      }
+    break;
+
+    default:
+      return false;
   }
-  else // Push
-  {
-    // Do nothing, as this device don't support writing.
-  }
+}
+
+bool DhtSensor::push(DeviceMessage* msg)
+{
+  return false;
+}
+
+void DhtSensor::send(unsigned char dataId, float data)
+{
+  DeviceDataMessage<long> msg;
+  msg.channelId = m_sensorId;
+  msg.type = MessageTypes::Push;
+  msg.dataId = dataId;
+  msg.dataSize = sizeof(long);
+  msg.data = (long)(data * 1000.0);
+  
+  Packet packet;
+  packet.size = sizeof(DeviceDataMessage<long>);
+  packet.data = (unsigned char*)&msg;
+
+  m_messaging.write(packet);
 }
 

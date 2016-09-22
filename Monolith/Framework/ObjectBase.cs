@@ -11,19 +11,15 @@ namespace Monolith.Framework
         private List<IAttribute> attributes;
         private List<IAction> actions;
 
-        public string Identifier { get; private set; }
+        public string Identifier { get; set; }
 
         public string Type { get; protected set; }
 
         public event ObjectEventHandler ObjectChanged;
 
         public ObjectBase(string identifier)
+            : this()
         {
-            this.attributes = new List<IAttribute>();
-            this.actions = new List<IAction>();
-
-            this.Type = this.GetType().Name;
-
             this.Identifier = identifier;
         }
 

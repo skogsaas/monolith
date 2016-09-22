@@ -8,18 +8,9 @@ namespace Monolith.Framework
 {
     public delegate void AttributeCollectionEventHandler(IAttribute attr);
 
-    public interface IAttributeCollection<T> : IAttribute, IAttributeContainer, IEnumerable<KeyValuePair<string, T>>
-        where T : IAttribute
+    public interface IAttributeCollection : IAttribute, IAttributeContainer
     {
-        T this[string key] { get; }
-
-        void Add(string key, T attr);
-
-        void Remove(string key);
-
-        bool ContainsKey(string key);
-
-        void Clear();
+        Dictionary<string, IAttribute> GetAttributes();
 
         event AttributeCollectionEventHandler AttributeAdded;
         event AttributeCollectionEventHandler AttributeRemoved;
