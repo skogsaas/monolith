@@ -4,50 +4,23 @@
 
 enum MessageTypes : unsigned char
 {
-  Pull = 1,
-  Push = 2
+  Subscribe = 1,
+  Update = 2,
+  Heartbeat = 3
 };
 
 struct Message
 {
-  unsigned char channelId;
+  unsigned short deviceId;
+  MessageTypes type;
 };
 
 struct DeviceMessage : Message
 {
-  MessageTypes type;
-  unsigned char dataId;
-};
-
-template<typename T>
-struct DeviceDataMessage : DeviceMessage
-{
-  unsigned char dataSize;
-  T data;
-  
-  DeviceDataMessage()
-    : dataSize(sizeof(T))
-  {
-  }
-};
-
-struct Packet
-{
-  int size;
-  unsigned char* data;
-
-  Packet()
-    : size(0)
-  {
-  }
-  
-  ~Packet()
-  {
-    if(size != 0)
-    {
-      free(data);
-    }
-  }
+  unsigned short dataId;
+  DataTypes dataType;
+  char dataSize;
+  char* dataPtr;
 };
 
 class IPAddress;
@@ -55,10 +28,9 @@ class IPAddress;
 class Messaging
 {
   public:
-    Messaging();
-  
-    bool read(Packet& packet);
-    bool write(Packet& packet);
+    Messaging(unsigned short deviceId);
+    
+    void publish(Slot* slot);
 
   private:
     unsigned char m_mac[6];
