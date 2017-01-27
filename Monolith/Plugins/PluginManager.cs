@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Plugins
+namespace Skogsaas.Monolith.Plugins
 {
     internal class PluginManager
     {

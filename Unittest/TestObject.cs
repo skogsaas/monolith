@@ -1,12 +1,8 @@
-﻿using Monolith.Framework;
+﻿using Skogsaas.Legion;
 
 namespace Unittest
 {
-    public class TestObject : ObjectBase
+    public interface TestObject : IObject
     {
-        public TestObject(string identifier)
-            : base(identifier)
-        {
-        }
     }
 }

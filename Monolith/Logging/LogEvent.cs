@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Skogsaas.Legion;
+using System;
 
-namespace Monolith.Logging
+namespace Skogsaas.Monolith.Logging
 {
-    public class LogEvent : Framework.EventBase
+    public enum Severity
     {
-        public enum Severity
-        {
-            Trace,
-            Info,
-            Warning,
-            Error,
-            Fatal
-        }
+        Trace,
+        Info,
+        Warning,
+        Error,
+        Fatal
+    }
 
-        public DateTime Time { get; set; }
-        public string Member { get; set; }
-        public string FilePath { get; set; }
-        public int Line { get; set; }
-        public Severity Level { get; set; }
-        public string Message { get; set; }
-
-        public LogEvent()
-            : base()
-        {
-
-        }
+    public interface LogEvent : IEvent
+    {
+        DateTime Time { get; set; }
+        string Member { get; set; }
+        string FilePath { get; set; }
+        int Line { get; set; }
+        Severity Level { get; set; }
+        string Message { get; set; }
     }
 }

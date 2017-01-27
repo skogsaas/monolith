@@ -3,8 +3,8 @@
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("Skogsaas.Monolith.Plugins.RandomNumber")]
-[assembly: AssemblyDescription("Monolith Random Number")]
+[assembly: AssemblyTitle("Skogsaas.Monolith.Plugins.RestJson")]
+[assembly: AssemblyDescription("Monolith REST Json")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Skogsaas")]
 [assembly: AssemblyProduct("")]

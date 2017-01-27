@@ -7,10 +7,11 @@
     <ProjectGuid>{50FB65E6-E115-4197-9D27-C04DCF95145C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Monolith</RootNamespace>
-    <AssemblyName>Monolith</AssemblyName>
+    <RootNamespace>Skogsaas.Monolith</RootNamespace>
+    <AssemblyName>Skogsaas.Monolith</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Skogsaas.Legion, Version=1.0.6235.26723, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skogsaas.Legion.1.0.6235.26723\lib\net452\Skogsaas.Legion.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Skogsaas.Legion.Json, Version=1.0.6235.25090, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skogsaas.Legion.Json.1.0.6235.25090\lib\net452\Skogsaas.Legion.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -38,72 +51,35 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bindings\BindingBase.cs" />
-    <Compile Include="Bindings\BindingConfiguration.cs" />
-    <Compile Include="Bindings\BindingManagerProxy.cs" />
+    <Compile Include="Bindings\Binding.cs" />
+    <Compile Include="Bindings\BindingsManager.cs" />
     <Compile Include="Bindings\Constants.cs" />
     <Compile Include="Bindings\IBinding.cs" />
-    <Compile Include="Bindings\BindingManager.cs" />
-    <Compile Include="Bindings\BindingState.cs" />
-    <Compile Include="Configuration\ConfigurationBase.cs" />
-    <Compile Include="Configuration\ConfigurationManagerProxy.cs" />
     <Compile Include="Configuration\Constants.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
-    <Compile Include="Configuration\ConfigurationIdentifier.cs" />
+    <Compile Include="Configuration\Identifier.cs" />
     <Compile Include="Devices\Constants.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
-    <Compile Include="Framework\Action.cs" />
-    <Compile Include="Framework\AttributeCollectionBase.cs" />
-    <Compile Include="Framework\Attributes.cs" />
-    <Compile Include="Framework\IAction.cs" />
-    <Compile Include="Framework\IActionContainer.cs" />
-    <Compile Include="Framework\IAttributeCollectionBase.cs" />
-    <Compile Include="Framework\IAttributeCollection.cs" />
-    <Compile Include="Framework\IAttributeBase.cs" />
-    <Compile Include="Framework\ObjectReferenceAttribute.cs" />
-    <Compile Include="Framework\ObjectReference.cs" />
-    <Compile Include="Framework\Serialization\AttributeCollectionBaseSerializer.cs" />
-    <Compile Include="Framework\Serialization\AttributeBaseSerializer.cs" />
-    <Compile Include="Framework\Serialization\ObjectBaseSerializer.cs" />
     <Compile Include="Logging\Constants.cs" />
     <Compile Include="Plugins\Constants.cs" />
-    <Compile Include="Framework\AttributeBase.cs" />
-    <Compile Include="Framework\Channel.cs" />
-    <Compile Include="Framework\EventBase.cs" />
-    <Compile Include="Framework\IAttribute.cs" />
-    <Compile Include="Framework\IContainer.cs" />
-    <Compile Include="Framework\IEvent.cs" />
-    <Compile Include="Framework\IObject.cs" />
-    <Compile Include="Framework\Manager.cs" />
     <Compile Include="Devices\IDevice.cs" />
-    <Compile Include="Framework\ObjectBase.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Plugins\PluginBase.cs" />
     <Compile Include="Plugins\PluginState.cs" />
-    <Compile Include="Signaling\Constants.cs" />
-    <Compile Include="Signaling\ISignal.cs" />
+    <Compile Include="Data\Constants.cs" />
     <Compile Include="Logging\LogEvent.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="Signaling\Signal.cs" />
-    <Compile Include="Core\Constants.cs" />
-    <Compile Include="Signaling\Slot.cs" />
     <Compile Include="Utilities\MultiDictionary.cs" />
     <Compile Include="Utilities\PeriodicTask.cs" />
     <Compile Include="Devices\DeviceState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

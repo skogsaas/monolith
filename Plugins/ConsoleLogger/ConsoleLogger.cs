@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Skogsaas.Legion;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Monolith.Plugins
+namespace Skogsaas.Monolith.Plugins
 {
     public class ConsoleLogger : PluginBase
     {
-        private Framework.Channel logChannel;
+        private Channel logChannel;
 
         public ConsoleLogger()
-            : base("ConsoleLogger")
+            : base(nameof(ConsoleLogger))
         {
             
         }
@@ -21,11 +18,11 @@ namespace Monolith.Plugins
         {
             base.initialize();
 
-            this.logChannel = Framework.Manager.Instance.create("Logging");
-            this.logChannel.subscribePublish(typeof(Logging.LogEvent), onEvent);
+            this.logChannel = Manager.Create(Monolith.Logging.Constants.Channel);
+            this.logChannel.SubscribePublish(typeof(Logging.LogEvent), onEvent);
         }
 
-        private void onEvent(Framework.Channel cha, Framework.IEvent evt)
+        private void onEvent(Channel channel, IEvent evt)
         {
             Logging.LogEvent e = (Logging.LogEvent)evt;
 

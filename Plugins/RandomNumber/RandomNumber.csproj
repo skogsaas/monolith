@@ -7,10 +7,11 @@
     <ProjectGuid>{EB2A85FB-0F6D-400A-8654-361F57FCCD36}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RandomNumber</RootNamespace>
-    <AssemblyName>RandomNumber</AssemblyName>
+    <RootNamespace>Skogsaas.Monolith.Plugins.RandomNumber</RootNamespace>
+    <AssemblyName>Skogsaas.Monolith.Plugins.RandomNumber</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Skogsaas.Legion, Version=1.0.6235.26723, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Skogsaas.Legion.1.0.6235.26723\lib\net452\Skogsaas.Legion.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generator.cs" />
+    <Compile Include="IDummy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +54,9 @@
       <Project>{50fb65e6-e115-4197-9d27-c04dcf95145c}</Project>
       <Name>Monolith</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

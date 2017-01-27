@@ -1,40 +1,41 @@
 ﻿using System.Threading.Tasks;
 using System.Threading;
 using System;
-using Monolith.Signaling;
+using Skogsaas.Legion;
 
-namespace Monolith.Plugins.RandomNumber
+namespace Skogsaas.Monolith.Plugins.RandomNumber
 {
-    public class Generator : IPlugin
+    public class Generator : PluginBase
     {
         private Task task;
-        private Signal<int> signal;
-
-        private Framework.Channel channel;
-
         private Random random;
 
+        private Channel channel;
+        private IDummy dummy;
+
         public Generator()
+            : base("RandomNumber")
         {
             this.random = new Random();
-            this.channel = Framework.Manager.Instance.create("Signals");
 
-            this.signal = new Signal<int>("Random");
-            this.signal.State.Value = this.random.Next(0, 100);
-            this.channel.publish(this.signal);
+            this.channel = Manager.Create(Data.Constants.Channel);
+            this.dummy = this.channel.CreateType<IDummy>("DUMMY");
+            this.channel.Publish(this.dummy);
 
-            this.task = Monolith.Utilities.PeriodicTask.StartPeriodicTask(trigger, 5000, new CancellationToken());
+            this.task = Monolith.Utilities.PeriodicTask.StartPeriodicTask(trigger, 1000, new CancellationToken());
         }
 
-        public void initialize()
+        public override void initialize()
         {
-
+            base.initialize();
         }
 
         private void trigger()
         {
-            Monolith.Logging.Logger.Trace("Test");
-            this.signal.State.Value = this.random.Next(0, 100);
+            double value = (double)this.random.Next(0, 100);
+
+            Monolith.Logging.Logger.Trace("Random number: " + value);
+            this.dummy.Value = value;
         }
     }
 }

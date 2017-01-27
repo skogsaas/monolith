@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Plugins
+namespace Skogsaas.Monolith.Plugins
 {
     public interface IPlugin
     {

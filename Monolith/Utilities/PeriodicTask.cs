@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Monolith.Utilities
+namespace Skogsaas.Monolith.Utilities
 {
     public class PeriodicTask
     {

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F0024C91-E0C7-4169-BB84-7E7026FD7A78}</ProjectGuid>
+    <ProjectGuid>{4DDCB45B-A42A-4D3F-B341-FDE9D1232FEE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skogsaas.Monolith.Plugins.ConsoleLogger</RootNamespace>
-    <AssemblyName>Skogsaas.Monolith.Plugins.ConsoleLogger</AssemblyName>
+    <RootNamespace>Skogsaas.Monolith.Plugins.RestJson</RootNamespace>
+    <AssemblyName>Skogsaas.Monolith.Plugins.RestJson</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,8 +31,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Authentication.Stateless, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nancy.Authentication.Stateless.1.4.1\lib\net40\Nancy.Authentication.Stateless.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nancy.Hosting.Self.1.4.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Skogsaas.Legion, Version=1.0.6235.26723, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Skogsaas.Legion.1.0.6235.26723\lib\net452\Skogsaas.Legion.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Skogsaas.Legion.RestJson, Version=1.0.6235.33628, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Skogsaas.Legion.RestJson.1.0.6235.33628\lib\net452\Skogsaas.Legion.RestJson.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -45,7 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="IRestJsonConfig.cs" />
+    <Compile Include="RestJsonServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

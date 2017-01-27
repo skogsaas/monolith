@@ -7,13 +7,14 @@
     <ProjectGuid>{2D7756AB-91CC-4F20-B33E-213001FFB635}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Totem</RootNamespace>
-    <AssemblyName>Totem</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Skogsaas.Monolith.Runners.Totem</RootNamespace>
+    <AssemblyName>Skogsaas.Monolith.Runners.Totem</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,10 +38,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.102.0\lib\net451\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Monolith\Monolith.csproj">
@@ -65,35 +61,20 @@
       <Project>{f0024c91-e0c7-4169-bb84-7e7026fd7a78}</Project>
       <Name>ConsoleLogger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugins\RestBridge\RestBridge.csproj">
-      <Project>{e3da9c06-9368-4f6e-8cdc-779ac414d886}</Project>
-      <Name>RestBridge</Name>
+    <ProjectReference Include="..\Plugins\RandomNumber\RandomNumber.csproj">
+      <Project>{eb2a85fb-0f6d-400a-8654-361f57fccd36}</Project>
+      <Name>RandomNumber</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugins\RFBridge\NexaController.csproj">
-      <Project>{668b17c5-d1a3-43a0-aebe-760db24f28b3}</Project>
-      <Name>NexaController</Name>
+    <ProjectReference Include="..\Plugins\RestJson\RestJson.csproj">
+      <Project>{4ddcb45b-a42a-4d3f-b341-fde9d1232fee}</Project>
+      <Name>RestJson</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugins\RuleEngine\RuleEngine.csproj">
-      <Project>{5096360d-47df-4bdc-8a17-3758ba05fbe0}</Project>
-      <Name>RuleEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\Sensory\Sensory.csproj">
-      <Project>{c64da0a6-4613-4f95-b9f7-39fe3d56aa70}</Project>
-      <Name>Sensory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugins\SQLiteStorage\SQLiteStorage.csproj">
-      <Project>{32661e2b-9a6f-4bdc-afc1-19a1e359a613}</Project>
-      <Name>SQLiteStorage</Name>
+    <ProjectReference Include="..\Plugins\StaticConfig\StaticConfig.csproj">
+      <Project>{261571cc-2411-4a50-bbc2-fc06ae526050}</Project>
+      <Name>StaticConfig</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.102.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net451\System.Data.SQLite.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.102.0\build\net451\System.Data.SQLite.Core.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

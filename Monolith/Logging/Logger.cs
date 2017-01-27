@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skogsaas.Legion;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Logging
+namespace Skogsaas.Monolith.Logging
 {
     public class Logger
     {
@@ -35,7 +36,7 @@ namespace Monolith.Logging
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            Instance.log(message, LogEvent.Severity.Trace, memberName, filePath, lineNumber);
+            Instance.log(message, Severity.Trace, memberName, filePath, lineNumber);
         }
 
         public static void Info(
@@ -44,7 +45,7 @@ namespace Monolith.Logging
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            Instance.log(message, LogEvent.Severity.Info, memberName, filePath, lineNumber);
+            Instance.log(message, Severity.Info, memberName, filePath, lineNumber);
         }
 
         public static void Warning(
@@ -53,7 +54,7 @@ namespace Monolith.Logging
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            Instance.log(message, LogEvent.Severity.Warning, memberName, filePath, lineNumber);
+            Instance.log(message, Severity.Warning, memberName, filePath, lineNumber);
         }
 
         public static void Error(
@@ -62,7 +63,7 @@ namespace Monolith.Logging
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            Instance.log(message, LogEvent.Severity.Error, memberName, filePath, lineNumber);
+            Instance.log(message, Severity.Error, memberName, filePath, lineNumber);
         }
 
         public static void Fatal(
@@ -71,26 +72,26 @@ namespace Monolith.Logging
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            Instance.log(message, LogEvent.Severity.Fatal, memberName, filePath, lineNumber);
+            Instance.log(message, Severity.Fatal, memberName, filePath, lineNumber);
         }
 
-        internal Framework.Channel channel;
+        internal Channel channel;
 
         internal Logger()
         {
-            this.channel = Framework.Manager.Instance.create(Constants.Channel);
+            this.channel = Manager.Create(Constants.Channel);
         }
 
-        internal void log(string message, LogEvent.Severity severity, string memberName, string filePath,int lineNumber)
+        internal void log(string message, Severity severity, string memberName, string filePath,int lineNumber)
         {
-            LogEvent evt = new LogEvent();
+            LogEvent evt = this.channel.CreateType<LogEvent>();
             evt.Time = DateTime.Now;
             evt.Member = memberName;
             evt.FilePath = filePath;
             evt.Line = lineNumber;
             evt.Message = message;
 
-            this.channel.publish(evt);
+            this.channel.Publish(evt);
         }
     }
 }

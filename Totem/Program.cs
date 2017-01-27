@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Monolith;
+using Skogsaas.Monolith;
 
-namespace Totem
+namespace Skogsaas.Monolith.Runners.Totem
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Monolith.Server server = new Monolith.Server();
+            Skogsaas.Monolith.Server server = new Skogsaas.Monolith.Server();
 
             Console.ReadLine();
         }

@@ -1,11 +1,6 @@
-﻿using Monolith.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Skogsaas.Legion;
 
-namespace Monolith.Plugins
+namespace Skogsaas.Monolith.Plugins
 {
     public class PluginBase : IPlugin
     {
@@ -14,10 +9,10 @@ namespace Monolith.Plugins
 
         public PluginBase(string pluginName)
         {
-            this.pluginChannel = Manager.Instance.create(Constants.Channel);
+            this.pluginChannel = Manager.Create(Constants.Channel);
 
-            this.pluginState = new PluginState(pluginName);
-            this.pluginChannel.publish(this.pluginState);
+            this.pluginState = this.pluginChannel.CreateType<PluginState>(pluginName);
+            this.pluginChannel.Publish(this.pluginState);
         }
 
         private PluginBase()
@@ -27,7 +22,7 @@ namespace Monolith.Plugins
 
         public virtual void initialize()
         {
-            this.pluginState.State.Value = PluginState.States.Initialized;
+            this.pluginState.State = PluginStates.Initialized;
         }
     }
 }

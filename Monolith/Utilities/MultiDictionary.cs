@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Utilities
+namespace Skogsaas.Monolith.Utilities
 {
     public class MultiDictionary<Key, Value> : IEnumerable<KeyValuePair<Key, Value>>
     {

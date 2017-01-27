@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monolith.Logging
+namespace Skogsaas.Monolith.Logging
 {
     public class Constants
     {

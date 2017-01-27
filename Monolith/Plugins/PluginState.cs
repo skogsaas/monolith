@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Skogsaas.Legion;
 
-namespace Monolith.Plugins
+namespace Skogsaas.Monolith.Plugins
 {
-    public class PluginState : Framework.ObjectBase
+    public enum PluginStates
     {
-        public enum States
-        {
-            Uninitialized = 0,
-            Initialized,
-            Offline,
-            Online
-        }
+        Uninitialized = 0,
+        Initialized,
+        Offline,
+        Online
+    }
 
-        public Framework.AttributeBase<States> State { get; private set; }
-
-        public PluginState(string identifier)
-            : base(identifier)
-        {
-            this.State = new Framework.AttributeBase<States>(this, "State");
-        }
+    public interface PluginState : IObject
+    {
+        PluginStates State { get; set; }
     }
 }
