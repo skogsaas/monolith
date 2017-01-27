@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Monolith.Bindings
+﻿namespace Skogsaas.Monolith.Bindings
 {
-    public interface IBinding
+    public interface IBinding : Configuration.Identifier
     {
-        void initialize(BindingConfiguration config);
+        string FromChannel { get; set; }
+        string FromObject { get; set; }
+        string FromProperty { get; set; } // Property path build up with the delimiter "/".
+
+        string ToChannel { get; set; } 
+        string ToObject { get; set; }
+        string ToProperty { get; set; } // Property path build up with the delimiter "/".
     }
 }
