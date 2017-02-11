@@ -31,6 +31,9 @@ namespace Skogsaas.Monolith.Configuration
             this.configChannel.SubscribePublish(typeof(Identifier), onPublish);
             this.configChannel.SubscribeUnpublish(typeof(Identifier), onUnpublish);
 
+            // Make sure the config directory exists
+            Directory.CreateDirectory(Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder }));
+
             scan();
 
             this.configChannel.OnTypeRegistered += onTypeRegistered;
