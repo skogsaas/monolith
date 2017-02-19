@@ -9,8 +9,8 @@ namespace Skogsaas.Monolith.Configuration
 {
     public class ConfigurationManager
     {
-        private List<Identifier> loaded;
-        private List<Identifier> unloaded;
+        private List<IIdentifier> loaded;
+        private List<IIdentifier> unloaded;
 
         private Channel configChannel;
         
@@ -18,18 +18,18 @@ namespace Skogsaas.Monolith.Configuration
 
         public ConfigurationManager()
         {
-            this.loaded = new List<Identifier>();
-            this.unloaded = new List<Identifier>();
+            this.loaded = new List<IIdentifier>();
+            this.unloaded = new List<IIdentifier>();
 
             this.configChannel = Manager.Create(Constants.Channel);
-            this.configChannel.RegisterType(typeof(Identifier));
+            this.configChannel.RegisterType(typeof(IIdentifier));
             
             this.serializerSettings = new JsonSerializerSettings();
             this.serializerSettings.Converters.Add(new Skogsaas.Legion.Json.TypeConverter(this.configChannel));
             this.serializerSettings.Formatting = Formatting.Indented;
 
-            this.configChannel.SubscribePublish(typeof(Identifier), onPublish);
-            this.configChannel.SubscribeUnpublish(typeof(Identifier), onUnpublish);
+            this.configChannel.SubscribePublish(typeof(IIdentifier), onPublish);
+            this.configChannel.SubscribeUnpublish(typeof(IIdentifier), onUnpublish);
 
             // Make sure the config directory exists
             Directory.CreateDirectory(Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder }));
@@ -47,13 +47,13 @@ namespace Skogsaas.Monolith.Configuration
                 {
                     string data = File.ReadAllText(filepath);
 
-                    Identifier config = (Identifier)JsonConvert.DeserializeObject(data, this.configChannel.FindType(typeof(Identifier)), this.serializerSettings);
+                    IIdentifier config = (IIdentifier)JsonConvert.DeserializeObject(data, this.configChannel.FindType(typeof(IIdentifier)), this.serializerSettings);
 
-                    Type type = this.configChannel.FindType(config.Type);
+                    Type type = this.configChannel.FindType(config.Typename);
 
                     if (type != null)
                     {
-                        Identifier configLoaded = load(type, config.Plugin, config.Id);
+                        IIdentifier configLoaded = load(type, config.Plugin, config.Id);
                         this.loaded.Add(configLoaded);
 
                         configLoaded.PropertyChanged += onChange;
@@ -70,27 +70,27 @@ namespace Skogsaas.Monolith.Configuration
 
         private void onTypeRegistered(Type type, Type generated)
         {
-            foreach(Identifier i in this.unloaded)
+            foreach(IIdentifier i in this.unloaded)
             {
-                if(i.Type == type.FullName)
+                if(i.Typename == type.FullName)
                 {
                     load(type, i.Plugin, i.Id);
                 }
             }
         }
 
-        private Identifier load(Type type, string plugin, string identifier)
+        private IIdentifier load(Type type, string plugin, string IIdentifier)
         {
-            string data = File.ReadAllText(makeFilePath(plugin, identifier));
+            string data = File.ReadAllText(makeFilePath(plugin, IIdentifier));
 
-            Identifier config = (Identifier)this.configChannel.CreateType(type.FullName, identifier);
+            IIdentifier config = (IIdentifier)this.configChannel.CreateType(type.FullName, IIdentifier);
 
             JsonConvert.PopulateObject(data, config, this.serializerSettings);
 
             return config;
         }
 
-        private void store(Identifier config)
+        private void store(IIdentifier config)
         {
             string data = JsonConvert.SerializeObject(config, this.serializerSettings);
 
@@ -99,7 +99,7 @@ namespace Skogsaas.Monolith.Configuration
             File.WriteAllText(makeFilePath(config), data);
         }
 
-        private void delete(Identifier config)
+        private void delete(IIdentifier config)
         {
             string path = makeFilePath(config);
 
@@ -111,9 +111,9 @@ namespace Skogsaas.Monolith.Configuration
 
         private void onPublish(Channel channel, IObject obj)
         {
-            if(typeof(Identifier).IsAssignableFrom(obj.GetType()))
+            if(typeof(IIdentifier).IsAssignableFrom(obj.GetType()))
             {
-                Identifier config = (Identifier)obj;
+                IIdentifier config = (IIdentifier)obj;
 
                 if (!this.loaded.Contains(config))
                 {
@@ -128,9 +128,9 @@ namespace Skogsaas.Monolith.Configuration
 
         private void onUnpublish(Channel channel, IObject obj)
         {
-            if (typeof(Identifier).IsAssignableFrom(obj.GetType()))
+            if (typeof(IIdentifier).IsAssignableFrom(obj.GetType()))
             {
-                Identifier config = (Identifier)obj;
+                IIdentifier config = (IIdentifier)obj;
 
                 if (this.loaded.Contains(config))
                 {
@@ -145,9 +145,9 @@ namespace Skogsaas.Monolith.Configuration
         {
             IObject obj = caller as IObject;
 
-            if (obj != null && typeof(Identifier).IsAssignableFrom(obj.GetType()))
+            if (obj != null && typeof(IIdentifier).IsAssignableFrom(obj.GetType()))
             {
-                Identifier config = (Identifier)obj;
+                IIdentifier config = (IIdentifier)obj;
 
                 store(config);
             }
@@ -158,17 +158,17 @@ namespace Skogsaas.Monolith.Configuration
             return Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder, plugin });
         }
 
-        private static string makeDirectoryPath(Identifier config)
+        private static string makeDirectoryPath(IIdentifier config)
         {
             return makeDirectoryPath(config.Plugin);
         }
 
-        private static string makeFilePath(string plugin, string identifier)
+        private static string makeFilePath(string plugin, string IIdentifier)
         {
-            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder, plugin, identifier + ".cfg" });
+            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder, plugin, IIdentifier + ".cfg" });
         }
 
-        private static string makeFilePath(Identifier config)
+        private static string makeFilePath(IIdentifier config)
         {
             return makeFilePath(config.Plugin, config.Id);
         }

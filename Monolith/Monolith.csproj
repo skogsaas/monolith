@@ -35,8 +35,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Skogsaas.Legion, Version=1.0.6235.29435, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Skogsaas.Legion.1.0.6235.29435\lib\net452\Skogsaas.Legion.dll</HintPath>
+    <Reference Include="Skogsaas.Legion, Version=1.0.6259.20186, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skogsaas.Legion.1.0.6259.20186\lib\net452\Skogsaas.Legion.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Skogsaas.Legion.Json, Version=1.0.6252.19459, Culture=neutral, PublicKeyToken=null">
@@ -59,7 +59,8 @@
     <Compile Include="Bindings\IBinding.cs" />
     <Compile Include="Configuration\Constants.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
-    <Compile Include="Configuration\Identifier.cs" />
+    <Compile Include="Configuration\IIdentifier.cs" />
+    <Compile Include="Configuration\Utilitites.cs" />
     <Compile Include="Devices\Constants.cs" />
     <Compile Include="Devices\DeviceBase.cs" />
     <Compile Include="Logging\Constants.cs" />

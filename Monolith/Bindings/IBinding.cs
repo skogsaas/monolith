@@ -1,6 +1,6 @@
 ﻿namespace Skogsaas.Monolith.Bindings
 {
-    public interface IBinding : Configuration.Identifier
+    public interface IBinding : Configuration.IIdentifier
     {
         string FromChannel { get; set; }
         string FromObject { get; set; }

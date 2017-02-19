@@ -1,10 +1,10 @@
 var target = Argument("target", "Default");
-var configuration = Argument("buildconfiguration", "Debug");
-var nugetsource = Argument("nugetsource", "http://192.168.1.100:81/nuget/Default/");
+var configuration = Argument("configuration", "Debug");
+var nugetsource = "http://192.168.1.100:81/nuget/Default/";
 var packages = "./packages";
 var artifacts = "./artifacts/";
-var solution = "./Monolith.sln";
-var project = "./Monolith/Monolith.csproj";
+var projectpath = "./Monolith/";
+var project = projectpath + "Monolith.csproj";
 
 var nugetRestoreSettings = new NuGetRestoreSettings
 	{
@@ -46,14 +46,20 @@ Task("Restore")
 	.IsDependentOn("Clean")
 	.Does(() => 
 {
-	NuGetRestore(project, nugetRestoreSettings);
+	if(FileExists(projectpath + "packages.config"))
+	{
+		NuGetRestore(project, nugetRestoreSettings);
+	}
 });
 
 Task("Update")
 	.IsDependentOn("Restore")
 	.Does(() =>
 {
-	NuGetUpdate(project, nugetUpdateSettings);
+	if(FileExists(projectpath + "packages.config"))
+	{
+		NuGetUpdate(project, nugetUpdateSettings);
+	}
 });
 
 Task("Build")

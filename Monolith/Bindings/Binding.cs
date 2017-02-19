@@ -137,7 +137,7 @@ namespace Skogsaas.Monolith.Bindings
                 else
                 {
                     // This is the last level, lets set the property value.
-                    currentProperty.SetValue(currentObj, value);
+                    currentProperty.SetValue(currentObj, Convert.ChangeType(value, currentProperty.PropertyType));
 
                     return true;
                 }
