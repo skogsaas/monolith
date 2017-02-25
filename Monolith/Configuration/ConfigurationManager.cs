@@ -70,20 +70,31 @@ namespace Skogsaas.Monolith.Configuration
 
         private void onTypeRegistered(Type type, Type generated)
         {
+            Dictionary<IIdentifier, IIdentifier> move = new Dictionary<IIdentifier, IIdentifier>();
+
             foreach(IIdentifier i in this.unloaded)
             {
                 if(i.Typename == type.FullName)
                 {
-                    load(type, i.Plugin, i.Id);
+                    IIdentifier config = load(type, i.Plugin, i.Id);
+                    move.Add(i, config);
                 }
+            }
+
+            foreach(var pair in move)
+            {
+                this.unloaded.Remove(pair.Key);
+                this.loaded.Add(pair.Key);
+
+                this.configChannel.Publish(pair.Value);
             }
         }
 
-        private IIdentifier load(Type type, string plugin, string IIdentifier)
+        private IIdentifier load(Type type, string plugin, string identifier)
         {
-            string data = File.ReadAllText(makeFilePath(plugin, IIdentifier));
+            string data = File.ReadAllText(makeFilePath(plugin, identifier));
 
-            IIdentifier config = (IIdentifier)this.configChannel.CreateType(type.FullName, IIdentifier);
+            IIdentifier config = (IIdentifier)this.configChannel.CreateType(type.FullName, identifier);
 
             JsonConvert.PopulateObject(data, config, this.serializerSettings);
 
@@ -163,9 +174,9 @@ namespace Skogsaas.Monolith.Configuration
             return makeDirectoryPath(config.Plugin);
         }
 
-        private static string makeFilePath(string plugin, string IIdentifier)
+        private static string makeFilePath(string plugin, string identifier)
         {
-            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder, plugin, IIdentifier + ".cfg" });
+            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), Constants.ConfigurationFolder, plugin, identifier + ".cfg" });
         }
 
         private static string makeFilePath(IIdentifier config)

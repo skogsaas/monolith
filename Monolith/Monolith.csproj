@@ -39,8 +39,8 @@
       <HintPath>..\packages\Skogsaas.Legion.1.0.6259.20186\lib\net452\Skogsaas.Legion.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Skogsaas.Legion.Json, Version=1.0.6252.19459, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Skogsaas.Legion.Json.1.0.6252.19459\lib\net452\Skogsaas.Legion.Json.dll</HintPath>
+    <Reference Include="Skogsaas.Legion.Json, Version=1.0.6259.20208, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Skogsaas.Legion.Json.1.0.6259.20208\lib\net452\Skogsaas.Legion.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
