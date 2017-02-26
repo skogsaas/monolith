@@ -46,25 +46,32 @@ namespace Skogsaas.Monolith.Configuration
             {
                 foreach(string filepath in Directory.GetFiles(plugin))
                 {
-                    string data = File.ReadAllText(filepath);
-
-                    IIdentifier config = (IIdentifier)JsonConvert.DeserializeObject(data, this.configChannel.FindType(typeof(IIdentifier)), this.serializerSettings);
-
-                    Type type = this.configChannel.FindType(config.Typename);
-
-                    if (type != null)
+                    try
                     {
-                        IIdentifier configLoaded = load(type, config.Plugin, config.Id);
-                        this.loaded.Add(configLoaded);
+                        string data = File.ReadAllText(filepath);
 
-                        configLoaded.PropertyChanged += onChange;
+                        IIdentifier config = (IIdentifier)JsonConvert.DeserializeObject(data, this.configChannel.FindType(typeof(IIdentifier)), this.serializerSettings);
 
-                        this.configChannel.Publish(configLoaded);
+                        Type type = this.configChannel.FindType(config.Typename);
+
+                        if (type != null)
+                        {
+                            IIdentifier configLoaded = load(type, config.Plugin, config.Id);
+                            this.loaded.Add(configLoaded);
+
+                            configLoaded.PropertyChanged += onChange;
+
+                            this.configChannel.Publish(configLoaded);
+                        }
+                        else
+                        {
+                            Logger.Info($"Config found but not loaded <{Path.GetFileNameWithoutExtension(filepath)}>");
+                            this.unloaded.Add(config);
+                        }
                     }
-                    else
+                    catch(Exception ex)
                     {
-                        Logger.Info($"Config found but not loaded <{filepath}>");
-                        this.unloaded.Add(config);
+                        Logger.Error($"Exception caught when trying to load <{Path.GetFileNameWithoutExtension(filepath)}> exception <{ex}>");
                     }
                 }
             }
@@ -100,7 +107,7 @@ namespace Skogsaas.Monolith.Configuration
 
             JsonConvert.PopulateObject(data, config, this.serializerSettings);
 
-            Logger.Info($"Config loaded for <{makeFilePath(plugin, identifier)}> type <{config.Typename}>");
+            Logger.Info($"Config loaded for <{identifier}> type <{config.Typename}>");
 
             return config;
         }
@@ -122,7 +129,7 @@ namespace Skogsaas.Monolith.Configuration
 
             if (File.Exists(path))
             {
-                Logger.Info($"Deleting configuration <{path}>");
+                Logger.Info($"Deleting configuration <{Path.GetFileNameWithoutExtension(path)}>");
 
                 File.Delete(path);
             }
