@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Skogsaas.Legion;
+using Skogsaas.Monolith.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -62,6 +63,7 @@ namespace Skogsaas.Monolith.Configuration
                     }
                     else
                     {
+                        Logger.Info($"Config found but not loaded <{filepath}>");
                         this.unloaded.Add(config);
                     }
                 }
@@ -98,12 +100,16 @@ namespace Skogsaas.Monolith.Configuration
 
             JsonConvert.PopulateObject(data, config, this.serializerSettings);
 
+            Logger.Info($"Config loaded for <{makeFilePath(plugin, identifier)}> type <{config.Typename}>");
+
             return config;
         }
 
         private void store(IIdentifier config)
         {
             string data = JsonConvert.SerializeObject(config, this.serializerSettings);
+
+            Logger.Info($"Storing configuration for id <{config.Id}>");
 
             ensureDirectoryExists(makeDirectoryPath(config));
 
@@ -116,6 +122,8 @@ namespace Skogsaas.Monolith.Configuration
 
             if (File.Exists(path))
             {
+                Logger.Info($"Deleting configuration <{path}>");
+
                 File.Delete(path);
             }
         }
