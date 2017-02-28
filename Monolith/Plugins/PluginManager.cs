@@ -10,11 +10,19 @@ namespace Skogsaas.Monolith.Plugins
 {
     internal class PluginManager
     {
-        private List<IPlugin> plugins = new List<IPlugin>();
+        private List<Type> types;
+        private List<IPlugin> plugins;
+        private List<IPlugin> initialized;
 
         public PluginManager()
         {
+            this.types = new List<Type>();
+            this.plugins = new List<IPlugin>();
+            this.initialized = new List<IPlugin>();
+
             load();
+            create();
+            initialize();
         }
 
         private void load()
@@ -24,35 +32,52 @@ namespace Skogsaas.Monolith.Plugins
 
             foreach(string dll in dlls)
             {
-                try
+                Assembly assembly = Assembly.LoadFile(dll);
+                Type[] types = assembly.GetExportedTypes();
+
+                foreach (Type type in types)
                 {
-                    Assembly assembly = Assembly.LoadFile(dll);
-                    Type[] types = assembly.GetExportedTypes();
-
-                    foreach (Type type in types)
+                    if (type != typeof(IPlugin) && type != typeof(PluginBase) && typeof(IPlugin).IsAssignableFrom(type))
                     {
-                        if (type != typeof(IPlugin) && type != typeof(PluginBase) && typeof(IPlugin).IsAssignableFrom(type))
-                        {
-                            IPlugin plugin = (IPlugin)Activator.CreateInstance(type);
-
-                            if (plugin != null)
-                            {
-                                initialize(plugin);
-                            }
-                        }
+                        this.types.Add(type);
                     }
                 }
-                catch(Exception ex)
+                
+            }
+        }
+
+        private void create()
+        {
+            foreach(Type type in this.types)
+            {
+                try
                 {
-                    Logging.Logger.Error("Error while tying to load <" + Path.GetFileName(dll) + "> " + ex.ToString());
+                    IPlugin plugin = (IPlugin)Activator.CreateInstance(type);
+
+                    this.plugins.Add(plugin);
+                }
+                catch (Exception ex)
+                {
+                    Logging.Logger.Error("Error while tying to create <" + type.FullName + "> " + ex.ToString());
                 }
             }
         }
 
-        private void initialize(IPlugin plugin)
+        private void initialize()
         {
-            this.plugins.Add(plugin);
-            plugin.initialize();
+            foreach (IPlugin plugin in this.plugins)
+            {
+                try
+                {
+                    plugin.initialize();
+
+                    this.initialized.Add(plugin);
+                }
+                catch (Exception ex)
+                {
+                    Logging.Logger.Error("Error while tying to initialize <" + plugin + "> " + ex.ToString());
+                }
+            }
         }
     }
 }
